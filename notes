@@ -1,0 +1,42 @@
+
+
+				1DV607
+				
+		Problem domain - what the customer need
+		
+		Waterfall: - Plan, start, finish		
+		Agile: Iterations 		
+		
+		Sofware design:
+			Requirments
+			Analysis
+			Design
+			Implementation
+			Testing
+			Deploy
+			
+		Why analysis/desing
+			Machine code - very hard to understand
+			Source code - hard and takes time to understand large code/many classes
+			Image with UML understandable - know where to look for what we are seeking for
+			
+			So what we work with is "Semantic gap":
+			Human with idea - Requirments [User stories]
+	Analysis	Problem Domain in UML to understand the problem
+	Design		Design Domain in UML to understand the source code
+			Source code in programming language
+			Machine Code so that the processor can understand us
+			
+			This offers feedback loops to define or solve problems
+			
+		Why use OO for analysis and design
+			Abstraction - We do not want to much details crowded, more like car, house, tree and then we can look into the details we need.
+			Encapsulaltion -   Can use but have not access to code behind/or need to understand it
+			Hierarchy - Better understand relations in the program
+			
+		UML
+			Unified - all agree of notation
+			Visual - 
+			Language - Can be a blueprint like for unified process or diagram of ideas for waterfall process
+			
+		
