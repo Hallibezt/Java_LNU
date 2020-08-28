@@ -9,6 +9,7 @@ public class UserInterface {
     private Registry jollyPirate;
     private Mainview view;
     private Users loggedInUser;
+    private Boolean programRunning = true;
 
 
     public UserInterface(Registry jollyPirate, Mainview view){
@@ -16,20 +17,50 @@ public class UserInterface {
         this.view = view;
     }
 
+    public Boolean getProgramRunning(){
+        return programRunning;
+    }
     public void welcome(){
         view.welcome();
+        login();
+    }
+
+    public void login(){
         if(view.getInput().equalsIgnoreCase("1")){
             loggedInUser = jollyPirate.confirmLogin(view.getCredentials());
             if(loggedInUser == null){
                 view.loginFailure();
-                view.welcome();}
+                }
+            else{
             view.loggedInMessage(loggedInUser.getFullName());
+            loginOptions();}
         }
         else
             view.nonLoginOptions();
-
     }
 
+    public void loginOptions(){
+        view.loginOptions();
+        String input = view.getInput();
+        if (input == "1"){
+        }
+        else if (input == "2"){
+        }
+        else if (input == "3"){
+        }
+        else if (input == "4"){
+        }
+        else if (input == "5"){
+        }
+        else if (input == "6"){
+        }
+        else if (input == "7"){
+        }
+        else
+            view.wrongInput();
+
+
+    }
 
 
 
