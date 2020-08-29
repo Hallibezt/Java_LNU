@@ -69,7 +69,7 @@ public class Mainview {
     public void loginFailure() { System.out.println("User not found, please try again or use non-logged in options."); }
     public void wrongInput() { System.out.println("Your input is not an option, please try again."); }
     public void userAlreadyInDB() {System.out.println("The user is already registered member at Jolly Pirate") ;  }
-
-
+    public void socialFormat(){System.out.println("Social security number(SSN) has a wrong format, use YYYYDDMMXXXX. Enter new SSN");}
+    public void nameFormat(){System.out.println("Names can not include non-characters");}
 
 }
