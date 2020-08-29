@@ -12,8 +12,8 @@ public class TheProgram {
       UserInterface user = new UserInterface(jollyPirate, view);
 
 
-      while(user.getProgramRunning() == true){
-          user.welcome();}
+      while(user.getProgramRunning() == true){user.welcome();}
+      view.programClosed();
 
     }
 

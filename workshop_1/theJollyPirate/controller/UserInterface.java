@@ -26,18 +26,27 @@ public class UserInterface {
     }
 
     public void login(){
-        if(view.getInput().equalsIgnoreCase("1")){
+        String input = view.getInput();
+        if(input.equalsIgnoreCase("1")){
             loggedInUser = jollyPirate.confirmLogin(view.getCredentials());
             if(loggedInUser == null){
                 view.loginFailure();
+                view.bar();
                 }
             else{
             view.loggedInMessage(loggedInUser.getFullName());
             loginOptions();}
         }
-        else
+        else if(input.equalsIgnoreCase("2"))
             view.nonLoginOptions();
-    }
+        else if (input.equalsIgnoreCase("q") || input.equalsIgnoreCase("3")){
+            view.closingProgram();
+            programRunning = false;
+           }
+        else
+            view.wrongInput();
+            view.bar();
+        }
 
     public void loginOptions(){
         view.loginOptions();
@@ -56,10 +65,12 @@ public class UserInterface {
         }
         else if (input == "7"){
         }
+        else if (input == "8" ){
+            view.loggedOutMessage(loggedInUser.getFullName());
+        }
         else
             view.wrongInput();
-
-
+            view.bar();
     }
 
 
