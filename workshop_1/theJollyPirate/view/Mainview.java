@@ -23,6 +23,11 @@ public class Mainview {
     public void loggedOutMessage(String fullName) {System.out.println("You are logged out. Thank you " + fullName + " for using Jolly Pirate booking system."); }
     public void closingProgram( ) {System.out.println("Closing program.........");}
     public void programClosed( ) {System.out.println("Program closed.");}
+    public void memberRegistered( ) {System.out.print(" has been registered to database and the username is: ");}
+    public void promptFirstName() { System.out.println("Please, enter member's firstname: ");   }
+    public void promptSurName() { System.out.println("Please, enter member's surname: ");   }
+    public void promptSocialNumber() { System.out.println("Please, enter member's social security number (12 digits): ");   }
+    public void promptPassword() {System.out.println("Please, enter member's chosen password: ");    }
 
 
     //Control messages #######################
@@ -30,6 +35,8 @@ public class Mainview {
         String uInput = input.next();
         return uInput;
     }
+
+    // TODO: 2020-08-29 Might have to split this up because login is domain class 
     public Login getCredentials(){
         Login login = new Login();
         System.out.print("Please enter your userId and Password.\n" +
@@ -59,11 +66,10 @@ public class Mainview {
     }
 
     //Error messages ################################
-    public void loginFailure() {
-        System.out.println("User not found, please try again or use non-logged in options.");
-    }
-    public void wrongInput() {
-        System.out.println("Your input is not an option, please try again.");
-    }
+    public void loginFailure() { System.out.println("User not found, please try again or use non-logged in options."); }
+    public void wrongInput() { System.out.println("Your input is not an option, please try again."); }
+    public void userAlreadyInDB() {System.out.println("The user is already registered member at Jolly Pirate") ;  }
+
+
 
 }

@@ -22,4 +22,19 @@ public class Secretary extends Users {
     public String getSocialNumber() {
         return null;
     }
+
+    @Override
+    public void addLogin(String password) {
+
+    }
+
+    @Override
+    public void addFirstName(String firstName) {
+
+    }
+
+    @Override
+    public void addSurName(String surName) {
+
+    }
 }

@@ -11,11 +11,13 @@ public class Member extends Users {
     private String socialNumber;
     private ArrayList<Boat> boats;
 
+    public Member(){}
+
     public Member(String firstName, String surName, String socialNumber, String password){
         this.surName = surName;
         this.firstName = firstName;
         this.socialNumber = socialNumber;
-        credentials = new Login(firstName.substring(0,1)+"_" + surName + "_", password);
+        credentials = new Login(firstName.substring(0,1)+"." + surName + "_", password);
     }
 
     @Override
@@ -32,6 +34,20 @@ public class Member extends Users {
     @Override
     public String getSocialNumber() {
         return socialNumber;
+    }
+
+    @Override
+    public void addLogin(String password) {
+        credentials = new Login(firstName.substring(0,1)+"." + surName + "_", password);    }
+
+    @Override
+    public void addFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    @Override
+    public void addSurName(String surname) {
+       this.surName = surname;
     }
 //private ArrayList<Event> events
 
