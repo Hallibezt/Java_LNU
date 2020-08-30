@@ -1,5 +1,6 @@
 package model.roles;
 import model.Boat;
+import model.Fee;
 import model.Login;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ public class Member extends Users {
     private String surName;
     private String socialNumber;
     private ArrayList<Boat> boats;
+    private Fee fee = new Fee();
 
     public Member(){}
 
@@ -49,6 +51,22 @@ public class Member extends Users {
     public void addSurName(String surname) {
        this.surName = surname;
     }
+
+    public void addBoat(Boat boat){
+        this.boats.add(boat);
+    }
+
+    public Boat[] returnBoats(){
+        if(boats.isEmpty())
+            throw new NullPointerException();
+        return (Boat[]) boats.toArray();
+    }
+
+    public Fee getFee(){return this.fee;}
+
+    public int numberBoats(){return boats.size();}
+
+
 //private ArrayList<Event> events
 
 

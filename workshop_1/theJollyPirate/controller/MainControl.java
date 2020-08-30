@@ -11,7 +11,7 @@ import java.io.IOException;
 public class MainControl {
     private Registry jollyPirate;
     private Mainview view;
-    private ErrorHandling errorHandling;
+    private ErrorHandling errorHandling = new ErrorHandling();
     private Users loggedInUser;
     private Boolean programRunning = true;
 
@@ -59,6 +59,7 @@ public class MainControl {
             registerMember();
         }
         else if (input.equals("2")){
+            removeMember();
         }
         else if (input.equals("3")){
         }
@@ -67,6 +68,7 @@ public class MainControl {
         else if (input.equals("5")){
         }
         else if (input.equals("6")){
+            compactListMembers();
         }
         else if (input.equals("7")){
         }
@@ -80,18 +82,18 @@ public class MainControl {
     }
 
     //Login option controls ###############
-    // TODO: 2020-08-29 Create fee and add to it memberfee 
     public void registerMember() {
         view.promptFirstName();
         String firstName = view.getInput();
         view.promptSurName();
         String surName = view.getInput();
-            if(errorHandling.nameFormat(firstName,surName) == false){
-                view.nameFormat();
-                registerMember(); }
+        // TODO: 2020-08-30 FIX REGEX 
+          //if(errorHandling.nameFormat(firstName,surName) == false){
+             //  view.nameFormat();
+             //  registerMember(); }
         view.promptSocialNumber();
         String socialNumber = view.getInput();
-            if(errorHandling.socialFormat(socialNumber)){
+            if(errorHandling.socialFormat(socialNumber)==false){
                 view.socialFormat();
                 registerMember();}
         view.promptPassword();
@@ -106,15 +108,25 @@ public class MainControl {
                view.bar();
                loginOptions();
             }
-    }
+          }
 
-    public void removeMember() {
-        //Enter members userID
-        //Information
-        // Information and are you sure you want to remove member and associated boats?
-        //Member removed
-        
-        }
+          public void removeMember(){
+              view.findMember();
+              jollyPirate.removeMember(view.getInput(), view);
+              loginOptions();
+          }
 
+          public void compactListMembers(){
+           try {
+               Users[] membersList = jollyPirate.returnMembers();
+               for (int i = 0; i < membersList.length; i++) {
+                   view.compactList((Member) membersList[i]);
+               }
+               loginOptions();
+           }
+           catch (NullPointerException e) {
+               view.noMemberRegistered();
+               loginOptions();}
+          }
 
 }

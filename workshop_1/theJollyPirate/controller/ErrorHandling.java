@@ -12,6 +12,7 @@ public class ErrorHandling {
 
     public boolean nameFormat(String firstName, String surName) {
         boolean nameFormat = firstName.matches("^[a-zA-Z]") & surName.matches("^[a-zA-Z]");
+        System.out.println(nameFormat);
         return nameFormat;
     }
 }

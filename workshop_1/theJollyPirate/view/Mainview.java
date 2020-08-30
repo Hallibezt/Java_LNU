@@ -1,6 +1,8 @@
 package view;
 
 import model.Login;
+import model.roles.Member;
+import model.roles.Users;
 
 import java.util.Scanner;
 
@@ -28,12 +30,22 @@ public class Mainview {
     public void promptSurName() { System.out.println("Please, enter member's surname: ");   }
     public void promptSocialNumber() { System.out.println("Please, enter member's social security number (12 digits): ");   }
     public void promptPassword() {System.out.println("Please, enter member's chosen password: ");    }
-
+    public void findMember() {System.out.println("Please, enter memberID: ");    }
+    public void confirmRemoveMember(Users member) { System.out.print("Are you sure you want to remove " + member.getFullName() + ", social security number: " + member.getSocialNumber() + "?(yes/no)"); }
+    public void memberRemoved(){System.out.println("Member has been removed from the database and associated boats");}
 
     //Control messages #######################
     public String getInput(){
         String uInput = input.next();
         return uInput;
+    }
+
+    public boolean confirm(){
+        String input = getInput();
+        if(input.equalsIgnoreCase("yes"))
+            return true;
+        else
+            return false;
     }
 
     // TODO: 2020-08-29 Might have to split this up because login is domain class 
@@ -45,6 +57,10 @@ public class Mainview {
         System.out.print("Password:  ");
         login.addPassword(getInput());
         return login;
+    }
+
+    public void compactList(Member users) {
+        System.out.println(users.getFullName() + " UserID: "+ users.getLogin().getUserID() + " Number of boats: " + users.numberBoats());
     }
 
     //Option messages ##########################
@@ -71,5 +87,8 @@ public class Mainview {
     public void userAlreadyInDB() {System.out.println("The user is already registered member at Jolly Pirate") ;  }
     public void socialFormat(){System.out.println("Social security number(SSN) has a wrong format, use YYYYDDMMXXXX. Enter new SSN");}
     public void nameFormat(){System.out.println("Names can not include non-characters");}
+    public void memberNotFound(){System.out.println("This membersID is not in the database");}
+    public void noMemberRegistered(){System.out.println("There is no member registered in the database");}
+
 
 }

@@ -2,11 +2,14 @@ package model;
 
 import model.roles.Member;
 import model.roles.Users;
+import view.Mainview;
 
+import javax.swing.text.View;
 import java.util.ArrayList;
 
 public class Registry {
-    private  ArrayList<Users> regUsers = new ArrayList<>();
+    private  ArrayList<Users> regUsers = new ArrayList<>(); //Everyone is registered with password but only secretary can get the full login options, members registering is for them to handle event booking in the future
+    private  ArrayList<Users> members = new ArrayList<>();
 
 
     public Registry() {
@@ -38,7 +41,7 @@ public class Registry {
         return loggedIn;
     }
 
-
+    // TODO: 2020-08-30 make optional to registerMember with log in or just as member if all registered we need access control for all member objects
     public String addMember(Users member) {
         boolean sameID = true;
         String memberUserName = member.getLogin().getUserID();
@@ -54,7 +57,29 @@ public class Registry {
                     sameID = false;}
             }
         }
+        if(member.getClass().equals("class model.roles.Member"));{
+            this.members.add(member);}
         regUsers.add(member);
         return memberUserName;
     }
+
+    // TODO: 2020-08-30 Remove member also from registered users eda skippa member listanum og searca eftir classtype
+    public void removeMember(String memberID, Mainview view) {
+            for(int i =0; i<members.size();i++){
+                if(members.get(i).getLogin().getUserID().equals(memberID)){
+                    view.confirmRemoveMember( members.get(i));
+                    if(view.confirm() == true){
+                        members.remove(i);
+                        view.memberRemoved();
+                    }
+                }
+                else
+                    view.memberNotFound();
+             }
+    }
+
+    public Users[] returnMembers(){
+        if(members.isEmpty())
+            throw new NullPointerException();
+        return (Users[]) this.members.toArray();}
 }
