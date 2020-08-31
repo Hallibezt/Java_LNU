@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class Registry {
     private  ArrayList<Users> regUsers = new ArrayList<>(); //Everyone is registered with password but only secretary can get the full login options, members registering is for them to handle event booking in the future
     private  ArrayList<Users> members = new ArrayList<>();
+    private Berths[] berths = new Berths[200];
 
 
     public Registry() {
@@ -18,6 +19,10 @@ public class Registry {
 
     //initialize with some hardcoded users
     public void hardcoded(){
+        for(int i = 0; i < 200; i++){
+            berths[i] = new Berths();
+            berths[i].setLocation(i+1);
+        }
         Users halli = new Member("Haraldur", "Blondal", "198410241353", "jonas");
         Users berglind = new Member("Berglind", "Blondal", "198304198800", "sykur");
         Users kristjan = new Member("Kristjan", "Blondal", "201404192380", "nammi");
@@ -82,4 +87,8 @@ public class Registry {
         if(members.isEmpty())
             throw new NullPointerException();
         return (Users[]) this.members.toArray();}
+
+
+
 }
+
