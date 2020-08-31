@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 public class Registry {
     private  ArrayList<Users> regUsers = new ArrayList<>(); //Everyone is registered with password but only secretary can get the full login options, members registering is for them to handle event booking in the future
-    private  ArrayList<Users> members = new ArrayList<>();
     private Berths[] berths = new Berths[200];
 
 
@@ -62,33 +61,39 @@ public class Registry {
                     sameID = false;}
             }
         }
-        if(member.getClass().equals("class model.roles.Member"));{
-            this.members.add(member);}
+
         regUsers.add(member);
         return memberUserName;
     }
 
     // TODO: 2020-08-30 Remove member also from registered users eda skippa member listanum og searca eftir classtype
     public void removeMember(String memberID, Mainview view) {
-            for(int i =0; i<members.size();i++){
-                if(members.get(i).getLogin().getUserID().equals(memberID)){
-                    view.confirmRemoveMember( members.get(i));
+            for(int i =0; i<regUsers.size();i++){
+                if(regUsers.get(i).getLogin().getUserID().equals(memberID)){
+                    view.confirmRemoveMember( regUsers.get(i));
                     if(view.confirm() == true){
-                        members.remove(i);
+                        regUsers.remove(i);
+                        for(int j = 0; i <berths.length; j ++){
+                            if(berths[i].getCurrentUser().getLogin().getUserID().equalsIgnoreCase(memberID)){
+                                berths[i].removeBoat();
+                            }                        }
                         view.memberRemoved();
-                    }
-                }
+                    }                }
                 else
                     view.memberNotFound();
              }
     }
 
     public Users[] returnMembers(){
-        if(members.isEmpty())
+        ArrayList<Users> membersOnly = null;
+        if(regUsers.isEmpty())
             throw new NullPointerException();
-        return (Users[]) this.members.toArray();}
-
-
-
+        for(int i = 0; i<regUsers.size(); i++) {
+            if (regUsers.get(i).getClass().equals("class model.roles.Member")){
+                membersOnly.add(regUsers.get(i));
+            }
+        }
+        return (Users[]) membersOnly.toArray();
+    }
 }
 

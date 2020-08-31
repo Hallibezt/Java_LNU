@@ -73,12 +73,13 @@ public class Mainview {
         System.out.print("1. Create a member \n" +
                 "2. Remove a member \n" +
                 "3. Edit a member \n" +
-                "3. Register a boat \n" +
-                "4. Remove a boat \n" +
-                "5. Edit a boat \n" +
-                "6. View a compact members list \n" +
-                "7. View a verbose members list \n" +
-                "8. Log-out \n");
+                "4. Register a boat \n" +
+                "5. Remove a boat \n" +
+                "6. Edit a boat \n" +
+                "7. View a compact members list \n" +
+                "8. View a verbose members list \n" +
+                "9. Log-out \n" +
+                "10.Search for members or boats \n");
     }
 
     //Error messages ################################

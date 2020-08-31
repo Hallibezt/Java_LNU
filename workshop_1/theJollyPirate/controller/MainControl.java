@@ -62,24 +62,35 @@ public class MainControl {
             removeMember();
         }
         else if (input.equals("3")){
+            updateMember();
         }
         else if (input.equals("4")){
+            registerBoat();
+
         }
         else if (input.equals("5")){
         }
         else if (input.equals("6")){
-            compactListMembers();
+
         }
         else if (input.equals("7")){
+            compactListMembers();
         }
-        else if (input.equals("8") ){
+        else if (input.equals("8")){
+        }
+        else if (input.equals("9") ){
             view.loggedOutMessage(loggedInUser.getFullName());
+        }
+        else if (input.equals("10") ){
+
         }
         else{
             view.wrongInput();
             view.bar();
             loginOptions();}
     }
+
+
 
     //Login option controls ###############
     public void registerMember() {
@@ -116,17 +127,48 @@ public class MainControl {
               loginOptions();
           }
 
-          public void compactListMembers(){
-           try {
-               Users[] membersList = jollyPirate.returnMembers();
-               for (int i = 0; i < membersList.length; i++) {
-                   view.compactList((Member) membersList[i]);
+          public void updateMember(){
+            //List of options and then update
+            loginOptions();
+            }
+
+            private void registerBoat() {
+                //See if there are any available berths
+                //Create boat and add to member
+                //Search if berths are available that this user has had before
+                //Search if this is a current user if so then check if -+ berths are aveilable
+                //add  the boat to berth
+            }
+
+            private void removeBoat(){
+                //Remove
+            }
+
+            private void updateBoat(){
+                //List of option
+                //update fee
+            }
+
+            //for members to look up in
+            public void compactListMembers(){
+               try {
+                   Users[] membersList = jollyPirate.returnMembers();
+                   for (int i = 0; i < membersList.length; i++) {
+                       view.compactList((Member) membersList[i]);
+                   }
+                   loginOptions();
                }
-               loginOptions();
-           }
-           catch (NullPointerException e) {
-               view.noMemberRegistered();
-               loginOptions();}
-          }
+               catch (NullPointerException e) {
+                   view.noMemberRegistered();
+                   loginOptions();}
+              }
+
+              public void verboseListMembers(){
+                //More detailed and only for secretary/treasury
+              }
+
+                public void search(){
+                    //search combinations with full  or partly information depending on the user
+                }
 
 }

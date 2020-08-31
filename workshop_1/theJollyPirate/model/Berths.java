@@ -5,25 +5,45 @@ import model.roles.Users;
 import java.util.ArrayList;
 
 public class Berths {
-    int location;
-    String boatRegNumber = null;
-    Users currentUser = null;
-    ArrayList<Users> previousUsers;
+    private int location;
+    private Boat boat = null;
+    private Users currentUser = null;
+    private ArrayList<Users> previousUsers;
 
     public void setLocation(int i) {
         location = i;
     }
 
-    public void addBoat(Users user, String boatRegNumber){
-        if (this.currentUser == null){
-            currentUser = user;
-            this.boatRegNumber = boatRegNumber;}
-        else
-            System.out.println("Being used");
+    public Users getCurrentUser() {
+        return currentUser;
     }
 
-    public void removeBoat(Users users){
-        //boatRegNumber sett to null
-        //Current user moved to previousUsers and set to Null
+    public void addBoat(Boat boat){
+            currentUser = boat.getOwner();
+            this.boat = boat;
+    }
+
+    public void removeBoat(){
+        boat = null;
+        for(int i = 0; i<previousUsers.size(); i++){
+            if(previousUsers.get(i).getSocialNumber().equalsIgnoreCase(currentUser.getSocialNumber())){
+                break;
+            }
+            else
+                previousUsers.add(currentUser);
+        }
+        currentUser = null;
+
+    }
+
+    public boolean hasRentedBert(Users user){
+        for(int i = 0; i<previousUsers.size(); i++){
+            if(user.getSocialNumber().equalsIgnoreCase(previousUsers.get(i).getSocialNumber())){
+                return true;
+            }
+        }
+
+
+        return false;
     }
 }
