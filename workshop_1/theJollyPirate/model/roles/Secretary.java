@@ -1,5 +1,6 @@
 package model.roles;
 
+import model.Boat;
 import model.Login;
 
 public class Secretary extends Users {
@@ -35,6 +36,11 @@ public class Secretary extends Users {
 
     @Override
     public void addSurName(String surName) {
+
+    }
+
+    @Override
+    public void removeBoat(Boat boat) {
 
     }
 }

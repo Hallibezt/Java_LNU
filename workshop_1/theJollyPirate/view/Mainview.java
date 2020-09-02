@@ -4,6 +4,7 @@ import model.Login;
 import model.roles.Member;
 import model.roles.Users;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Mainview {
@@ -33,8 +34,51 @@ public class Mainview {
     public void findMember() {System.out.println("Please, enter memberID: ");    }
     public void confirmRemoveMember(Users member) { System.out.print("Are you sure you want to remove " + member.getFullName() + ", social security number: " + member.getSocialNumber() + "?(yes/no)"); }
     public void memberRemoved(){System.out.println("Member has been removed from the database and associated boats");}
+    public void firstNameUpdate(){System.out.println("Please, enter member's new first name: ");}
+    public void secondNameUpdate(){System.out.println("Please, enter member's new second name: ");}
+    public void passwordUpdate(){System.out.println("Please, enter member's new password: ");}
+    public void memberUpdated(){System.out.println("Member has been updated");}
+    public void enterRegNumber() { System.out.print("Please enter the boat's registration number: ");    }
+
+
 
     //Control messages #######################
+    //Check inputs for different views(numbers vs letters)
+    public double enterLength() {
+        System.out.print("Please enter the boats length: ");
+        double length = input.nextDouble();
+        if(length <1 || length>20)
+            throw  new InputMismatchException();
+        return length;
+    }
+
+    public String inputConfirmation() throws InputMismatchException {
+        String uInput = input.next();
+        String output = null;
+        if(uInput.matches("[1,a,A]"))
+            output = "1";
+        else if(uInput.matches("[2,b,B]"))
+            output = "2";
+        else if(uInput.matches("[3,c,C]"))
+            output = "3";
+        else if(uInput.matches("[4,d,D]"))
+            output = "4";
+        else if(uInput.matches("[5,e,E]"))
+            output = "5";
+        else if(uInput.matches("[6,f,F]"))
+            output = "6";
+        else if(uInput.matches("[7,g,G]"))
+            output = "7";
+        else if(uInput.matches("[8,h,H]"))
+            output = "8";
+        else if(uInput.matches("[9,i,I]"))
+            output = "9";
+        else if(uInput.matches("[10,j,J]"))
+            output = "10";
+
+        if (output == null){throw new InputMismatchException();}
+        return output;
+    }
     public String getInput(){
         String uInput = input.next();
         return uInput;
@@ -82,6 +126,17 @@ public class Mainview {
                 "10.Search for members or boats \n");
     }
 
+    public void updateMember(Users member){
+        System.out.println("Member to update: ");
+        compactList((Member) member);
+        System.out.print("1. Update member's first name \n" +
+                "2. Update member's second name\n" +
+                "3. Change member's password" +
+                "4. Remove a boat\n" +
+                "5. Register a boat\n" +
+                "6. Return to main menu");
+    }
+
     //Error messages ################################
     public void loginFailure() { System.out.println("User not found, please try again or use non-logged in options."); }
     public void wrongInput() { System.out.println("Your input is not an option, please try again."); }
@@ -89,7 +144,10 @@ public class Mainview {
     public void socialFormat(){System.out.println("Social security number(SSN) has a wrong format, use YYYYDDMMXXXX. Enter new SSN");}
     public void nameFormat(){System.out.println("Names can not include non-characters");}
     public void memberNotFound(){System.out.println("This membersID is not in the database");}
+    public void credFailure(){System.out.println("Member not found or credentials do not match");}
     public void noMemberRegistered(){System.out.println("There is no member registered in the database");}
+    public void noBerths() {System.out.println("There are no berths available");   }
+    public void lengthError() { System.out.println("We do NOT register boats under 1 meter or over 20 meters"); }
 
-
+    public void hasRegNumber() {System.out.print("Does the boat have registration number yes/no: ");    }
 }

@@ -1,5 +1,6 @@
 package model;
 
+import model.roles.Member;
 import model.roles.Users;
 
 import java.util.ArrayList;
@@ -23,7 +24,12 @@ public class Berths {
             this.boat = boat;
     }
 
+    public Boat getBoat(){
+        return this.boat;
+    }
+
     public void removeBoat(){
+        currentUser.removeBoat(boat);
         boat = null;
         for(int i = 0; i<previousUsers.size(); i++){
             if(previousUsers.get(i).getSocialNumber().equalsIgnoreCase(currentUser.getSocialNumber())){

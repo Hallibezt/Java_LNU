@@ -6,6 +6,7 @@ import view.Mainview;
 
 import javax.swing.text.View;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Registry {
     private  ArrayList<Users> regUsers = new ArrayList<>(); //Everyone is registered with password but only secretary can get the full login options, members registering is for them to handle event booking in the future
@@ -84,6 +85,16 @@ public class Registry {
              }
     }
 
+    public void updateMember(Users member){
+        Users[] temp = (Users[]) regUsers.toArray();
+        for(int i = 0; i< temp.length; i++){
+            if(temp[i].getLogin().getUserID().equalsIgnoreCase(member.getLogin().getUserID())== true){
+                temp[i] = member;
+            }
+        }
+        regUsers = (ArrayList<Users>) Arrays.asList(temp);
+            }
+
     public Users[] returnMembers(){
         ArrayList<Users> membersOnly = null;
         if(regUsers.isEmpty())
@@ -95,5 +106,32 @@ public class Registry {
         }
         return (Users[]) membersOnly.toArray();
     }
+
+    public Users returnOneMember(Login login){
+        Users member = null;
+        for(int i = 0; i< regUsers.size(); i++){
+            if(regUsers.get(i).getLogin().compareTo(login) == true){
+                member = regUsers.get(i);
+            }
+        }
+        return member;
+    }
+
+    public boolean availableBerth(){
+        boolean b = false;//2
+        Berths[] list = returnBerths();
+        for(int i = 0; i < list.length; i++){
+            if(list[i] == null){
+                b = true;
+            }
+        }
+        return b;
+    }
+
+    public Berths[] returnBerths(){
+         Berths[] listOfBerths = berths;
+         return listOfBerths;
+    }
+
 }
 

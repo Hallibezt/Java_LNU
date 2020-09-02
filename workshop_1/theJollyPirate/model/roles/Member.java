@@ -52,9 +52,18 @@ public class Member extends Users {
        this.surName = surname;
     }
 
+    @Override
+    public void removeBoat(Boat boat) {
+        for(int i = 0; i<boats.size(); i++){
+            if(boats.get(i).getRegNumber().equalsIgnoreCase(boat.getRegNumber()))
+                boats.remove(i);
+        }
+    }
+
     public void addBoat(Boat boat){
         this.boats.add(boat);
     }
+
 
     public Boat[] returnBoats(){
         if(boats.isEmpty())

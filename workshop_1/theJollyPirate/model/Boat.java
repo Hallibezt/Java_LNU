@@ -28,7 +28,7 @@ public class Boat {
         return this.registrationNumber;
     }
     public String getType(){
-        return this.registrationNumber;
+        return this.type;
     }
     public double getLength(){
         return this.length;
