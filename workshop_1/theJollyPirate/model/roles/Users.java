@@ -12,4 +12,6 @@ public abstract class Users {
     public abstract void addFirstName(String firstname);
     public abstract void addSurName(String surName);
     public abstract void removeBoat(Boat boat);
+    public abstract void addBoat(Boat boat);
+    public abstract int getAge();
 }

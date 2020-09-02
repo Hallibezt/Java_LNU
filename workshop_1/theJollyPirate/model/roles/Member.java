@@ -60,8 +60,14 @@ public class Member extends Users {
         }
     }
 
+    @Override
     public void addBoat(Boat boat){
         this.boats.add(boat);
+    }
+
+    @Override
+    public int getAge() {
+        return 0;
     }
 
 

@@ -218,8 +218,11 @@ public class MainControl {
                         loginOptions();
                     }
                    Users member = findMember();
-                   createBoat(member);
-                   jollyPirate.
+                   Boat boat = createBoat(member);
+                   member.addBoat(boat);
+                   //Find best berth
+                    //create berth Add boat to berth and update in Registry
+                    //update the member
                 }
                 catch(Exception e){
                     view.credFailure();
