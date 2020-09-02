@@ -1,6 +1,6 @@
 package model;
 
-import model.roles.Member;
+import model.boats.Boat;
 import model.roles.Users;
 
 import java.util.ArrayList;
@@ -51,5 +51,9 @@ public class Berths {
 
 
         return false;
+    }
+
+    public int getLocation() {
+        return location;
     }
 }

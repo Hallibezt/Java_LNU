@@ -1,6 +1,6 @@
 package model.roles;
 
-import model.Boat;
+import model.boats.Boat;
 import model.Login;
 
 public abstract class Users {
@@ -14,4 +14,5 @@ public abstract class Users {
     public abstract void removeBoat(Boat boat);
     public abstract void addBoat(Boat boat);
     public abstract int getAge();
+    public abstract Boat[] returnBoats();
 }

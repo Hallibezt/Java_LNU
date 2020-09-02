@@ -1,5 +1,7 @@
 package model;
 
+import model.boats.Boat;
+
 public class Fee {
     private double totalFee;
     private final int memberFee = 100;

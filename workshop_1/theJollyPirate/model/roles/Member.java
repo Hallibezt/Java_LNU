@@ -1,5 +1,5 @@
 package model.roles;
-import model.Boat;
+import model.boats.Boat;
 import model.Fee;
 import model.Login;
 
@@ -79,7 +79,7 @@ public class Member extends Users {
 
     public Fee getFee(){return this.fee;}
 
-    public int numberBoats(){return boats.size();}
+
 
 
 //private ArrayList<Event> events

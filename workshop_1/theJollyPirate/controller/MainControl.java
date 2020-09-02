@@ -1,15 +1,16 @@
 package controller;
 
 import model.Berths;
-import model.Boat;
+import model.boats.Boat;
 import model.Login;
 import model.Registry;
+import model.boats.BoatFactory;
 import model.roles.Member;
 import model.roles.Users;
 import view.Mainview;
 
-import java.io.IOException;
 import java.util.InputMismatchException;
+import java.util.Random;
 
 public class MainControl {
     private Registry jollyPirate;
@@ -220,19 +221,14 @@ public class MainControl {
                    Users member = findMember();
                    Boat boat = createBoat(member);
                    member.addBoat(boat);
-                   //Find best berth
-                    //create berth Add boat to berth and update in Registry
-                    //update the member
-                }
+                   Berths berth = jollyPirate.findBert(member);
+                   jollyPirate.updateMember(member);
+                   jollyPirate.updateBerths(berth.getLocation(), boat);
+                                   }
                 catch(Exception e){
                     view.credFailure();
                     view.bar();
                 }
-                //See if there are any available berths
-                //Create boat add to member
-                //Search if berths are available that this user has had before
-                //Search if this is a current user if so then check if -+ berths are aveilable
-                //add  the boat to berth
             }
             
 
@@ -260,7 +256,16 @@ public class MainControl {
               }
 
               public void verboseListMembers(){
-                //More detailed and only for secretary/treasury
+                  try {
+                      Users[] membersList = jollyPirate.returnMembers();
+                      for (int i = 0; i < membersList.length; i++) {
+                          view.verboseList(membersList[i]);
+                      }
+                      loginOptions();
+                  }
+                  catch (NullPointerException e) {
+                      view.noMemberRegistered();
+                      loginOptions();}
               }
 
                 public void search(){
@@ -268,6 +273,7 @@ public class MainControl {
                 }
                 
                 private Boat createBoat(Users member){
+                    BoatFactory boat = new BoatFactory();
                     String regNumber = null;
                     String boatType = null;
                     double length = 0;
@@ -303,7 +309,6 @@ public class MainControl {
                         view.bar();
                         registerBoat();
                     }
-
                     view.hasRegNumber();
                     if(view.confirm()==true){
                         view.enterRegNumber();
@@ -312,8 +317,20 @@ public class MainControl {
                         if(jollyPirate.checkRegNumber(regNumber) == true){
                             view.boatAlreadyInRegistry();
                             loginOptions();}}
-                    Boat boat = new Boat(boatType, length, regNumber, member);
-                    return boat;        
+                    else
+                        regNumber = createRegNumber();
+                    
+                    return boat.getBoat(boatType, length, regNumber, member);
                 }
+
+    // TODO: 2020-09-02 DOES this work? 
+                private String createRegNumber() {
+                    Random random = new Random();
+                    String reg = "Pirate" + random.nextInt(1500);
+                    if(jollyPirate.checkRegNumber(reg) == true){
+                        createRegNumber();}
+                        return reg;
+                 }
+
 
 }

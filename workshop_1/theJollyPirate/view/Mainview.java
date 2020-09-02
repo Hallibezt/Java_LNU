@@ -39,6 +39,7 @@ public class Mainview {
     public void passwordUpdate(){System.out.println("Please, enter member's new password: ");}
     public void memberUpdated(){System.out.println("Member has been updated");}
     public void enterRegNumber() { System.out.print("Please enter the boat's registration number: ");    }
+    public void hasRegNumber() {System.out.print("Does the boat have registration number yes/no: ");    }
 
 
 
@@ -103,9 +104,13 @@ public class Mainview {
         return login;
     }
 
-    public void compactList(Member users) {
-        System.out.println(users.getFullName() + " UserID: "+ users.getLogin().getUserID() + " Number of boats: " + users.numberBoats());
+    public void compactList(Users users) {
+        System.out.println(users.getFullName() + " UserID: "+ users.getLogin().getUserID() + " Number of boats: " + users.returnBoats().length);
     }
+
+    // TODO: 2020-09-02  add iteration of boats and nullpointer means 0 boats
+    public void verboseList(Users users) {
+        System.out.println(users.getFullName() + " UserID: "+ users.getLogin().getUserID() + " Social Security Number: "+users.getSocialNumber()+ " Number of boats: " + users.returnBoats().length);  }
 
     //Option messages ##########################
     // TODO: 2020-08-28 Create non-login options
@@ -137,6 +142,14 @@ public class Mainview {
                 "6. Return to main menu");
     }
 
+    public void listTypes() { System.out.print("What is the type of the boat?\n" +
+            "1. Motorsailor \n" +
+            "2. Sailboat \n" +
+            "3. Kayak/Canoe\n" +
+            "4. Other \n" +
+            "5. Back to main menu\n");
+    }
+
     //Error messages ################################
     public void loginFailure() { System.out.println("User not found, please try again or use non-logged in options."); }
     public void wrongInput() { System.out.println("Your input is not an option, please try again."); }
@@ -148,6 +161,7 @@ public class Mainview {
     public void noMemberRegistered(){System.out.println("There is no member registered in the database");}
     public void noBerths() {System.out.println("There are no berths available");   }
     public void lengthError() { System.out.println("We do NOT register boats under 1 meter or over 20 meters"); }
+    public void boatAlreadyInRegistry() {System.out.println("The boat with this registration number is already in the database ");  }
 
-    public void hasRegNumber() {System.out.print("Does the boat have registration number yes/no: ");    }
+
 }

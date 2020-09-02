@@ -1,9 +1,7 @@
 package controller.search;
 
-import model.Boat;
+import model.boats.Boat;
 import model.Registry;
-import model.roles.Member;
-import model.roles.Users;
 
 import java.util.ArrayList;
 

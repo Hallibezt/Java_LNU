@@ -1,6 +1,6 @@
 package model.roles;
 
-import model.Boat;
+import model.boats.Boat;
 import model.Login;
 
 public class Secretary extends Users {

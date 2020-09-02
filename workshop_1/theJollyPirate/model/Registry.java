@@ -1,10 +1,10 @@
 package model;
 
+import model.boats.Boat;
 import model.roles.Member;
 import model.roles.Users;
 import view.Mainview;
 
-import javax.swing.text.View;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -133,5 +133,33 @@ public class Registry {
          return listOfBerths;
     }
 
+    public boolean checkRegNumber(String regNumber) {
+        for(int i = 0; i< berths.length;i++){
+            if(berths[i].getBoat().getRegNumber().equals(regNumber))
+                return true;
+        }
+        return false;
+    }
+
+    public void updateBerths(int location, Boat boat){
+        berths[location-1].addBoat(boat);
+    }
+
+    // TODO: 2020-09-02 Maybe add +- search if member not in previous list
+    public Berths findBert(Users member){
+        Berths[] list = returnBerths();
+        Berths berth = list[0];
+        for(int i = 0; i < list.length; i++){
+            if(list[i] == null){
+              if(list[i].hasRentedBert(member) ==true){
+                  berth = list[i];
+                  return berth;
+              }
+              else
+                  berth = list[i];
+            }
+        }
+        return berth;
+    }
 }
 
