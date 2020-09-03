@@ -1,6 +1,7 @@
 package view;
 
 import model.Login;
+import model.boats.Boat;
 import model.roles.Member;
 import model.roles.Users;
 
@@ -105,13 +106,32 @@ public class Mainview {
     }
 
     public void compactList(Users users) {
-        System.out.println(users.getFullName() + " UserID: "+ users.getLogin().getUserID() + " Number of boats: " + users.returnBoats().length);
+        try {
+            System.out.println(users.getFullName() + " UserID: " + users.getLogin().getUserID() + " Number of boats: " + users.returnBoats().length);
+        }
+         catch (NullPointerException e){
+            System.out.println(users.getFullName() + " UserID: " + users.getLogin().getUserID() + " Social Security Number: " + users.getSocialNumber() + " Number of boats: User has no registered boats.");
+            bar();
+        }
     }
 
-    // TODO: 2020-09-02  add iteration of boats and nullpointer means 0 boats
-    public void verboseList(Users users) {
-        System.out.println(users.getFullName() + " UserID: "+ users.getLogin().getUserID() + " Social Security Number: "+users.getSocialNumber()+ " Number of boats: " + users.returnBoats().length);  }
 
+    public void verboseList(Users users) {
+        try {
+            Boat[] list = users.returnBoats();
+            System.out.println(users.getFullName() + " UserID: " + users.getLogin().getUserID() + " Social Security Number: " + users.getSocialNumber() + " Number of boats: " + users.returnBoats().length);
+            for (int i = 0; i< list.length;i++ ){
+                boatInfo(list[i]);
+            }
+        }
+        catch (NullPointerException e){
+            System.out.println(users.getFullName() + " UserID: " + users.getLogin().getUserID() + " Social Security Number: " + users.getSocialNumber() + " Number of boats: User has no registered boats.");
+            bar();
+        }
+    }
+     public void boatInfo(Boat boat){
+        System.out.println("Boat type: " + boat.getType() + " Boat length: " + boat.getLength() + " Boat registration number: " + boat.getRegNumber() + "Boat owner: " + boat.getOwner().getFullName() + " Boat located at berth number : " +  boat.getLoacation());
+     }
     //Option messages ##########################
     // TODO: 2020-08-28 Create non-login options
     public void nonLoginOptions(){
@@ -133,7 +153,7 @@ public class Mainview {
 
     public void updateMember(Users member){
         System.out.println("Member to update: ");
-        compactList((Member) member);
+        compactList(member);
         System.out.print("1. Update member's first name \n" +
                 "2. Update member's second name\n" +
                 "3. Change member's password" +

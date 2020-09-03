@@ -1,11 +1,13 @@
 package model.boats;
 
+import model.Berths;
 import model.roles.Users;
 
 public class Kayak_canoe extends Boat {
     private String registrationNumber;
     private double length;
     private Users owner;
+    private int location;
 
     public Kayak_canoe( double length, String registrationNumber, Users owner){
         this.length = length;
@@ -15,19 +17,33 @@ public class Kayak_canoe extends Boat {
 
     @Override
     public void changeRegNumber(String registrationNumber) {
-
+        this.registrationNumber = registrationNumber;
     }
-
 
 
     @Override
     public void changeLength(double length) {
+        this.length = length;
+    }
 
+    @Override
+    public void changeOwner(Users user) {
+        this.owner = user;
+    }
+
+    @Override
+    public void addLocation(int location) {
+        this.location = location;
+    }
+
+    @Override
+    public int getLoacation() {
+        return location;
     }
 
     @Override
     public String getRegNumber() {
-        return null;
+        return this.registrationNumber;
     }
 
     @Override
@@ -37,11 +53,11 @@ public class Kayak_canoe extends Boat {
 
     @Override
     public double getLength() {
-        return 0;
+        return this.length;
     }
 
     @Override
     public Users getOwner() {
-        return null;
+        return this.owner;
     }
 }

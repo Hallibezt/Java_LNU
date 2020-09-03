@@ -13,6 +13,7 @@ public abstract class Users {
     public abstract void addSurName(String surName);
     public abstract void removeBoat(Boat boat);
     public abstract void addBoat(Boat boat);
+    public abstract String getUserType();
     public abstract int getAge();
     public abstract Boat[] returnBoats();
 }

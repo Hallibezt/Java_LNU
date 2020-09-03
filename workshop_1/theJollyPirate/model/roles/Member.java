@@ -10,7 +10,7 @@ public class Member extends Users {
     private String firstName;
     private String surName;
     private String socialNumber;
-    private ArrayList<Boat> boats;
+    private ArrayList<Boat> boats = new ArrayList<>();
     private Fee fee = new Fee();
 
     public Member(){}
@@ -66,15 +66,22 @@ public class Member extends Users {
     }
 
     @Override
+    public String getUserType() {
+        return "Member";
+    }
+
+    @Override
     public int getAge() {
         return 0;
     }
 
 
     public Boat[] returnBoats(){
-        if(boats.isEmpty())
-            throw new NullPointerException();
-        return (Boat[]) boats.toArray();
+        Boat[] temp = new Boat[boats.size()];
+        for(int i = 0; i<boats.size(); i++){
+            temp[i] = boats.get(i);
+        }
+        return temp;
     }
 
     public Fee getFee(){return this.fee;}

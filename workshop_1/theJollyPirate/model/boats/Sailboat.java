@@ -1,11 +1,13 @@
 package model.boats;
 
+import model.Berths;
 import model.roles.Users;
 
 public class Sailboat extends Boat {
     private double length;
     private String registrationNumber;
     private Users owner;
+    private int location;
 
     public Sailboat(double length, String registrationNumber, Users owner){
         this.length = length;
@@ -16,32 +18,47 @@ public class Sailboat extends Boat {
 
     @Override
     public void changeRegNumber(String registrationNumber) {
-
+            this.registrationNumber = registrationNumber;
     }
 
 
     @Override
     public void changeLength(double length) {
+            this.length = length;
+    }
 
+    @Override
+    public void changeOwner(Users user) {
+            this.owner = user;
+    }
+
+    @Override
+    public void addLocation(int location) {
+        this.location = location;
+    }
+
+    @Override
+    public int getLoacation() {
+        return location;
     }
 
     @Override
     public String getRegNumber() {
-        return null;
+        return this.registrationNumber;
     }
 
     @Override
     public String getType() {
-        return null;
+        return "Sailboat";
     }
 
     @Override
     public double getLength() {
-        return 0;
+        return this.length;
     }
 
     @Override
     public Users getOwner() {
-        return null;
+        return this.owner;
     }
 }

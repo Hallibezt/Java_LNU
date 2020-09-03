@@ -73,7 +73,9 @@ public class MainControl {
             String userID = view.getInput();
             view.promptPassword();
             String password = view.getInput();
-            Login givenLogin = new Login(userID,password);
+            Login givenLogin = new Login();
+                givenLogin.addLoginUserID(userID);
+                givenLogin.addPassword(password);
             if(confirmMember(givenLogin) == true){
                 member = jollyPirate.returnOneMember(givenLogin);}
             if(member == null){throw new Exception();}
@@ -89,7 +91,13 @@ public class MainControl {
             } else if (input.equals("2")) {
                 removeMember();
             } else if (input.equals("3")) {
-                updateMember();
+                try{
+                updateMember( findMember());}
+                catch (Exception e) {
+                    view.credFailure();
+                    view.bar();
+                    loginOptions();
+                }
             } else if (input.equals("4")) {
                 registerBoat();
 
@@ -99,6 +107,7 @@ public class MainControl {
             } else if (input.equals("7")) {
                 compactListMembers();
             } else if (input.equals("8")) {
+                verboseListMembers();
             } else if (input.equals("9")) {
                 view.loggedOutMessage(loggedInUser.getFullName());
             } else if (input.equals("10")) {
@@ -149,9 +158,7 @@ public class MainControl {
           }
 
     // TODO: 2020-09-02 call update member in registry to update all the changes there!!!! 
-          public void updateMember()  {
-            try {
-                Users member = findMember();
+          public void updateMember(Users member)  {
                 view.updateMember(member);
                 try {
                     String input = view.inputConfirmation();
@@ -165,7 +172,7 @@ public class MainControl {
                         member.addFirstName(name);
                         view.memberUpdated();
                         jollyPirate.updateMember(member);
-                        view.updateMember(member);
+                        updateMember(member);
                     } else if (input.equalsIgnoreCase("2")) {//enter new name - member.update())
                         view.secondNameUpdate();
                         String name = view.getInput();
@@ -176,14 +183,14 @@ public class MainControl {
                         member.addSurName(name);
                         view.memberUpdated();
                         jollyPirate.updateMember(member);
-                        view.updateMember(member);
+                        updateMember(member);
                     } else if (input.equalsIgnoreCase("3")) {//enter new password - member.update()
                         view.passwordUpdate();
                         String name = view.getInput();
                         member.getLogin().addPassword(name);
                         view.memberUpdated();
                         jollyPirate.updateMember(member);
-                        view.updateMember(member);
+                        updateMember(member);
 
                     } else if (input.equalsIgnoreCase("4")) {//Enter boat registration number
                         String regNumber = "something";
@@ -196,32 +203,28 @@ public class MainControl {
                     }
                     else{view.wrongInput();
                         view.bar();
-                        updateMember();}
+                        updateMember(member);}
+
                 }
                 catch (InputMismatchException e){
                     view.wrongInput();
                     view.bar();
-                    updateMember();}
+                    updateMember(member);}
                     loginOptions();
-                }
-                catch (Exception e) {
-                    view.credFailure();
-                    view.bar();
-                    updateMember();
-                }
 
             }
 
             private void registerBoat() {
                 try{
-                    if(jollyPirate.availableBerth() == false){
+                    if(!jollyPirate.availableBerth()){
                         view.noBerths();
                         loginOptions();
                     }
                    Users member = findMember();
                    Boat boat = createBoat(member);
-                   member.addBoat(boat);
                    Berths berth = jollyPirate.findBert(member);
+                   boat.addLocation(berth.getLocation());
+                   member.addBoat(boat);
                    jollyPirate.updateMember(member);
                    jollyPirate.updateBerths(berth.getLocation(), boat);
                                    }
@@ -243,16 +246,16 @@ public class MainControl {
 
             //for members to look up in
             public void compactListMembers(){
-               try {
+              try {
                    Users[] membersList = jollyPirate.returnMembers();
-                   for (int i = 0; i < membersList.length; i++) {
-                       view.compactList((Member) membersList[i]);
+                   for (Users users : membersList) {
+                       view.compactList(users);
                    }
                    loginOptions();
                }
                catch (NullPointerException e) {
-                   view.noMemberRegistered();
-                   loginOptions();}
+                  view.noMemberRegistered();
+                  loginOptions();}
               }
 
               public void verboseListMembers(){

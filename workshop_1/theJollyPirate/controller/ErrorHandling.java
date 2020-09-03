@@ -11,8 +11,7 @@ public class ErrorHandling {
     }
 
     public boolean nameFormat(String firstName) {
-        boolean nameFormat = firstName.matches("^[a-zA-Z]");
-        System.out.println(nameFormat);
+        boolean nameFormat = firstName.matches("^[A-Za-z]+$");
         return nameFormat;
     }
 }
