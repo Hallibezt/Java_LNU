@@ -154,12 +154,13 @@ public class Mainview {
     public void updateMember(Users member){
         System.out.println("Member to update: ");
         compactList(member);
+        bar();
         System.out.print("1. Update member's first name \n" +
                 "2. Update member's second name\n" +
-                "3. Change member's password" +
-                "4. Remove a boat\n" +
-                "5. Register a boat\n" +
-                "6. Return to main menu");
+                "3. Change member's password\n" +
+                "4. Register a boat\n" +
+                "5. Remove a boat\n" +
+                "6. Return to main menu\n");
     }
 
     public void listTypes() { System.out.print("What is the type of the boat?\n" +

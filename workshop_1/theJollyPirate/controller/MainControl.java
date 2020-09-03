@@ -99,7 +99,7 @@ public class MainControl {
                     loginOptions();
                 }
             } else if (input.equals("4")) {
-                registerBoat();
+                registerBoat(null);
 
             } else if (input.equals("5")) {
             } else if (input.equals("6")) {
@@ -192,13 +192,14 @@ public class MainControl {
                         jollyPirate.updateMember(member);
                         updateMember(member);
 
-                    } else if (input.equalsIgnoreCase("4")) {//Enter boat registration number
-                        String regNumber = "something";
-                        //call the remove boat below???
-                        //Jump to jolly pirate - iterate the berths find the boat and remove it there
+                    } else if (input.equalsIgnoreCase("4")) {
+                        registerBoat(member);
+                        view.memberUpdated();
+                        updateMember(member);
                     } else if (input.equalsIgnoreCase("5")) { //call the registerboat below
 
                     } else if (input.equalsIgnoreCase("6")) {
+                        view.bar();
                         loginOptions();
                     }
                     else{view.wrongInput();
@@ -214,19 +215,26 @@ public class MainControl {
 
             }
 
-            private void registerBoat() {
+            private void registerBoat(Users member) {
                 try{
                     if(!jollyPirate.availableBerth()){
                         view.noBerths();
                         loginOptions();
                     }
-                   Users member = findMember();
+                    Boolean backToMain = false;
+                    if(member == null ){
+                    member = findMember();
+                    backToMain = true;}
                    Boat boat = createBoat(member);
                    Berths berth = jollyPirate.findBert(member);
                    boat.addLocation(berth.getLocation());
                    member.addBoat(boat);
                    jollyPirate.updateMember(member);
                    jollyPirate.updateBerths(berth.getLocation(), boat);
+                    if(backToMain==true)
+                        loginOptions();
+                    else
+                        updateMember(member);
                                    }
                 catch(Exception e){
                     view.credFailure();
@@ -277,52 +285,53 @@ public class MainControl {
                 
                 private Boat createBoat(Users member){
                     BoatFactory boat = new BoatFactory();
-                    String regNumber = null;
+                    String regNumber;
                     String boatType = null;
                     double length = 0;
                     view.listTypes();
-                    try {
-                        String input = view.inputConfirmation();
-                        if (input.equals("1")) {
-                            boatType = "sailboat";
-                        } else if (input.equals("2")) {
-                            boatType = "motorsailer";
-                        } else if (input.equals("3")) {
-                            boatType = "kayak_canoe";
-                        } else if (input.equals("4")) {
-                            boatType = "other";
+                    //Get the type and handle input error
+                        try {
+                            String input = view.inputConfirmation();
+                            if (input.equals("1")) {
+                                boatType = "sailboat";
+                            } else if (input.equals("2")) {
+                                boatType = "motorsailer";
+                            } else if (input.equals("3")) {
+                                boatType = "kayak_canoe";
+                            } else if (input.equals("4")) {
+                                boatType = "other";
+                            }
+                            else if (input.equals("5")) {
+                                loginOptions();
+                            }
+                            else{view.wrongInput();
+                                view.bar();
+                                registerBoat(member);}
                         }
-                        else if (input.equals("5")) {
-                            loginOptions();
-                        }
-                        else{view.wrongInput();
+                        catch (InputMismatchException e){
+                            view.wrongInput();
                             view.bar();
-                            registerBoat();}
-                    }
-                    catch (InputMismatchException e){
-                        view.wrongInput();
-                        view.bar();
-                        registerBoat();}
-
-                    try{
-                        length = view.enterLength();}
-                    catch (InputMismatchException e){
-                        view.wrongInput();
-                        view.lengthError();
-                        view.bar();
-                        registerBoat();
-                    }
+                            registerBoat(member);}
+                        //Get the length - checking allowed length and handle input error
+                        try{
+                            length = view.enterLength();}
+                        catch (InputMismatchException e){
+                            view.wrongInput();
+                            view.lengthError();
+                            view.bar();
+                            registerBoat(member);
+                        }
                     view.hasRegNumber();
-                    if(view.confirm()==true){
-                        view.enterRegNumber();
-                        regNumber = view.getInput();
-                        // errorHandling.validRegNumber(regNumber); if I have time
-                        if(jollyPirate.checkRegNumber(regNumber) == true){
-                            view.boatAlreadyInRegistry();
-                            loginOptions();}}
-                    else
-                        regNumber = createRegNumber();
-                    
+                        //enter registration number or create one from the club if the boat has none
+                        if(view.confirm()==true){
+                            view.enterRegNumber();
+                            regNumber = view.getInput();
+                            // errorHandling.validRegNumber(regNumber); if I have time
+                            if(jollyPirate.checkRegNumber(regNumber) == true){
+                                view.boatAlreadyInRegistry();
+                                loginOptions();}}
+                        else
+                            regNumber = createRegNumber();
                     return boat.getBoat(boatType, length, regNumber, member);
                 }
 

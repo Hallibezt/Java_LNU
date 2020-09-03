@@ -90,7 +90,7 @@ public class Registry {
     public void updateMember(Users member){
         ArrayList<Users> temp = regUsers;
         for(int i = 0; i< temp.size(); i++){
-            if(temp.get(i).getLogin().getUserID().equalsIgnoreCase(member.getLogin().getUserID())== true){
+            if(temp.get(i).getLogin().getUserID().equalsIgnoreCase(member.getLogin().getUserID())){
                 temp.set(i, member);
             }
         }
@@ -126,7 +126,7 @@ public class Registry {
         boolean b = false;//2
         Berths[] list = returnBerths();
         for(int i = 0; i < list.length; i++){
-            if(list[i] == null){
+            if(list[i].getCurrentUser() == null){
                 b = true;
             }
         }
@@ -140,8 +140,9 @@ public class Registry {
 
     public boolean checkRegNumber(String regNumber) {
         for(int i = 0; i< berths.length;i++){
+            if(berths[i].getBoat() != null){
             if(berths[i].getBoat().getRegNumber().equals(regNumber))
-                return true;
+                return true;}
         }
         return false;
     }
