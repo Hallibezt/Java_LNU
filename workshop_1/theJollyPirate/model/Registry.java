@@ -70,21 +70,18 @@ public class Registry {
     }
 
     // TODO: 2020-08-30 Remove member also from registered users eda skippa member listanum og searca eftir classtype
-    public void removeMember(String memberID, Mainview view) {
+    public void removeMember(Users member) {
             for(int i =0; i<regUsers.size();i++){
-                if(regUsers.get(i).getLogin().getUserID().equals(memberID)){
-                    view.confirmRemoveMember( regUsers.get(i));
-                    if(view.confirm() == true){
-                        regUsers.remove(i);
-                        for(int j = 0; i <berths.length; j ++){
-                            if(berths[i].getCurrentUser().getLogin().getUserID().equalsIgnoreCase(memberID)){
-                                berths[i].removeBoat();
-                            }                        }
-                        view.memberRemoved();
-                    }                }
-                else
-                    view.memberNotFound();
-             }
+                if(regUsers.get(i).getLogin().compareTo(member.getLogin())){
+                    regUsers.remove(i);
+                    for(int j = 0; j <berths.length; j ++){
+                        if(berths[j].getBoat() != null){
+                             if(berths[j].getCurrentUser().getLogin().compareTo(member.getLogin())){
+                                 berths[j].removeBoat();}
+                        }
+                    }
+                }
+            }
     }
 
     public void updateMember(Users member){

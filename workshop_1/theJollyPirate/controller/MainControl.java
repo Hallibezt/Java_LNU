@@ -151,10 +151,19 @@ public class MainControl {
             }
           }
 
-          public void removeMember(){
-              view.findMember();
-              jollyPirate.removeMember(view.getInput(), view);
-              loginOptions();
+          public void removeMember() {
+             try{
+              Users member = findMember();
+              view.confirmRemoveMember(member);
+                if(view.confirm()){
+                    view.memberRemoved();
+                     jollyPirate.removeMember(member);
+                     }
+                loginOptions();
+             }
+             catch (Exception e){
+                 view.memberNotFound();
+                    loginOptions();}
           }
 
     // TODO: 2020-09-02 call update member in registry to update all the changes there!!!! 
