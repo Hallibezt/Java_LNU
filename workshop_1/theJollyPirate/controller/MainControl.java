@@ -12,6 +12,7 @@ import view.Mainview;
 import java.util.InputMismatchException;
 import java.util.Random;
 
+
 public class MainControl {
     private Registry jollyPirate;
     private Mainview view;
@@ -102,8 +103,9 @@ public class MainControl {
                 registerBoat(null);
 
             } else if (input.equals("5")) {
+                removeBoat();
             } else if (input.equals("6")) {
-
+                updateBoat();
             } else if (input.equals("7")) {
                 compactListMembers();
             } else if (input.equals("8")) {
@@ -252,10 +254,28 @@ public class MainControl {
             }
             
 
-            private void removeBoat(){
-                //Remove
+            private void removeBoat() {
+                try {
+                    view.findBoat();
+                    String boatRegistrationNumber = view.getInput();
+                    Boat boat = jollyPirate.findBoat(boatRegistrationNumber);
+                view.confirmRemoveBoat();
+                if (view.confirm()) {
+                    jollyPirate.removeBoat(boat);
+                    loginOptions();
+                } else
+                    loginOptions();
+                }
+                catch (NullPointerException e){
+                  view.noBoatsReg();
+                   loginOptions();}
+                catch (Exception e){
+                    view.boatNotFound();
+                    loginOptions();}
+
             }
 
+        // TODO: 2020-09-05 make some easy updates
             private void updateBoat(){
                 //List of option
                 //update fee

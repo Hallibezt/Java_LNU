@@ -164,5 +164,30 @@ public class Registry {
         }
         return berth;
     }
+
+    public Boat findBoat(String boatRegistrationNumber) throws Exception {
+        Boat boat = null;
+        for(int i = 0; i<berths.length; i++){
+            if(berths[i].getBoat().getRegNumber().equals(boatRegistrationNumber)){
+                boat =  berths[i].getBoat();
+                return boat;}
+        }
+        if(boat == null) {throw new Exception();}
+        return boat;
+    }
+
+    public void removeBoat(Boat boat) {
+        Users owner = null;
+        for(int i = 0; i< berths.length; i++){
+            if(berths[i].getBoat().getRegNumber().equals(boat.getRegNumber()))
+                owner = berths[i].getCurrentUser();
+                berths[i].removeBoat();
+        }
+        for(int i = 0; i<regUsers.size(); i++){
+            if(regUsers.get(i).getLogin().compareTo(owner.getLogin()))
+                regUsers.get(i).removeBoat(boat);
+        }
+
+    }
 }
 
