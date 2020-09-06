@@ -8,6 +8,7 @@ import model.boats.BoatFactory;
 import model.roles.Member;
 import model.roles.Users;
 import view.Mainview;
+import view.ViewFactory;
 
 import java.util.InputMismatchException;
 import java.util.Random;
@@ -35,7 +36,7 @@ public class MainControl {
     }
 
     public void login(){
-        String input = view.getInput();
+        String input = view.inputConfirmation();
         if(input.equalsIgnoreCase("1")){
             loggedInUser = jollyPirate.confirmLogin(view.getCredentials());
             if(loggedInUser == null){
@@ -48,10 +49,14 @@ public class MainControl {
         }
         else if(input.equalsIgnoreCase("2"))
             view.nonLoginOptions();
-        else if (input.equalsIgnoreCase("q") || input.equalsIgnoreCase("3")){
+        else if (input.equalsIgnoreCase("3")){
             view.closingProgram();
             programRunning = false;
            }
+        else if(input.equalsIgnoreCase("4")){
+            view.changeView();
+            changeView(view.inputConfirmation());
+        }
         else
             view.wrongInput();
             view.bar();
@@ -105,21 +110,33 @@ public class MainControl {
             } else if (input.equals("5")) {
                 removeBoat();
             } else if (input.equals("6")) {
-                updateBoat();
+                updateBoat(); // TODO: 2020-09-06 left
             } else if (input.equals("7")) {
                 compactListMembers();
             } else if (input.equals("8")) {
                 verboseListMembers();
             } else if (input.equals("9")) {
-                view.loggedOutMessage(loggedInUser.getFullName());
+                search(); // TODO: 2020-09-06 left
             } else if (input.equals("10")) {
-
+                changeView(view.inputConfirmation());
+            }
+            else if (input.equals("11")) {
+                view.loggedOutMessage(loggedInUser.getFullName());
             }
         }
         catch (InputMismatchException e){
             view.wrongInput();
             view.bar();
             loginOptions();}
+    }
+
+    private void changeView(String input){
+        try{
+        ViewFactory newView = new ViewFactory();
+            this.view = newView.getView(input); }
+
+        catch (InputMismatchException e){
+            view.wrongInput();}
     }
 
 
@@ -256,7 +273,7 @@ public class MainControl {
 
             private void removeBoat() {
                 try {
-                    view.findBoat();
+                    view.enterRegNumber();
                     String boatRegistrationNumber = view.getInput();
                     Boat boat = jollyPirate.findBoat(boatRegistrationNumber);
                 view.confirmRemoveBoat();

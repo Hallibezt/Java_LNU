@@ -9,7 +9,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public abstract class Mainview {
-     Scanner input = new Scanner(System.in);
+   protected Scanner input = new Scanner(System.in);
 
     public abstract void welcome();
 
@@ -33,15 +33,16 @@ public abstract class Mainview {
     public abstract void memberUpdated();
     public abstract void enterRegNumber();
     public abstract void hasRegNumber();
-    public abstract void findBoat();
     public abstract void confirmRemoveBoat();
 
 
     //Control messages #######################
     //Check inputs for different views(numbers vs letters)
+    public abstract String getViewType();
     public abstract double enterLength();
 
-    public abstract String inputConfirmation() throws InputMismatchException;
+
+    public abstract String inputConfirmation() ;
 
     public abstract String getInput();
 
@@ -53,6 +54,7 @@ public abstract class Mainview {
     public abstract Login getCredentials();
 
     public abstract void compactList(Users users);
+    public abstract void changeView();
 
 
     public abstract void verboseList(Users users);
@@ -95,6 +97,7 @@ public abstract class Mainview {
     public abstract void lengthError();
 
     public abstract void boatAlreadyInRegistry();
+
 
 
 }

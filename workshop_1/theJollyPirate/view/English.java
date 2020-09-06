@@ -3,6 +3,8 @@ package view;
 import model.Login;
 import model.boats.Boat;
 import model.roles.Users;
+import view.inputs.Input;
+import view.inputs.InputFactory;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -15,7 +17,8 @@ public class English extends Mainview{
                 "Please choose from list: \n" +
                 "1. Login: For booking a boat or change members information \n" +
                 "2. Non-login: For view and search only \n" +
-                "3. Close the program (you can also use \"q\") \n");
+                "3. Close the program (you can also use \"q\") \n" +
+                "4. Change Language\n");
     }
 
     //Common messages  ##############################
@@ -40,13 +43,18 @@ public class English extends Mainview{
     public void memberUpdated(){System.out.println("Member has been updated");}
     public void enterRegNumber() { System.out.print("Please enter the boat's registration number: ");    }
     public void hasRegNumber() {System.out.print("Does the boat have registration number yes/no: ");    }
-    public void findBoat() {System.out.print("Please enter the boats registration number: ") ;   }
-    public void confirmRemoveBoat() { System.out.println("Are you sure you want to remove this boat from the registry?"); }
+    public void confirmRemoveBoat() { System.out.println("Are you sure you want to remove this boat from the registry? (yes/no))"); }
 
+    @Override
+    public String getViewType() {
+        return "English";
+    }
 
 
     //Control messages #######################
     //Check inputs for different views(numbers vs letters)
+
+
     public double enterLength() {
         System.out.print("Please enter the boats length: ");
         double length = input.nextDouble();
@@ -55,32 +63,11 @@ public class English extends Mainview{
         return length;
     }
 
-    public String inputConfirmation() throws InputMismatchException {
-        String uInput = input.next();
-        String output = null;
-        if(uInput.matches("[1,a,A]"))
-            output = "1";
-        else if(uInput.matches("[2,b,B]"))
-            output = "2";
-        else if(uInput.matches("[3,c,C]"))
-            output = "3";
-        else if(uInput.matches("[4,d,D]"))
-            output = "4";
-        else if(uInput.matches("[5,e,E]"))
-            output = "5";
-        else if(uInput.matches("[6,f,F]"))
-            output = "6";
-        else if(uInput.matches("[7,g,G]"))
-            output = "7";
-        else if(uInput.matches("[8,h,H]"))
-            output = "8";
-        else if(uInput.matches("[9,i,I]"))
-            output = "9";
-        else if(uInput.matches("[10,j,J]"))
-            output = "10";
-
-        if (output == null){throw new InputMismatchException();}
-        return output;
+    public String inputConfirmation()  {
+        String uInput = getInput();
+        Input input = new InputFactory().getInput(getViewType());
+        String uOutput = input.inputConfirmation(uInput);
+        return uOutput;
     }
     public String getInput(){
         String uInput = input.next();
@@ -89,7 +76,7 @@ public class English extends Mainview{
 
     public boolean confirm(){
         String input = getInput();
-        if(input.equalsIgnoreCase("yes"))
+        if(input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("já") )
             return true;
         else
             return false;
@@ -108,15 +95,18 @@ public class English extends Mainview{
         return login;
     }
 
+
     public void compactList(Users users) {
         try {
             System.out.println(users.getFullName() + " UserID: " + users.getLogin().getUserID() + " Number of boats: " + users.returnBoats().length);
         }
         catch (NullPointerException e){
-            System.out.println(users.getFullName() + " UserID: " + users.getLogin().getUserID() + " Social Security Number: " + users.getSocialNumber() + " Number of boats: User has no registered boats.");
+            System.out.println(users.getFullName() + " UserID: " + users.getLogin().getUserID() +  " Number of boats: User has no registered boats.");
             bar();
         }
     }
+
+
 
 
     public void verboseList(Users users) {
@@ -140,7 +130,11 @@ public class English extends Mainview{
     public void nonLoginOptions(){
         System.out.print("List of options if not logged in");
     }
-
+    @Override
+    public void changeView() {
+        System.out.print("1. English \n" +
+                "2. Icelandic \n");
+    }
     public void loginOptions() {
         System.out.print("1. Create a member \n" +
                 "2. Remove a member \n" +
@@ -150,8 +144,10 @@ public class English extends Mainview{
                 "6. Edit a boat \n" +
                 "7. View a compact members list \n" +
                 "8. View a verbose members list \n" +
-                "9. Log-out \n" +
-                "10.Search for members or boats \n");
+                "9.Search for members or boats \n" +
+                "10. Change the language/view \n" +
+                "11. Log-out \n");
+
     }
 
     public void updateMember(Users member){

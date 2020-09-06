@@ -3,6 +3,8 @@ package view;
 import model.Login;
 import model.boats.Boat;
 import model.roles.Users;
+import view.inputs.Input;
+import view.inputs.InputFactory;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -15,7 +17,8 @@ public class Icelandic extends Mainview{
                 "Vinsamlegast veljið : \n" +
                 "A. Innskráning: Til þess að bóka eða breyta meðlimaupplýsingum \n" +
                 "B. Án innskráningar: leit og uppflettingar eingöngu \n" +
-                "C. Loka forritinu \n");
+                "C. Loka forritinu \n" +
+                "D. Breyta tungumálinu");
     }
 
     //Common messages  ##############################
@@ -27,60 +30,43 @@ public class Icelandic extends Mainview{
     public void closingProgram( ) {System.out.println("Loka forriti.........");}
     public void programClosed( ) {System.out.println("Forrit lokað.");}
     public void memberRegistered( ) {System.out.print(" hefur verið skráð/ur í gagnabankann og notendanafnið er: ");}
-    public void promptFirstName() { System.out.println("Vinsamlegast skráðu inn nafn meðlimsins: ");   }
-    public void promptSurName() { System.out.println("Please, enter member's surname: ");   }
-    public void promptSocialNumber() { System.out.println("Please, enter member's social security number (12 digits): ");   }
-    public void promptPassword() {System.out.println("Please, enter member's chosen password: ");    }
-    public void findMember() {System.out.println("Please, enter memberID: ");    }
-    public void confirmRemoveMember(Users member) { System.out.print("Are you sure you want to remove " + member.getFullName() + ", social security number: " + member.getSocialNumber() + "?(yes/no)"); }
-    public void memberRemoved(){System.out.println("Member has been removed from the database and associated boats");}
-    public void firstNameUpdate(){System.out.println("Please, enter member's new first name: ");}
-    public void secondNameUpdate(){System.out.println("Please, enter member's new second name: ");}
-    public void passwordUpdate(){System.out.println("Please, enter member's new password: ");}
-    public void memberUpdated(){System.out.println("Member has been updated");}
-    public void enterRegNumber() { System.out.print("Please enter the boat's registration number: ");    }
-    public void hasRegNumber() {System.out.print("Does the boat have registration number yes/no: ");    }
-    public void findBoat() {System.out.print("Please enter the boats registration number: ") ;   }
-    public void confirmRemoveBoat() { System.out.println("Are you sure you want to remove this boat from the registry?"); }
+    public void promptFirstName() { System.out.println("Vinsamlegast skráðu inn fornafn meðlimsins: ");   }
+    public void promptSurName() { System.out.println("Vinsamlegast skráðu inn eftirnafn meðlimsins: ");   }
+    public void promptSocialNumber() { System.out.println("Vinsamlegast skráðu inn kennitölu meðlimsins (12 stafir): ");   }
+    public void promptPassword() {System.out.println("Vinsamlegast skráðu inn valið leyniorð meðlimsins: ");    }
+    public void findMember() {System.out.println("Vinsamlegast skráðu inn notendanafn: ");    }
+    public void confirmRemoveMember(Users member) { System.out.print("Ertu viss um að þú viljir fjarlæga " + member.getFullName() + ", kennitala: " + member.getSocialNumber() + "? (já/nei): "); }
+    public void memberRemoved(){System.out.println("Meðlimur hefur verið fjarlægður úr gagnabankanum og bátar tengdir honum");}
+    public void firstNameUpdate(){System.out.println("Vinsamlegast skráðu inn nýtt fornafn meðlimsins: ");}
+    public void secondNameUpdate(){System.out.println("Vinsamlegast skráðu inn nýtt eftirnafn meðlimsins: ");}
+    public void passwordUpdate(){System.out.println("Vinsamlegast skráðu inn nýtt leyniorð meðlimsins:: ");}
+    public void memberUpdated(){System.out.println("Meðlimurinn hefur verið uppfærður");}
+    public void enterRegNumber() { System.out.print("Vinsamlegast skráðu inn skráningarnúmer bátsins: ");    }
+    public void hasRegNumber() {System.out.print("Hefur báturinn skráningarnúmer já/nei: ");    }
+    public void confirmRemoveBoat() { System.out.println("Ertu viss um að þú viljir fjarlǽga þennan bát úr gagnagrunninum? (já/nei) "); }
 
+    @Override
+    public String getViewType() {
+        return "Icelandic";
+    }
 
 
     //Control messages #######################
     //Check inputs for different views(numbers vs letters)
     public double enterLength() {
-        System.out.print("Please enter the boats length: ");
+        System.out.print("Vinsamlegast skráðu inn lengd bátsins: ");
         double length = input.nextDouble();
         if(length <1 || length>20)
             throw  new InputMismatchException();
         return length;
     }
 
-    public String inputConfirmation() throws InputMismatchException {
-        String uInput = input.next();
-        String output = null;
-        if(uInput.matches("[1,a,A]"))
-            output = "1";
-        else if(uInput.matches("[2,b,B]"))
-            output = "2";
-        else if(uInput.matches("[3,c,C]"))
-            output = "3";
-        else if(uInput.matches("[4,d,D]"))
-            output = "4";
-        else if(uInput.matches("[5,e,E]"))
-            output = "5";
-        else if(uInput.matches("[6,f,F]"))
-            output = "6";
-        else if(uInput.matches("[7,g,G]"))
-            output = "7";
-        else if(uInput.matches("[8,h,H]"))
-            output = "8";
-        else if(uInput.matches("[9,i,I]"))
-            output = "9";
-        else if(uInput.matches("[10,j,J]"))
-            output = "10";
-
-        if (output == null){throw new InputMismatchException();}
-        return output;
+    //Can arrange the input so it fits the list order that the user sees
+    public String inputConfirmation()  {
+        String uInput = getInput();
+        Input input = new InputFactory().getInput(getViewType());
+        String uOutput = input.inputConfirmation(uInput);
+        return uOutput;
     }
     public String getInput(){
         String uInput = input.next();
@@ -89,7 +75,7 @@ public class Icelandic extends Mainview{
 
     public boolean confirm(){
         String input = getInput();
-        if(input.equalsIgnoreCase("yes"))
+        if(input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("já") )
             return true;
         else
             return false;
@@ -100,40 +86,46 @@ public class Icelandic extends Mainview{
 
     public Login getCredentials(){
         Login login = new Login();
-        System.out.print("Please enter your userId and Password.\n" +
-                "UserID:  ");
+        System.out.print("Vinsamlegast skráðu inn notendanafn þitt og leyniorð: \n" +
+                "Notendanafn:  ");
         login.addLoginUserID(getInput());
-        System.out.print("Password:  ");
+        System.out.print("Leyniorð:  ");
         login.addPassword(getInput());
         return login;
     }
 
     public void compactList(Users users) {
         try {
-            System.out.println(users.getFullName() + " UserID: " + users.getLogin().getUserID() + " Number of boats: " + users.returnBoats().length);
+            System.out.println(users.getFullName() + " Notendanafn: " + users.getLogin().getUserID() + " Fjöldi báta: " + users.returnBoats().length);
         }
         catch (NullPointerException e){
-            System.out.println(users.getFullName() + " UserID: " + users.getLogin().getUserID() + " Social Security Number: " + users.getSocialNumber() + " Number of boats: User has no registered boats.");
+            System.out.println(users.getFullName() + " Notendanafn: " + users.getLogin().getUserID()  + " Fjöldi báta: Notandi er ekki með skráða báta.");
             bar();
         }
+    }
+
+    @Override
+    public void changeView() {
+        System.out.print("A. Enska \n" +
+                "B. Íslenska \n");
     }
 
 
     public void verboseList(Users users) {
         try {
             Boat[] list = users.returnBoats();
-            System.out.println(users.getFullName() + " UserID: " + users.getLogin().getUserID() + " Social Security Number: " + users.getSocialNumber() + " Number of boats: " + users.returnBoats().length);
+            System.out.println(users.getFullName() + " Notendanafn: " + users.getLogin().getUserID() + " Kennitala: " + users.getSocialNumber() + " Fjöldi báta: " + users.returnBoats().length);
             for (int i = 0; i< list.length;i++ ){
                 boatInfo(list[i]);
             }
         }
         catch (NullPointerException e){
-            System.out.println(users.getFullName() + " UserID: " + users.getLogin().getUserID() + " Social Security Number: " + users.getSocialNumber() + " Number of boats: User has no registered boats.");
+            System.out.println(users.getFullName() + " Notendanafn: " + users.getLogin().getUserID() + " Kennitala: " + users.getSocialNumber() + " Fjöldi báta: Notandi er ekki með skráða báta.");
             bar();
         }
     }
     public void boatInfo(Boat boat){
-        System.out.println("Boat type: " + boat.getType() + " Boat length: " + boat.getLength() + " Boat registration number: " + boat.getRegNumber() + "Boat owner: " + boat.getOwner().getFullName() + " Boat located at berth number : " +  boat.getLoacation());
+        System.out.println("Tegund báts: " + boat.getType() + " Lengd báts: " + boat.getLength() + " Skráningarnúmer báts: " + boat.getRegNumber() + "Eigandi báts: " + boat.getOwner().getFullName() + " Bátur er staðsettur í stæði : " +  boat.getLoacation());
     }
     //Option messages ##########################
     // TODO: 2020-08-28 Create non-login options
@@ -142,52 +134,55 @@ public class Icelandic extends Mainview{
     }
 
     public void loginOptions() {
-        System.out.print("1. Create a member \n" +
-                "2. Remove a member \n" +
-                "3. Edit a member \n" +
-                "4. Register a boat \n" +
-                "5. Remove a boat \n" +
-                "6. Edit a boat \n" +
-                "7. View a compact members list \n" +
-                "8. View a verbose members list \n" +
-                "9. Log-out \n" +
-                "10.Search for members or boats \n");
+        System.out.print("A. Útskráning\n" +
+                "B. Breyta um tungumál \n" +
+                "C. Leita að meðlim eða bátum \n" +
+                "D. Skoða ýtarlegan lista yfir meðlimi og báta \n" +
+                "E. Skoða lista yfir meðlimi \n" +
+                "F. Uppfæra bát\n" +
+                "G. Eyða bát \n" +
+                "H. Skrá bát\n" +
+                "I  Uppfæra meðlim \n" +
+                "J. Fjarlægja meðlim \n" +
+                "K. Skrá meðlim");
+
     }
 
     public void updateMember(Users member){
-        System.out.println("Member to update: ");
+        System.out.println("Meðlimur til að uppfæra: ");
         compactList(member);
         bar();
-        System.out.print("1. Update member's first name \n" +
-                "2. Update member's second name\n" +
-                "3. Change member's password\n" +
-                "4. Register a boat\n" +
-                "5. Remove a boat\n" +
-                "6. Return to main menu\n");
+        System.out.print("E. Aftur á forsíðu \n" +
+                "F. Fjarlæga bát\n" +
+                "G. Skrá bát\n" +
+                "H. Breyta leyniorði \n" +
+                "J. Uppfæra eftirnafn\n" +
+                "K. Uppfæra fornafn\n");
     }
 
-    public void listTypes() { System.out.print("What is the type of the boat?\n" +
-            "1. Motorsailor \n" +
-            "2. Sailboat \n" +
-            "3. Kayak/Canoe\n" +
-            "4. Other \n" +
-            "5. Back to main menu\n");
-    }
+    public void listTypes() {
+        System.out.print("Hvaða tegund er báturinn \n" +
+                "F. Aftur á forsíðu \n" +
+                "G. Annað \n" +
+                "H. Kajak/Kanó \n" +
+                "J. Seglskúta \n" +
+                "K. Mótorbátur \n");
+     }
 
     //Error messages ################################
-    public void loginFailure() { System.out.println("User not found, please try again or use non-logged in options."); }
-    public void wrongInput() { System.out.println("Your input is not an option, please try again."); }
-    public void userAlreadyInDB() {System.out.println("The user is already registered member at Jolly Pirate") ;  }
-    public void socialFormat(){System.out.println("Social security number(SSN) has a wrong format, use YYYYDDMMXXXX. Enter new SSN");}
-    public void nameFormat(){System.out.println("Names can not include non-characters");}
-    public void memberNotFound(){System.out.println("This membersID is not in the database");}
-    public void credFailure(){System.out.println("Member not found or credentials do not match");}
-    public void noMemberRegistered(){System.out.println("There is no member registered in the database");}
-    public void noBerths() {System.out.println("There are no berths available");   }
-    public void noBoatsReg() {System.out.println("There are no boats registered at Jolly Pirate");   }
-    public void boatNotFound() {System.out.println("A boat with this registration number was not found");   }
-    public void lengthError() { System.out.println("We do NOT register boats under 1 meter or over 20 meters"); }
-    public void boatAlreadyInRegistry() {System.out.println("The boat with this registration number is already in the database ");  }
+    public void loginFailure() { System.out.println("Notandi fannst ekki. Vinsamlegast reynið aftur eða notist við valmöguleika óskráðra"); }
+    public void wrongInput() { System.out.println("Þetta er ekki valmöguleiki, vinsamlegast reynið aftur"); }
+    public void userAlreadyInDB() {System.out.println("Notandinn er þegar meðlimur í Jolly Pirate") ;  }
+    public void socialFormat(){System.out.println("Kennitalan er röng, notist við AAAADDMMXXXX. Sláið inn nýja kennitölu");}
+    public void nameFormat(){System.out.println("Nöfn geta bara innihaldið bókstafi");}
+    public void memberNotFound(){System.out.println("Þetta notendanafn finnst ekki í gagnagrunninum");}
+    public void credFailure(){System.out.println("Meðlimur fannst ekki eða auðkenni stemma ekki");}
+    public void noMemberRegistered(){System.out.println("Það er enginn meðlimur skráður í gagnagrunninum.");}
+    public void noBerths() {System.out.println("Engin bátastæði laus.");   }
+    public void noBoatsReg() {System.out.println("Engir bátar skráði hjá Jolly Pirate");   }
+    public void boatNotFound() {System.out.println("Fannst enginn bátur með þetta skráningarnúmer");   }
+    public void lengthError() { System.out.println("Við skráum EKKI báta undir 1 m. eða yfir 20 m."); }
+    public void boatAlreadyInRegistry() {System.out.println("Bátur með þetta skráningarnúmer er þegar í gagnagrunninum ");  }
 
 
 }
