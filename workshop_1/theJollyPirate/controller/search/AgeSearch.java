@@ -9,15 +9,26 @@ import java.util.ArrayList;
 public class AgeSearch extends Search{
     private Registry registry;
     private String searchWord;
-    private ArrayList<Member> result;
+    private ArrayList<Users> result;
 
     public AgeSearch(String searchWord, Registry registry){
         this.searchWord = searchWord;
         this.registry = registry;    }
 
     @Override
-    public Object[] search() {
-        Users[] member = null;
-        return member;
+    protected void search() {
+        Users[] members = registry.returnMembers();
+        for(int i = 0; i<members.length; i++){
+
+        }
+    }
+
+    @Override
+    public Users[] returnResult() {
+        Users[] result = new Users[this.result.size()];
+        for(int i = 0; i<this.result.size();i++){
+            result[i] = this.result.get(i);
+        }
+        return result;
     }
 }

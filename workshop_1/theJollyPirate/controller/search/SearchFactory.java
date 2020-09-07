@@ -8,7 +8,7 @@ public class SearchFactory {
 
         if("Name".equalsIgnoreCase(typeOfSearch)) return new NameSearch(searchWord, registry);
         else if("Age".equalsIgnoreCase(typeOfSearch)) return new AgeSearch(searchWord, registry);
-        else if("Boat".equalsIgnoreCase(typeOfSearch)) return new BoatSearch(searchWord, registry);
+        else if("Boat".equalsIgnoreCase(typeOfSearch)) return new BoatTypeSearch(searchWord, registry);
 
         return null;
     }

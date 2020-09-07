@@ -1,16 +1,17 @@
 package controller.search;
 
 import model.Registry;
+import model.roles.Member;
 import model.roles.Users;
 
 import java.util.ArrayList;
 
-public class NameSearch extends Search{
+public class MonthSearch extends Search{
     private Registry registry;
     private String searchWord;
     private ArrayList<Users> result;
 
-    public NameSearch(String searchWord, Registry registry){
+    public MonthSearch(String searchWord, Registry registry){
         this.searchWord = searchWord;
         this.registry = registry;    }
 
@@ -21,6 +22,7 @@ public class NameSearch extends Search{
 
         }
     }
+
 
     @Override
     public Users[] returnResult() {
