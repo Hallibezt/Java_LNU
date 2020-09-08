@@ -183,6 +183,7 @@ public class Icelandic extends Mainview{
     public void boatNotFound() {System.out.println("Fannst enginn bátur með þetta skráningarnúmer");   }
     public void lengthError() { System.out.println("Við skráum EKKI báta undir 1 m. eða yfir 20 m."); }
     public void boatAlreadyInRegistry() {System.out.println("Bátur með þetta skráningarnúmer er þegar í gagnagrunninum ");  }
+    public void noSearchResult() {System.out.println("Engar leitarniðurstöður samræmdust leitarviðmið "); }
 
 
 }

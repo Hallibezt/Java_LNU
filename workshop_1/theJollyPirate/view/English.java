@@ -184,6 +184,6 @@ public class English extends Mainview{
     public void boatNotFound() {System.out.println("A boat with this registration number was not found");   }
     public void lengthError() { System.out.println("We do NOT register boats under 1 meter or over 20 meters"); }
     public void boatAlreadyInRegistry() {System.out.println("The boat with this registration number is already in the database ");  }
-
+    public void noSearchResult() {System.out.println("No search results for this criteria"); }
 
 }

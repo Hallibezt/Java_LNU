@@ -1,5 +1,6 @@
 package controller;
 
+import controller.exceptions_errors.ErrorHandling;
 import model.Berths;
 import model.boats.Boat;
 import model.Login;

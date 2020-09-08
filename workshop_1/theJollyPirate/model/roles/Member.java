@@ -3,15 +3,19 @@ import model.boats.Boat;
 import model.Fee;
 import model.Login;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Member extends Users {
+    LocalDate currentdate = LocalDate.now();
     private Login credentials;
     private String firstName;
     private String surName;
     private String socialNumber;
     private ArrayList<Boat> boats = new ArrayList<>();
     private Fee fee = new Fee();
+    private int age;
+    private int birthMonth;
 
     public Member(){}
 
@@ -19,6 +23,9 @@ public class Member extends Users {
         this.surName = surName;
         this.firstName = firstName;
         this.socialNumber = socialNumber;
+        // TODO: 2020-09-08 implement
+        setAge();
+        setMonth();
         credentials = new Login(firstName.substring(0,1)+"." + surName + "_", password);
     }
 
@@ -71,8 +78,26 @@ public class Member extends Users {
     }
 
     @Override
+    public void setAge() {
+        int currentYear = currentdate.getYear();
+        this.age = currentYear - Integer.valueOf(this.socialNumber.substring(0,3));
+
+    }
+
+    @Override
+    public void setMonth() {
+        int currentMonth = currentdate.getMonthValue();
+        this.birthMonth = currentMonth - Integer.valueOf(this.socialNumber.substring(4,5));
+    }
+
+    @Override
     public int getAge() {
-        return 0;
+        return this.age;
+    }
+
+    @Override
+    public int getMonth() {
+        return this.birthMonth;
     }
 
 

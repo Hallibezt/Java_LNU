@@ -18,7 +18,8 @@ public class NameSearch extends Search{
     protected void search() {
         Users[] members = registry.returnMembers();
         for(int i = 0; i<members.length; i++){
-
+            if(members[i].getFullName().contains(searchWord))
+                this.result.add(members[i]);
         }
     }
 

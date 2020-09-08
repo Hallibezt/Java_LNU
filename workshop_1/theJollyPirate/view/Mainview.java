@@ -98,6 +98,8 @@ public abstract class Mainview {
 
     public abstract void boatAlreadyInRegistry();
 
+    public abstract void noSearchResult();
+
 
 
 }

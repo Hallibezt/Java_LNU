@@ -14,6 +14,9 @@ public abstract class Users {
     public abstract void removeBoat(Boat boat);
     public abstract void addBoat(Boat boat);
     public abstract String getUserType();
+    public abstract void setAge();
+    public abstract void setMonth();
     public abstract int getAge();
+    public abstract int getMonth();
     public abstract Boat[] returnBoats();
 }
