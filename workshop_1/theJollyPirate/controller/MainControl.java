@@ -1,6 +1,10 @@
 package controller;
 
 import controller.exceptions_errors.ErrorHandling;
+import controller.search.NameSearch;
+import controller.search.Search;
+import controller.search.SearchANDProcess;
+import controller.search.SearchFactory;
 import model.Berths;
 import model.boats.Boat;
 import model.Login;
@@ -327,10 +331,32 @@ public class MainControl {
               }
 
                 public void search(){
-                    //search combinations with full  or partly information depending on the user
+                    SearchFactory searchFactory = new SearchFactory();
+                    SearchANDProcess results = new SearchANDProcess();
+                    view.searchMenu();
+                        view.nameCriteria();
+                            String nameCriteria = view.getInput();
+                        view.ageCriteria();
+                            String ageCriteria = view.getInput();
+                        view.monthCriteria();
+                             String monthCriteria = view.getInput();
+                        view.boatTypeCriteria();
+                             String BoatTypeCriteria = view.getInput();
+                       if(!nameCriteria.equals("?"))
+                           results.addSearchResults(searchFactory.getSearch("Name", nameCriteria, jollyPirate.returnMembers()).returnResult());
+                       if(!nameCriteria.equals("?"))
+                             results.addSearchResults(searchFactory.getSearch("Age", nameCriteria, jollyPirate.returnMembers()).returnResult());
+                        if(!nameCriteria.equals("?"))
+                              results.addSearchResults(searchFactory.getSearch("Month", nameCriteria, jollyPirate.returnMembers()).returnResult());
+                        if(!nameCriteria.equals("?"))
+                             results.addSearchResults(searchFactory.getSearch("Type", nameCriteria, jollyPirate.returnMembers()).returnResult());
+
+
                 }
-                
-                private Boat createBoat(Users member){
+
+
+
+    private Boat createBoat(Users member){
                     BoatFactory boat = new BoatFactory();
                     String regNumber;
                     String boatType = null;

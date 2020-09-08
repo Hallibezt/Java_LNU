@@ -7,22 +7,22 @@ import model.roles.Users;
 import java.util.ArrayList;
 
 public class MonthSearch extends Search{
-    private Registry registry;
+    private Users[] members;
     private int monthToSearch;
     private ArrayList<Users> result = null;
 
-    public MonthSearch(String searchWord, Registry registry){
+    public MonthSearch(String searchWord, Users[] members){
         if(searchWord.matches("\\d+"))
             this.monthToSearch = Integer.valueOf(searchWord);
         else
             this.monthToSearch = matchMonths(searchWord);
-        this.registry = registry;    }
+        this.members = members;    }
 
     private int matchMonths(String searchWord) {
-        int month = 8;
+        int month = 0;
         String monthString = searchWord.toLowerCase();
         switch (monthString) {
-            case "January":  month = 1;
+            case "january":  month = 1;
                 break;
             case "february":  month = 2;
                 break;
@@ -52,7 +52,7 @@ public class MonthSearch extends Search{
 
     @Override
     protected void search() {
-        Users[] members = registry.returnMembers();
+
         for(int i = 0; i<members.length; i++){
             if(members[i].getMonth() == monthToSearch)
                 this.result.add(members[i]);

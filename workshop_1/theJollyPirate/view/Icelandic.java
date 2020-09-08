@@ -169,6 +169,20 @@ public class Icelandic extends Mainview{
                 "K. Mótorbátur \n");
      }
 
+    @Override
+    public void searchMenu() {
+        bar();
+        System.out.println("Velkomin í meðlimaleit Jolly Pirate \n" +
+                "sláðu inn leitarorð. Notaðu \"?\" til þess að sleppa leitarvalmöguleika \n");
+
+    }
+
+    public void nameCriteria(){System.out.println("Sláðu inn nafn eða hluta úr nafni: "); }
+    public void ageCriteria(){System.out.println("Sláðu inn aldur - getur notað ójöfnu merki (t.d. <=18 leitar að undir eða jafnt og 18): ");}
+    public void monthCriteria(){System.out.println("Sláðu inn fæðingarmánuð meðlims: ");}
+    public void boatTypeCriteria(){System.out.println("Sláðu inn tegund báts: ");}
+
+
     //Error messages ################################
     public void loginFailure() { System.out.println("Notandi fannst ekki. Vinsamlegast reynið aftur eða notist við valmöguleika óskráðra"); }
     public void wrongInput() { System.out.println("Þetta er ekki valmöguleiki, vinsamlegast reynið aftur"); }

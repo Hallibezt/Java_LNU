@@ -7,24 +7,23 @@ import model.roles.Users;
 import java.util.ArrayList;
 
 public class AgeSearch extends Search{
-    private Registry registry;
+    private Users[] members;
     private int ageToSearch;
     private ArrayList<Users> result;
-    boolean under = false;
-    boolean over = false;
-    boolean under_even = false;
-    boolean over_even = false;
+    private boolean under = false;
+    private boolean over = false;
+    private boolean under_even = false;
+    private boolean over_even = false;
 
-    public AgeSearch(String searchWord, Registry registry){
+    public AgeSearch(String searchWord, Users[] members){
         if(searchWord.matches("[=<>].*"))
             setBoolean(searchWord);
         else
             this.ageToSearch = Integer.valueOf(searchWord);
-        this.registry = registry;    }
+        this.members = members;    }
 
     @Override
     protected void search() {
-        Users[] members = registry.returnMembers();
         for(int i = 0; i<members.length; i++){
                 if(this.over_even == true){
                     if(members[i].getAge() >= this.ageToSearch)

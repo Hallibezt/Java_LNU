@@ -101,5 +101,9 @@ public abstract class Mainview {
     public abstract void noSearchResult();
 
 
-
-}
+    public abstract void searchMenu();
+    public abstract void nameCriteria();
+    public abstract void ageCriteria();
+    public abstract void monthCriteria();
+    public abstract void boatTypeCriteria();
+   }

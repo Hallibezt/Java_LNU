@@ -170,7 +170,21 @@ public class English extends Mainview{
             "5. Back to main menu\n");
     }
 
-    //Error messages ################################
+    @Override
+    public void searchMenu() {
+        bar();
+        System.out.println("Welcome to Jolly Pirate's members search \n" +
+                "Enter search words for desired criteria if you want to skip a criteria enter \"?\" instead in that criteria's box \n");
+
+    }
+
+    public void nameCriteria(){System.out.print("Enter name or part of a name: "); }
+    public void ageCriteria(){System.out.print("Enter age - use inequality notation before with no space between if desired (i.e. <=18 searches for under or equal to 18 years): ");}
+    public void monthCriteria(){System.out.print("Enter member's birthmonth (digits or strings): ");}
+    public void boatTypeCriteria(){System.out.print("Enter boat type: ");}
+
+
+                //Error messages ################################
     public void loginFailure() { System.out.println("User not found, please try again or use non-logged in options."); }
     public void wrongInput() { System.out.println("Your input is not an option, please try again."); }
     public void userAlreadyInDB() {System.out.println("The user is already registered member at Jolly Pirate") ;  }
@@ -185,5 +199,6 @@ public class English extends Mainview{
     public void lengthError() { System.out.println("We do NOT register boats under 1 meter or over 20 meters"); }
     public void boatAlreadyInRegistry() {System.out.println("The boat with this registration number is already in the database ");  }
     public void noSearchResult() {System.out.println("No search results for this criteria"); }
+
 
 }

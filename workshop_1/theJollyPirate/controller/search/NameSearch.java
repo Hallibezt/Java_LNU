@@ -6,17 +6,17 @@ import model.roles.Users;
 import java.util.ArrayList;
 
 public class NameSearch extends Search{
-    private Registry registry;
+    Users[] members;
     private String searchWord;
     private ArrayList<Users> result;
 
-    public NameSearch(String searchWord, Registry registry){
+    public NameSearch(String searchWord, Users[] members ){
         this.searchWord = searchWord;
-        this.registry = registry;    }
+        this.members = members;    }
 
     @Override
     protected void search() {
-        Users[] members = registry.returnMembers();
+
         for(int i = 0; i<members.length; i++){
             if(members[i].getFullName().contains(searchWord))
                 this.result.add(members[i]);
