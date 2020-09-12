@@ -1,5 +1,6 @@
 package view;
 
+import controller.exceptions_errors.InputNotInListException;
 import model.Login;
 import model.boats.Boat;
 import model.roles.Member;
@@ -46,7 +47,7 @@ public abstract class Mainview {
 
     public abstract String getInput();
 
-    public abstract boolean confirm();
+    public abstract boolean confirm() throws InputNotInListException;
 
     // TODO: 2020-08-29 Might have to split this up because login is domain class
 
@@ -62,8 +63,7 @@ public abstract class Mainview {
     public abstract void boatInfo(Boat boat);
 
     //Option messages ##########################
-    // TODO: 2020-08-28 Create non-login options
-    public abstract void nonLoginOptions();
+
 
     public abstract void loginOptions();
 
@@ -72,7 +72,6 @@ public abstract class Mainview {
     public abstract void listTypes();
 
     //Error messages ################################
-    public abstract void loginFailure();
 
     public abstract void wrongInput();
 
@@ -100,14 +99,17 @@ public abstract class Mainview {
 
     public abstract void boatRegistered();
 
-    public abstract void noSearchResult();
 
-
-    public abstract void searchMenu();
-    public abstract void nameCriteria();
-    public abstract void ageCriteria();
-    public abstract void monthCriteria();
-    public abstract void boatTypeCriteria();
+  //Below is part of higher grade implementation
+  // TODO: 2020-08-28 Create non-login options
+  //public abstract void nonLoginOptions();
+   // public abstract void loginFailure();
+    //public abstract void noSearchResult();
+    //public abstract void searchMenu();
+   // public abstract void nameCriteria();
+   // public abstract void ageCriteria();
+    //public abstract void monthCriteria();
+    //public abstract void boatTypeCriteria();
 
     public abstract void exitOption();
 }

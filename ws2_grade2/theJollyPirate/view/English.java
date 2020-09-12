@@ -1,5 +1,6 @@
 package view;
 
+import controller.exceptions_errors.InputNotInListException;
 import model.Login;
 import model.boats.Boat;
 import model.roles.Users;
@@ -72,8 +73,10 @@ public class English extends Mainview{
         return uInput;
     }
 
-    public boolean confirm(){
+    public boolean confirm() throws InputNotInListException {
         String input = getInput();
+        if(!input.equalsIgnoreCase("yes") || !input.equalsIgnoreCase("já") || !input.equalsIgnoreCase("no") || !input.equalsIgnoreCase("yes"))
+            throw new InputNotInListException("");
         if(input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("já") )
             return true;
         else
@@ -167,7 +170,7 @@ public class English extends Mainview{
             "5. Back to main menu\n");
     }
 
-    @Override
+
     public void searchMenu() {
         bar();
         System.out.println("Welcome to Jolly Pirate's members search \n" +

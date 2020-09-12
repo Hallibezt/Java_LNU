@@ -1,5 +1,6 @@
 package view;
 
+import controller.exceptions_errors.InputNotInListException;
 import model.Login;
 import model.boats.Boat;
 import model.roles.Users;
@@ -71,8 +72,10 @@ public class Icelandic extends Mainview{
         return uInput;
     }
 
-    public boolean confirm(){
+    public boolean confirm() throws InputNotInListException {
         String input = getInput();
+        if(!input.equalsIgnoreCase("yes") || !input.equalsIgnoreCase("já") || !input.equalsIgnoreCase("no") || !input.equalsIgnoreCase("yes"))
+            throw new InputNotInListException("");
         if(input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("já") )
             return true;
         else
@@ -104,8 +107,8 @@ public class Icelandic extends Mainview{
 
     @Override
     public void changeView() {
-        System.out.print("A. Enska \n" +
-                "B. Íslenska \n");
+        System.out.print("I. Íslenska \n" +
+                "J. Enska \n");
     }
 
 
@@ -141,7 +144,7 @@ public class Icelandic extends Mainview{
                 "G. Skrá bát\n" +
                 "H.  Uppfæra meðlim \n" +
                 "I. Fjarlægja meðlim \n" +
-                "J. Skrá meðlim");
+                "J. Skrá meðlim \n");
 
     }
 
@@ -166,7 +169,7 @@ public class Icelandic extends Mainview{
                 "K. Mótorbátur \n");
      }
 
-    @Override
+
     public void searchMenu() {
         bar();
         System.out.println("Velkomin í meðlimaleit Jolly Pirate \n" +

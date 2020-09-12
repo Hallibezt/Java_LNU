@@ -1,6 +1,7 @@
 package controller;
 
 import controller.exceptions_errors.ErrorHandling;
+import controller.exceptions_errors.InputNotInListException;
 import model.Berths;
 import model.boats.Boat;
 import model.Login;
@@ -96,6 +97,7 @@ public class MainControl {
             } else if (input.equals("8")) {
                 verboseListMembers();
             } else if (input.equals("9")) {
+                view.changeView();
                 changeView(view.inputConfirmation());
             } else if (input.equals("10")) {
                 view.closingProgram();
@@ -133,9 +135,9 @@ public class MainControl {
         String surName = view.getInput();
             if(surName.equalsIgnoreCase("x"))
                 loginOptions();
-       //   if(errorHandling.nameFormat(firstName) == false || errorHandling.nameFormat(surName) == false){
-           //   view.nameFormat();
-          //    registerMember(); }
+         if(errorHandling.nameFormat(firstName) == false || errorHandling.nameFormat(surName) == false){
+            view.nameFormat();
+            registerMember(); }
         view.promptSocialNumber();
         String socialNumber = view.getInput();
             if(socialNumber.equalsIgnoreCase("x"))
@@ -169,7 +171,8 @@ public class MainControl {
                      }
                 loginOptions();
              }
-             catch (Exception e){
+             catch (InputNotInListException e){view.wrongInput(); removeMember();}
+             catch (Exception e ){
                  view.memberNotFound();
                     loginOptions();}
           }
@@ -284,8 +287,8 @@ public class MainControl {
                     e.printStackTrace();
                     loginOptions();
                   }
+                catch (InputNotInListException e ){view.wrongInput(); removeBoat();}
                 catch (Exception e){
-                    e.printStackTrace();
                     view.boatNotFound();
                     loginOptions();}
 
@@ -327,7 +330,8 @@ public class MainControl {
 
 
 
-    private Boat createBoat(Users member){
+    private Boat createBoat(Users member) {
+                  try{
                     BoatFactory boat = new BoatFactory();
                     String regNumber;
                     String boatType = null;
@@ -367,6 +371,7 @@ public class MainControl {
                         }
                     view.hasRegNumber();
                         //enter registration number or create one from the club if the boat has none
+
                         if(view.confirm()==true){
                             view.enterRegNumber();
                             regNumber = view.getInput();
@@ -377,7 +382,9 @@ public class MainControl {
                         else
                             regNumber = createRegNumber();
                         Boat theBoat = boat.getBoat(boatType, length, regNumber, member);
-                    return theBoat;
+                    return theBoat;}
+                  catch (InputNotInListException e){view.wrongInput(); registerBoat(null);}
+                  return null;
                 }
 
     // TODO: 2020-09-02 DOES this work? 

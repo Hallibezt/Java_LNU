@@ -11,7 +11,12 @@ public class ErrorHandling {
     }
 
     public boolean nameFormat(String firstName) {
-        boolean nameFormat = firstName.matches("^[A-Za-z]+$");
-        return nameFormat;
+        char[] c = firstName.toCharArray();
+        for(int i = 0; i<c.length; i++){
+            if(!Character.isLetter(c[i]))
+                return false;
+        }
+
+        return true;
     }
 }
