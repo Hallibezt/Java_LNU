@@ -10,7 +10,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class English extends Mainview{
-    private Scanner input = new Scanner(System.in);
+    private final Scanner input = new Scanner(System.in);
     private String viewType = "English";
 
     public void welcome(){
@@ -47,13 +47,14 @@ public class English extends Mainview{
 
 
     //Control messages #######################
+     //Those two are for switching the language/view
     public String getViewType() {return this.viewType;}
     public String inputConfirmation()  {
         String uInput = getInput();
         Input input = new InputFactory().getInput(getViewType());
         return input.inputConfirmation(uInput);
     }
-
+        //Handling inputs
     public double enterLength() {
         System.out.print("Please enter the boats length: ");
         double length = input.nextDouble();
@@ -75,7 +76,7 @@ public class English extends Mainview{
             return false;
     }
 
-
+         //Printing informations about users and boats
     public void compactList(Users users) {
         try {
             System.out.println(users.getFullName() + " UserID: " + users.getLogin().getUserID() + " Number of boats: " + users.returnBoats().length);
@@ -85,9 +86,6 @@ public class English extends Mainview{
             bar();
         }
     }
-
-
-
 
     public void verboseList(Users users) {
         try {
@@ -102,15 +100,18 @@ public class English extends Mainview{
             bar();
         }
     }
+
     public void boatInfo(Boat boat){
         System.out.println("    - Boat type: " + boat.getType() + " Boat length: " + boat.getLength() + " Boat registration number: " + boat.getRegNumber() + " Boat owner: " + boat.getOwner().getFullName() + " Boat located at berth number : " +  boat.getLoacation());
     }
+
+
     //Option messages ##########################
     // TODO: 2020-08-28 Create non-login options
-    public void nonLoginOptions(){
-        System.out.print("List of options if not logged in");
-    }
-    @Override
+    //public void nonLoginOptions(){ Part of grade 4
+        //System.out.print("List of options if not logged in");
+    //}
+
     public void changeView() {
         System.out.print("1. English \n" +
                 "2. Icelandic \n");

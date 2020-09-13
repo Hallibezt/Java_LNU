@@ -48,6 +48,7 @@ public class Icelandic extends Mainview{
 
 
     //Control messages #######################
+        //Those two are for switching the language/view
     public String getViewType() {
         return this.viewType;
     }
@@ -64,7 +65,7 @@ public class Icelandic extends Mainview{
             throw  new InputMismatchException();
         return length;
     }
-
+        //Handling inputs
     public String getInput(){
         return input.next();
     }
@@ -79,7 +80,7 @@ public class Icelandic extends Mainview{
             return false;
     }
 
-
+         //Printing informations about users and boats
     public void compactList(Users users) {
         try {
             System.out.println(users.getFullName() + " Notendanafn: " + users.getLogin().getUserID() + " Fjöldi báta: " + users.returnBoats().length);
@@ -90,7 +91,6 @@ public class Icelandic extends Mainview{
         }
     }
 
-    @Override
     public void changeView() {
         System.out.print("I. Íslenska \n" +
                 "J. Enska \n");
@@ -113,11 +113,12 @@ public class Icelandic extends Mainview{
     public void boatInfo(Boat boat){
         System.out.println("Tegund báts: " + boat.getType() + " Lengd báts: " + boat.getLength() + " Skráningarnúmer báts: " + boat.getRegNumber() + "Eigandi báts: " + boat.getOwner().getFullName() + " Bátur er staðsettur í stæði : " +  boat.getLoacation());
     }
+
     //Option messages ##########################
     // TODO: 2020-08-28 Create non-login options
-    public void nonLoginOptions(){
-        System.out.print("List of options if not logged in");
-    }
+    //public void nonLoginOptions(){ Part of grade 4
+        //System.out.print("List of options if not logged in");
+    //}
 
     public void loginOptions() {
         System.out.print("A. Loka forriti\n" +

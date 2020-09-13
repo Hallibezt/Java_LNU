@@ -45,21 +45,19 @@ public abstract class Mainview {
     public abstract String getInput();
     public abstract boolean confirm() throws InputNotInListException; //Yes or no question
 
-
+     //Printing informations about users and boats
     public abstract void compactList(Users users);
-    public abstract void changeView();
-
-
     public abstract void verboseList(Users users);
-
     public abstract void boatInfo(Boat boat);
 
     //Option messages ##########################
 
-
     public abstract void loginOptions();
+    // public abstract void nonLoginOptions(); //for grade 4
 
     public abstract void updateMember(Users member);
+
+    public abstract void changeView();
 
     public abstract void listTypes();
 
