@@ -1,7 +1,6 @@
 package view;
 
 import controller.exceptions_errors.InputNotInListException;
-import model.Login;
 import model.boats.Boat;
 import model.roles.Users;
 import view.inputs.Input;
@@ -11,7 +10,8 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class English extends Mainview{
-    Scanner input = new Scanner(System.in);
+    private Scanner input = new Scanner(System.in);
+    private String viewType = "English";
 
     public void welcome(){
         System.out.print("Welcome to Jolly Pirate Yacht Club! \n" +
@@ -20,10 +20,6 @@ public class English extends Mainview{
 
     //Common messages  ##############################
     public void bar() {System.out.println("\n =============================================================================== \n");}
-    public void loggedInMessage(String fullName) {
-        System.out.println("You Are Logged In! Welcome " + fullName);
-    }
-    public void loggedOutMessage(String fullName) {System.out.println("You are logged out. Thank you " + fullName + " for using Jolly Pirate booking system."); }
     public void closingProgram( ) {System.out.println("Closing program.........");}
     public void programClosed( ) {System.out.println("Program closed.");}
     public void memberRegistered( ) {System.out.print(" has been registered to database and the username is: ");}
@@ -43,57 +39,40 @@ public class English extends Mainview{
     public void hasRegNumber() {System.out.print("Does the boat have registration number yes/no: ");    }
     public void confirmRemoveBoat() { System.out.println("Are you sure you want to remove this boat from the registry? (yes/no))"); }
     public void exitOption() { System.out.println("You can  enter \"x\" when prompted for input to return to main menu");   }
+    //Part of grade 4
+    //public void loggedInMessage(String fullName) {System.out.println("You Are Logged In! Welcome " + fullName);}
+    //public void loggedOutMessage(String fullName) {System.out.println("You are logged out. Thank you " + fullName + " for using Jolly Pirate booking system."); }
 
-    @Override
-    public String getViewType() {
-        return "English";
-    }
+
 
 
     //Control messages #######################
-    //Check inputs for different views(numbers vs letters)
-
+    public String getViewType() {return this.viewType;}
+    public String inputConfirmation()  {
+        String uInput = getInput();
+        Input input = new InputFactory().getInput(getViewType());
+        return input.inputConfirmation(uInput);
+    }
 
     public double enterLength() {
         System.out.print("Please enter the boats length: ");
         double length = input.nextDouble();
         if(length <1 || length>20)
             throw  new InputMismatchException();
-        return length;
-    }
+        return length; }
 
-    public String inputConfirmation()  {
-        String uInput = getInput();
-        Input input = new InputFactory().getInput(getViewType());
-        String uOutput = input.inputConfirmation(uInput);
-        return uOutput;
-    }
     public String getInput(){
-        String uInput = input.next();
-        return uInput;
+        return input.next();
     }
 
     public boolean confirm() throws InputNotInListException {
         String input = getInput();
-        if(!input.equalsIgnoreCase("yes") || !input.equalsIgnoreCase("já") || !input.equalsIgnoreCase("no") || !input.equalsIgnoreCase("yes"))
+        if(!input.equalsIgnoreCase("yes") || !input.equalsIgnoreCase("já") || !input.equalsIgnoreCase("no") || !input.equalsIgnoreCase("nei"))
             throw new InputNotInListException("");
         if(input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("já") )
             return true;
         else
             return false;
-    }
-
-    // TODO: 2020-08-29 Might have to split this up because login is domain class
-
-
-    public Login getCredentials(){
-        Login login = new Login();
-        System.out.print("Please enter your userId and Password.\n" +
-                "UserID:  ");
-        login.addLoginUserID(getInput());
-        System.out.print("Password:  ");
-        login.addPassword(getInput());
-        return login;
     }
 
 
@@ -114,8 +93,8 @@ public class English extends Mainview{
         try {
             Boat[] list = users.returnBoats();
             System.out.println(users.getFullName() + " UserID: " + users.getLogin().getUserID() + " Social Security Number: " + users.getSocialNumber() + " Number of boats: " + users.returnBoats().length);
-            for (int i = 0; i< list.length;i++ ){
-                boatInfo(list[i]);
+            for (Boat boat : list) {
+                boatInfo(boat);
             }
         }
         catch (NullPointerException e){
@@ -170,25 +149,25 @@ public class English extends Mainview{
             "5. Back to main menu\n");
     }
 
+    //Part of grade 4
+    //public void searchMenu() {
+      //  bar();
+      //  System.out.println("Welcome to Jolly Pirate's members search \n" +
+              //  "Enter search words for desired criteria if you want to skip a criteria enter \"?\" instead in that criteria's box \n");
+    //}
 
-    public void searchMenu() {
-        bar();
-        System.out.println("Welcome to Jolly Pirate's members search \n" +
-                "Enter search words for desired criteria if you want to skip a criteria enter \"?\" instead in that criteria's box \n");
-
-    }
-
-    public void nameCriteria(){System.out.print("Enter name or part of a name: "); }
-    public void ageCriteria(){System.out.print("Enter age - use inequality notation before with no space between if desired (i.e. <=18 searches for under or equal to 18 years): ");}
-    public void monthCriteria(){System.out.print("Enter member's birthmonth (digits or strings): ");}
-    public void boatTypeCriteria(){System.out.print("Enter boat type: ");}
+    //public void nameCriteria(){System.out.print("Enter name or part of a name: "); }
+    //public void ageCriteria(){System.out.print("Enter age - use inequality notation before with no space between if desired (i.e. <=18 searches for under or equal to 18 years): ");}
+    //public void monthCriteria(){System.out.print("Enter member's birthmonth (digits or strings): ");}
+    //public void boatTypeCriteria(){System.out.print("Enter boat type: ");}
+    //public void noSearchResult() {System.out.println("No search results for this criteria"); }
+    //public void loginFailure() { System.out.println("User not found, please try again or use non-logged in options."); }
 
 
 
 
 
     //Error messages ################################
-    public void loginFailure() { System.out.println("User not found, please try again or use non-logged in options."); }
     public void wrongInput() { System.out.println("Your input is not an option, please try again."); }
     public void userAlreadyInDB() {System.out.println("The user is already registered member at Jolly Pirate") ;  }
     public void socialFormat(){System.out.println("Social security number(SSN) has a wrong format, use YYYYDDMMXXXX. Enter new SSN");}
@@ -201,7 +180,6 @@ public class English extends Mainview{
     public void boatNotFound() {System.out.println("A boat with this registration number was not found");   }
     public void lengthError() { System.out.println("We do NOT register boats under 1 meter or over 20 meters"); }
     public void boatAlreadyInRegistry() {System.out.println("The boat with this registration number is already in the database ");  }
-    public void noSearchResult() {System.out.println("No search results for this criteria"); }
 
 
 }

@@ -1,17 +1,17 @@
 package view;
 
 import controller.exceptions_errors.InputNotInListException;
-import model.Login;
 import model.boats.Boat;
 import model.roles.Users;
 import view.inputs.Input;
 import view.inputs.InputFactory;
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Icelandic extends Mainview{
-    Scanner input = new Scanner(System.in);
+    private Scanner input = new Scanner(System.in);
+    private String viewType = "Icelandic";
+
 
     public void welcome(){
         System.out.print("Velkominn í Jolly Pirate skútuklúbbinn! \n" +
@@ -20,10 +20,6 @@ public class Icelandic extends Mainview{
 
     //Common messages  ##############################
     public void bar() {System.out.println("\n =============================================================================== \n");}
-    public void loggedInMessage(String fullName) {
-        System.out.println("Þú ert innskráð/ur! Velkomin/n " + fullName);
-    }
-    public void loggedOutMessage(String fullName) {System.out.println("Þú ert útskráð/ur. Takk fyrir " + fullName + " að nota Jolly Pirate bókunnar kerfið."); }
     public void closingProgram( ) {System.out.println("Loka forriti.........");}
     public void programClosed( ) {System.out.println("Forrit lokað.");}
     public void memberRegistered( ) {System.out.print(" hefur verið skráð/ur í gagnabankann og notendanafnið er: ");}
@@ -43,15 +39,24 @@ public class Icelandic extends Mainview{
     public void hasRegNumber() {System.out.print("Hefur báturinn skráningarnúmer já/nei: ");    }
     public void confirmRemoveBoat() { System.out.println("Ertu viss um að þú viljir fjarlǽga þennan bát úr gagnagrunninum? (já/nei) "); }
     public void exitOption() { System.out.println("Þú getur slegið inn  \"x\" til þess að fara aftur á forsíðu");   }
+    //Part of grade 4
+    //public void loggedInMessage(String fullName) {System.out.println("Þú ert innskráð/ur! Velkomin/n " + fullName); }
+    //public void loggedOutMessage(String fullName) {System.out.println("Þú ert útskráð/ur. Takk fyrir " + fullName + " að nota Jolly Pirate bókunnar kerfið."); }
 
-    @Override
-    public String getViewType() {
-        return "Icelandic";
-    }
+
+
 
 
     //Control messages #######################
-    //Check inputs for different views(numbers vs letters)
+    public String getViewType() {
+        return this.viewType;
+    }
+    public String inputConfirmation()  {
+        String uInput = getInput();
+        Input input = new InputFactory().getInput(getViewType());
+        return input.inputConfirmation(uInput);
+    }
+
     public double enterLength() {
         System.out.print("Vinsamlegast skráðu inn lengd bátsins: ");
         double length = input.nextDouble();
@@ -60,16 +65,8 @@ public class Icelandic extends Mainview{
         return length;
     }
 
-    //Can arrange the input so it fits the list order that the user sees
-    public String inputConfirmation()  {
-        String uInput = getInput();
-        Input input = new InputFactory().getInput(getViewType());
-        String uOutput = input.inputConfirmation(uInput);
-        return uOutput;
-    }
     public String getInput(){
-        String uInput = input.next();
-        return uInput;
+        return input.next();
     }
 
     public boolean confirm() throws InputNotInListException {
@@ -82,18 +79,6 @@ public class Icelandic extends Mainview{
             return false;
     }
 
-    // TODO: 2020-08-29 Might have to split this up because login is domain class
-
-
-    public Login getCredentials(){
-        Login login = new Login();
-        System.out.print("Vinsamlegast skráðu inn notendanafn þitt og leyniorð: \n" +
-                "Notendanafn:  ");
-        login.addLoginUserID(getInput());
-        System.out.print("Leyniorð:  ");
-        login.addPassword(getInput());
-        return login;
-    }
 
     public void compactList(Users users) {
         try {
@@ -116,8 +101,8 @@ public class Icelandic extends Mainview{
         try {
             Boat[] list = users.returnBoats();
             System.out.println(users.getFullName() + " Notendanafn: " + users.getLogin().getUserID() + " Kennitala: " + users.getSocialNumber() + " Fjöldi báta: " + users.returnBoats().length);
-            for (int i = 0; i< list.length;i++ ){
-                boatInfo(list[i]);
+            for (Boat boat : list) {
+                boatInfo(boat);
             }
         }
         catch (NullPointerException e){
@@ -169,22 +154,21 @@ public class Icelandic extends Mainview{
                 "K. Mótorbátur \n");
      }
 
-
-    public void searchMenu() {
-        bar();
-        System.out.println("Velkomin í meðlimaleit Jolly Pirate \n" +
-                "sláðu inn leitarorð. Notaðu \"?\" til þess að sleppa leitarvalmöguleika \n");
-
-    }
-
-    public void nameCriteria(){System.out.println("Sláðu inn nafn eða hluta úr nafni: "); }
-    public void ageCriteria(){System.out.println("Sláðu inn aldur - getur notað ójöfnu merki (t.d. <=18 leitar að undir eða jafnt og 18): ");}
-    public void monthCriteria(){System.out.println("Sláðu inn fæðingarmánuð meðlims: ");}
-    public void boatTypeCriteria(){System.out.println("Sláðu inn tegund báts: ");}
+    //Part of grade 4
+    //public void searchMenu() {
+      //  bar();
+        //System.out.println("Velkomin í meðlimaleit Jolly Pirate \n" +
+          //      "sláðu inn leitarorð. Notaðu \"?\" til þess að sleppa leitarvalmöguleika \n");
+    //}
+    //public void nameCriteria(){System.out.println("Sláðu inn nafn eða hluta úr nafni: "); }
+    //public void ageCriteria(){System.out.println("Sláðu inn aldur - getur notað ójöfnu merki (t.d. <=18 leitar að undir eða jafnt og 18): ");}
+    //public void monthCriteria(){System.out.println("Sláðu inn fæðingarmánuð meðlims: ");}
+    //public void boatTypeCriteria(){System.out.println("Sláðu inn tegund báts: ");}
+    //public void noSearchResult() {System.out.println("Engar leitarniðurstöður samræmdust leitarviðmið "); }
+    //public void loginFailure() { System.out.println("Notandi fannst ekki. Vinsamlegast reynið aftur eða notist við valmöguleika óskráðra"); }
 
 
     //Error messages ################################
-    public void loginFailure() { System.out.println("Notandi fannst ekki. Vinsamlegast reynið aftur eða notist við valmöguleika óskráðra"); }
     public void wrongInput() { System.out.println("Þetta er ekki valmöguleiki, vinsamlegast reynið aftur"); }
     public void userAlreadyInDB() {System.out.println("Notandinn er þegar meðlimur í Jolly Pirate") ;  }
     public void socialFormat(){System.out.println("Kennitalan er röng, notist við AAAADDMMXXXX. Sláið inn nýja kennitölu");}
@@ -197,7 +181,6 @@ public class Icelandic extends Mainview{
     public void boatNotFound() {System.out.println("Fannst enginn bátur með þetta skráningarnúmer");   }
     public void lengthError() { System.out.println("Við skráum EKKI báta undir 1 m. eða yfir 20 m."); }
     public void boatAlreadyInRegistry() {System.out.println("Bátur með þetta skráningarnúmer er þegar í gagnagrunninum ");  }
-    public void noSearchResult() {System.out.println("Engar leitarniðurstöður samræmdust leitarviðmið "); }
 
 
 }

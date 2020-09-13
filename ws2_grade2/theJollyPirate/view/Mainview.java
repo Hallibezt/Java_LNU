@@ -1,12 +1,8 @@
 package view;
 
 import controller.exceptions_errors.InputNotInListException;
-import model.Login;
 import model.boats.Boat;
-import model.roles.Member;
 import model.roles.Users;
-
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public abstract class Mainview {
@@ -16,8 +12,6 @@ public abstract class Mainview {
 
     //Common messages  ##############################
     public abstract void bar();
-    public abstract void loggedInMessage(String fullName);
-    public abstract void loggedOutMessage(String fullName);
     public abstract void closingProgram( );
     public abstract void programClosed( );
     public abstract void memberRegistered( );
@@ -35,24 +29,22 @@ public abstract class Mainview {
     public abstract void enterRegNumber();
     public abstract void hasRegNumber();
     public abstract void confirmRemoveBoat();
+    //Those two are for grade 4
+    //public abstract void loggedInMessage(String fullName);
+    //public abstract void loggedOutMessage(String fullName);
+
 
 
     //Control messages #######################
-    //Check inputs for different views(numbers vs letters)
+     //Those two are for switching the language/view
     public abstract String getViewType();
+    public abstract String inputConfirmation();
+
+     //Handling inputs
     public abstract double enterLength();
-
-
-    public abstract String inputConfirmation() ;
-
     public abstract String getInput();
+    public abstract boolean confirm() throws InputNotInListException; //Yes or no question
 
-    public abstract boolean confirm() throws InputNotInListException;
-
-    // TODO: 2020-08-29 Might have to split this up because login is domain class
-
-
-    public abstract Login getCredentials();
 
     public abstract void compactList(Users users);
     public abstract void changeView();
