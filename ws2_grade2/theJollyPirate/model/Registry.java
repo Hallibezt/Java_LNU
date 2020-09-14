@@ -12,6 +12,8 @@ import java.util.ArrayList;
 public class Registry implements Serializable {
     private ArrayList<Users> regUsers = new ArrayList<>(); //Everyone is registered with password but only secretary can get the full login options, members registering is for them to handle event booking in the future
     private final Berths[] berths = new Berths[200];
+    private static final long serialVersionUID = -7013385061015921422L;
+
 
 
 
@@ -147,6 +149,19 @@ public class Registry implements Serializable {
         }
         return berth;
     }
+
+    public void updateBoat(Boat boat){    //changeOwner() update berth and ownerList changeType() - update berth, owner and possible fee changeLengt() update berth, owner and possible fee
+         for(int i = 0; i< berths.length; i++){
+            if(berths[i].getLocation() == boat.getLoacation())
+                    berths[i].addBoat(boat);
+                }
+         for(int i = 0; i< regUsers.size(); i++){
+             if(regUsers.get(i).getLogin().compareTo(boat.getOwner().getLogin()))
+                 regUsers.get(i).updateBoat(boat);
+         }
+
+    }
+
 
     public Boat findBoat(String boatRegistrationNumber, Users member) throws BoatNotFoundException {
         Boat boat;

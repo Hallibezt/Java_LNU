@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Secretary extends Users {
+    private static final long serialVersionUID = 7678778911016239390L;
     LocalDate currentdate = LocalDate.now();
     private Login credentials;
     private String firstName;
@@ -96,6 +97,16 @@ public class Secretary extends Users {
 
     @Override
     public Boat[] returnBoats() {
+        return null;
+    }
+
+    public void updateBoat(Boat boat) {
+
+    }
+
+
+    @Override
+    public Fee getFee() {
         return null;
     }
 

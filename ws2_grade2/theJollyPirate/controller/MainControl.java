@@ -38,7 +38,7 @@ public class MainControl {
         return programRunning;
     }
 
-    //Main menu ###############
+    //Main menu ############### todo ADD look up one member
     private void loginOptions(){
         view.loginOptions();
         try {
@@ -52,7 +52,7 @@ public class MainControl {
                     break;
                 case "3":
                     try {
-                        updateMember(findMember());
+                        updateMember(findMember(false));
                     } catch (Exception e) {
                         view.credFailure();
                         view.bar();
@@ -60,25 +60,32 @@ public class MainControl {
                     }
                     break;
                 case "4":
-                    registerBoat(null);
+                    try{
+                    findMember(true);}
+                    catch (CreditFailureException e){
+                        view.memberNotFound();
+                        loginOptions();};
                     break;
                 case "5":
-                    removeBoat(null);
+                    registerBoat(null);
                     break;
                 case "6":
-                    updateBoat(); // TODO: 2020-09-06 left
+                    removeBoat(null);
                     break;
                 case "7":
-                    compactListMembers();
+                    updateBoat(); // TODO: 2020-09-06 left - get information, create boat and call jollypirate.updateboat
                     break;
                 case "8":
-                    verboseListMembers();
+                    compactListMembers();
                     break;
                 case "9":
+                    verboseListMembers();
+                    break;
+                case "10":
                     view.changeView();
                     changeView(view.inputConfirmation());
                     break;
-                case "10":
+                case "11":
                     view.closingProgram();
                     ExportInport export = new ExportInport();
                     export.exportRegistry(this.jollyPirate);
@@ -86,7 +93,7 @@ public class MainControl {
                     break;
             }
         }
-        catch (InputMismatchException e){
+        catch (InputMismatchException | InputNotInListException e){
             view.wrongInput();
             view.bar();
             loginOptions();}
@@ -133,7 +140,7 @@ public class MainControl {
 
           private void removeMember() {
              try{
-              Users member = findMember();
+              Users member = findMember(false);
               view.confirmRemoveMember(member);
                 if(view.confirm()){
                     view.memberRemoved();
@@ -215,7 +222,7 @@ public class MainControl {
                     }
                         boolean backToMain = false; //To find out if the method should return to updateMember or main menu
                         if(member == null ){  //If not called with certain member in mind (via updateMember) then prompt for one.
-                        member = findMember();
+                        member = findMember(false);
                         backToMain = true;}
                     // TODO: 2020-09-13 should call boatfactory
                    Boat boat = createBoat(member);
@@ -233,7 +240,7 @@ public class MainControl {
                     else
                         updateMember(member);
                                    }
-                catch(CreditFailureException e){ //If findmember() given credits are wrong: username does not match password
+                catch(CreditFailureException | InputNotInListException e){ //If findmember() given credits are wrong: username does not match password
                     view.credFailure();
                     view.bar();
                 }
@@ -244,7 +251,7 @@ public class MainControl {
             try {
                 boolean backToMain = false; //To find out if the method should return to updateMember or main menu
                 if (member == null) {  //If not called with certain member in mind (via updateMember) then prompt for one.
-                    member = findMember();
+                    member = findMember(false);
                     backToMain = true;
                 }
 
@@ -332,10 +339,30 @@ public class MainControl {
                 return false;
             }
 
-            private Users findMember() throws CreditFailureException{
+            private Users findMember(boolean viaNr4) throws CreditFailureException, InputNotInListException {
                 Users member = null;
                 view.findMember();
                 String userID = view.getInput();
+                            if(viaNr4){ //This is when I use this method via nr 4 in main menu and do not want to promt for password unless you want to change the member searched for
+                                Users [] all = jollyPirate.returnMembers();
+                                for(int i = 0; i< all.length;i++){
+                                    if(all[i].getLogin().getUserID().equals(userID))
+                                        member = all[i];
+                                }
+                                if(member == null){throw new CreditFailureException("");}
+                                view.compactList(member);
+                                view.likeToUpdate();
+                                    if (view.confirm()){
+                                        view.promptPassword();
+                                        String password = view.getInput();
+                                        if(member.getLogin().getPassword().equals(password))
+                                            updateMember(member);
+                                        else
+                                            throw new CreditFailureException("");
+                                    }
+                                  else
+                                    loginOptions();
+                            }
                 view.promptPassword();
                 String password = view.getInput();
                 Login givenLogin = new Login();

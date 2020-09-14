@@ -8,6 +8,7 @@ public class Kayak_canoe extends Boat {
     private double length;
     private Users owner;
     private int location;
+    private String color;
 
     public Kayak_canoe( double length, String registrationNumber, Users owner){
         this.length = length;
@@ -15,11 +16,9 @@ public class Kayak_canoe extends Boat {
         this.registrationNumber=registrationNumber;
     }
 
-    @Override
-    public void changeRegNumber(String registrationNumber) {
-        this.registrationNumber = registrationNumber;
-    }
+    public void changeType(String type) {
 
+    }
 
     @Override
     public void changeLength(double length) {

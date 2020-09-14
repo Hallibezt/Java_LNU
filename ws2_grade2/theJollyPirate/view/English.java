@@ -39,6 +39,7 @@ public class English extends Mainview{
     public void hasRegNumber() {System.out.print("Does the boat have registration number yes/no: ");    }
     public void confirmRemoveBoat() { System.out.println("Are you sure you want to remove this boat from the registry? (yes/no))"); }
     public void exitOption() { System.out.println("You can  enter \"x\" when prompted for input to return to main menu");   }
+    public void likeToUpdate() { System.out.println("Would you like to update the member? (yes/no) ");}
     //Part of grade 4
     //public void loggedInMessage(String fullName) {System.out.println("You Are Logged In! Welcome " + fullName);}
     //public void loggedOutMessage(String fullName) {System.out.println("You are logged out. Thank you " + fullName + " for using Jolly Pirate booking system."); }
@@ -68,12 +69,12 @@ public class English extends Mainview{
 
     public boolean confirm() throws InputNotInListException {
         String input = getInput();
-        if(!input.equalsIgnoreCase("yes") || !input.equalsIgnoreCase("já") || !input.equalsIgnoreCase("no") || !input.equalsIgnoreCase("nei"))
-            throw new InputNotInListException("");
         if(input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("já") )
             return true;
+        if(input.equalsIgnoreCase("no") || input.equalsIgnoreCase("nei"))
+           return false;
         else
-            return false;
+            throw new InputNotInListException("");
     }
 
          //Printing informations about users and boats
@@ -90,13 +91,13 @@ public class English extends Mainview{
     public void verboseList(Users users) {
         try {
             Boat[] list = users.returnBoats();
-            System.out.println(users.getFullName() + " UserID: " + users.getLogin().getUserID() + " Social Security Number: " + users.getSocialNumber() + " Number of boats: " + users.returnBoats().length);
+            System.out.println(users.getFullName() + " UserID: " + users.getLogin().getUserID() + " Social Security Number: " + users.getSocialNumber() + " Number of boats: " + users.returnBoats().length + "Members total fee: " + users.getFee().getTotalFee() + " kr.")  ;
             for (Boat boat : list) {
                 boatInfo(boat);
             }
         }
         catch (NullPointerException e){
-            System.out.println(users.getFullName() + " UserID: " + users.getLogin().getUserID() + " Social Security Number: " + users.getSocialNumber() + " Number of boats: User has no registered boats.");
+            System.out.println(users.getFullName() + " UserID: " + users.getLogin().getUserID() + " Social Security Number: " + users.getSocialNumber() +  "Members total fee: " + users.getFee().getTotalFee() + " kr." + " Number of boats: User has no registered boats.");
             bar();
         }
     }
@@ -120,13 +121,14 @@ public class English extends Mainview{
         System.out.print("1. Create a member \n" +
                 "2. Remove a member \n" +
                 "3. Edit a member \n" +
-                "4. Register a boat \n" +
-                "5. Remove a boat \n" +
-                "6. Edit a boat \n" +
-                "7. View a compact members list \n" +
-                "8. View a verbose members list \n" +
-                "9. Change the language/view \n" +
-                "10. Exit program \n");
+                "4. Find one member \n" +
+                "5. Register a boat \n" +
+                "6. Remove a boat \n" +
+                "7. Edit a boat \n" +
+                "8. View a compact members list \n" +
+                "9. View a verbose members list \n" +
+                "10. Change the language/view \n" +
+                "11. Exit program \n");
 
     }
 

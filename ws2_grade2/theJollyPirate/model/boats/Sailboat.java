@@ -8,6 +8,8 @@ public class Sailboat extends Boat {
     private String registrationNumber;
     private Users owner;
     private int location;
+    private String color;
+
 
     public Sailboat(double length, String registrationNumber, Users owner){
         this.length = length;
@@ -15,12 +17,9 @@ public class Sailboat extends Boat {
         this.owner = owner;
     }
 
+    public void changeType(String type) {
 
-    @Override
-    public void changeRegNumber(String registrationNumber) {
-            this.registrationNumber = registrationNumber;
     }
-
 
     @Override
     public void changeLength(double length) {

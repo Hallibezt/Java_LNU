@@ -9,6 +9,8 @@ public class Motorsailer extends Boat {
     private String registrationNumber;
     private Users owner;
     private int location;
+    private String color;
+
 
     public Motorsailer( double length, String registrationNumber, Users owner){
         ;
@@ -17,11 +19,9 @@ public class Motorsailer extends Boat {
         this.owner = owner;
     }
 
-    @Override
-    public void changeRegNumber(String registrationNumber) {
-        this.registrationNumber = registrationNumber;
-    }
+    public void changeType(String type) {
 
+    }
 
     @Override
     public void changeLength(double length) {

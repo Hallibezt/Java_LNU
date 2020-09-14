@@ -39,6 +39,8 @@ public class Icelandic extends Mainview{
     public void hasRegNumber() {System.out.print("Hefur báturinn skráningarnúmer já/nei: ");    }
     public void confirmRemoveBoat() { System.out.println("Ertu viss um að þú viljir fjarlǽga þennan bát úr gagnagrunninum? (já/nei) "); }
     public void exitOption() { System.out.println("Þú getur slegið inn  \"x\" til þess að fara aftur á forsíðu");   }
+    public void likeToUpdate() { System.out.println("Viltu uppfæra meðlim? (já/nei) ");}
+
     //Part of grade 4
     //public void loggedInMessage(String fullName) {System.out.println("Þú ert innskráð/ur! Velkomin/n " + fullName); }
     //public void loggedOutMessage(String fullName) {System.out.println("Þú ert útskráð/ur. Takk fyrir " + fullName + " að nota Jolly Pirate bókunnar kerfið."); }
@@ -100,13 +102,13 @@ public class Icelandic extends Mainview{
     public void verboseList(Users users) {
         try {
             Boat[] list = users.returnBoats();
-            System.out.println(users.getFullName() + " Notendanafn: " + users.getLogin().getUserID() + " Kennitala: " + users.getSocialNumber() + " Fjöldi báta: " + users.returnBoats().length);
+            System.out.println(users.getFullName() + " Notendanafn: " + users.getLogin().getUserID() + " Kennitala: " + users.getSocialNumber() + " Fjöldi báta: " + users.returnBoats().length + "Heildargjöld meðlims: " + users.getFee().getTotalFee() + " kr.");
             for (Boat boat : list) {
                 boatInfo(boat);
             }
         }
         catch (NullPointerException e){
-            System.out.println(users.getFullName() + " Notendanafn: " + users.getLogin().getUserID() + " Kennitala: " + users.getSocialNumber() + " Fjöldi báta: Notandi er ekki með skráða báta.");
+            System.out.println(users.getFullName() + " Notendanafn: " + users.getLogin().getUserID() + " Kennitala: " + users.getSocialNumber() +  "Heildagjöld meðlims: " + users.getFee().getTotalFee() + " kr." + " Fjöldi báta: Notandi er ekki með skráða báta.");
             bar();
         }
     }
@@ -128,9 +130,10 @@ public class Icelandic extends Mainview{
                 "E. Uppfæra bát\n" +
                 "F. Eyða bát \n" +
                 "G. Skrá bát\n" +
-                "H.  Uppfæra meðlim \n" +
-                "I. Fjarlægja meðlim \n" +
-                "J. Skrá meðlim \n");
+                "H. Finna einn meðlim \n" +
+                "I.  Uppfæra meðlim \n" +
+                "J. Fjarlægja meðlim \n" +
+                "K. Skrá meðlim \n");
 
     }
 

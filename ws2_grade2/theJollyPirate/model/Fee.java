@@ -28,26 +28,72 @@ public class Fee implements Serializable {
     public void addBoatFee(Boat boat){
         String type = boat.getType();
         double length = boat.getLength();
-        if(type.equals(sailboat)){
-            if (boat.getLength()<=5){this.totalFee = totalFee + this.sailboat + this.underFive;}
-            else if (boat.getLength()>5 & boat.getLength() <= 10){this.totalFee = totalFee + this.sailboat + this.fiveToTen;}
+        if(type.equalsIgnoreCase("sailboat")){
+            if (length<=5){this.totalFee = totalFee + this.sailboat + this.underFive;}
+            else if (length>5 & boat.getLength() <= 10){this.totalFee = totalFee + this.sailboat + this.fiveToTen;}
             else
                 this.totalFee = totalFee + this.sailboat + this.overTen;}
-        else if(type.equals(motorsailer)){
-            if (boat.getLength()<=5){this.totalFee = totalFee + this.motorsailer + this.underFive;}
-            else if (boat.getLength()>5 & boat.getLength() <= 10){this.totalFee = totalFee + this.motorsailer + this.fiveToTen;}
+        else if(type.equalsIgnoreCase("motorsailer")){
+            if (length<=5){this.totalFee = totalFee + this.motorsailer + this.underFive;}
+            else if (length>5 & boat.getLength() <= 10){this.totalFee = totalFee + this.motorsailer + this.fiveToTen;}
             else
                 this.totalFee = totalFee + this.motorsailer + this.overTen;}
-       else if(type.equals(kayak_canoe)) {
+       else if(type.equalsIgnoreCase("kayak_canoe")) {
             this.totalFee = totalFee + this.kayak_canoe;
         }
 
-       else if(type.equals(other)){
-            if (boat.getLength()<=5){this.totalFee = totalFee + this.other + this.underFive;}
-            else if (boat.getLength()>5 & boat.getLength() <= 10){this.totalFee = totalFee + this.other + this.fiveToTen;}
+       else if(type.equalsIgnoreCase("other")){
+            if (length<=5){this.totalFee = totalFee + this.other + this.underFive;}
+            else if (length>5 & boat.getLength() <= 10){this.totalFee = totalFee + this.other + this.fiveToTen;}
             else
                 this.totalFee = totalFee + this.other + this.overTen;}
 
     }
 
+    public void updateFee(Boat boat, String prevType, double prevLength) {
+        double lengthDifference = boat.getLength()-prevLength;
+        double typeDifference = 0;
+        if(!boat.getType().equals(prevType))
+           typeDifference = findDifference(boat.getType(), prevType);
+        this.totalFee = totalFee + typeDifference;
+        if(lengthDifference > 0){
+            //if the length change is under 5 m - no fee is charged
+            if(lengthDifference >= 5)
+                this.totalFee = totalFee + fiveToTen;
+            if(lengthDifference >= 10)
+                this.totalFee = totalFee + overTen;
+        }
+
+    }
+
+    private double findDifference(String newType, String prevType) {
+
+        if(prevType.equalsIgnoreCase("kayak_canoe")){
+            if(newType.equalsIgnoreCase("motorsailer"))
+                return 450;
+            if(newType.equalsIgnoreCase("sailboat"))
+                return 350;
+            if(newType.equalsIgnoreCase("other"))
+                return 200;
+            else
+                return 0;
+        }
+        if(prevType.equalsIgnoreCase("other")){
+            if(newType.equalsIgnoreCase("motorsailer"))
+                return 250;
+            if(newType.equalsIgnoreCase("sailboat"))
+                return 150;
+            else
+                return 0;
+        }
+        if(prevType.equalsIgnoreCase("sailboat")){
+            if(newType.equalsIgnoreCase("motorsailer"))
+                return 100;
+            else
+                return 0;
+        }
+        else
+            return 0;
+
+    }
 }

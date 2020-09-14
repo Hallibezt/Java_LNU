@@ -6,7 +6,8 @@ import model.roles.Users;
 import java.io.Serializable;
 
 public abstract class Boat implements Serializable {
-    public abstract void changeRegNumber(String registrationNumber);
+
+    public abstract void changeType(String type);
     public abstract void changeLength(double length);
     public abstract void changeOwner(Users user);
     public abstract void addLocation(int location);

@@ -29,6 +29,7 @@ public abstract class Mainview {
     public abstract void enterRegNumber();
     public abstract void hasRegNumber();
     public abstract void confirmRemoveBoat();
+    public abstract void likeToUpdate();
     //Those two are for grade 4
     //public abstract void loggedInMessage(String fullName);
     //public abstract void loggedOutMessage(String fullName);
@@ -102,4 +103,6 @@ public abstract class Mainview {
     //public abstract void boatTypeCriteria();
 
     public abstract void exitOption();
+
+
 }

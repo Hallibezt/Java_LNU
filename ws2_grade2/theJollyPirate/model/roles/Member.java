@@ -70,6 +70,7 @@ public class Member extends Users {
     @Override
     public void addBoat(Boat boat){
         this.boats.add(boat);
+        fee.addBoatFee(boat);
     }
 
     @Override
@@ -98,6 +99,25 @@ public class Member extends Users {
     @Override
     public int getMonth() {
         return this.birthMonth;
+    }
+
+    public void updateBoat(Boat boat) {
+        Boat prevBoat = null;
+        String prevType = null;
+        double prevLength = 0;
+        for (int i = 0; i < boats.size(); i++) {
+            if (boats.get(i).getRegNumber().equals(boat.getRegNumber())) {
+                prevBoat = boats.get(i);
+                boats.remove(i);
+                boats.add(boat);
+                break;
+            }
+        }
+        //Now prepare to update fee if needed, i.e. changed the type or length you have to pay the difference
+        prevType = prevBoat.getType();
+        prevLength = prevBoat.getLength();
+        fee.updateFee(boat, prevType, prevLength);
+
     }
 
 
