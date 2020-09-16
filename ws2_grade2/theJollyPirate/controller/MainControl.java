@@ -96,7 +96,11 @@ public class MainControl {
         catch (InputMismatchException | InputNotInListException e){
             view.wrongInput();
             view.bar();
-            loginOptions();}
+            loginOptions();} catch (BoatNotFoundException e) {
+            e.printStackTrace();
+        } catch (CreditFailureException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -285,9 +289,60 @@ public class MainControl {
             }
 
         // TODO: 2020-09-05 make some easy updates
-            private void updateBoat(){
-                //List of option
-                //update fee
+            private void updateBoat() throws CreditFailureException, InputNotInListException, BoatNotFoundException {
+                view.enterRegNumber();
+                String boatRegistrationNumber = view.getInput();
+                Users owner = findMember(false);
+                Boat boat = jollyPirate.findBoat(boatRegistrationNumber, owner);
+                view.boatOptions();
+                String boatType = null;
+                BoatFactory newBoat = new BoatFactory();
+                String input = view.inputConfirmation();
+                    if (input.equalsIgnoreCase("1")) {
+                        view.listTypes();
+                        String type = view.inputConfirmation();
+                        switch (type) {
+                            case "1":
+                                boatType = "motorsailer";
+                                break;
+                            case "2":
+                                boatType = "sailboat";
+                                break;
+                            case "3":
+                                boatType = "kayak_canoe";
+                                break;
+                            case "4":
+                                boatType = "other";
+                                break;
+                            default:
+                                view.wrongInput();
+                                view.bar();
+                               updateBoat();
+                                break;
+                        }
+                        view.hasLength();
+                        if(view.confirm()){
+                            boat.changeLength(view.enterLength());
+                        }
+                            Boat updatedBoat = newBoat.getBoat(boatType, boat.getLength(), boat.getRegNumber(), boat.getOwner());
+                            updatedBoat.addLocation(boat.getLoacation());
+                            jollyPirate.updateBoat(updatedBoat);
+
+                        loginOptions();
+                    }
+                    else if (input.equalsIgnoreCase("2")){
+                        boat.changeLength(view.enterLength());
+                        jollyPirate.updateBoat(boat);
+                        loginOptions();
+                    }
+                    else if (input.equalsIgnoreCase("3")){
+                        loginOptions();
+                    }
+                    else{view.wrongInput();
+                        view.bar();
+                        updateBoat();}
+
+
             }
 
 
@@ -427,7 +482,7 @@ public class MainControl {
                 private String createRegNumber() {
                     Random random = new Random();
                     String reg = "Pirate" + random.nextInt(1500);
-                    while(!jollyPirate.checkRegNumber(reg)){
+                    while(jollyPirate.checkRegNumber(reg)){
                          reg = "Pirate" + random.nextInt(1500);}
                     return reg;
          }

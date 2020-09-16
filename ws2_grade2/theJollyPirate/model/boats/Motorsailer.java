@@ -19,19 +19,14 @@ public class Motorsailer extends Boat {
         this.owner = owner;
     }
 
-    public void changeType(String type) {
 
-    }
+
 
     @Override
     public void changeLength(double length) {
         this.length = length;
     }
 
-    @Override
-    public void changeOwner(Users user) {
-        this.owner = user;
-    }
 
     @Override
     public void addLocation(int location) {

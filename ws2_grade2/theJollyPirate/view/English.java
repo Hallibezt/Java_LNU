@@ -40,6 +40,7 @@ public class English extends Mainview{
     public void confirmRemoveBoat() { System.out.println("Are you sure you want to remove this boat from the registry? (yes/no))"); }
     public void exitOption() { System.out.println("You can  enter \"x\" when prompted for input to return to main menu");   }
     public void likeToUpdate() { System.out.println("Would you like to update the member? (yes/no) ");}
+    public  void hasLength(){System.out.println("Would you like to update the length too? (yes/no) ");}
     //Part of grade 4
     //public void loggedInMessage(String fullName) {System.out.println("You Are Logged In! Welcome " + fullName);}
     //public void loggedOutMessage(String fullName) {System.out.println("You are logged out. Thank you " + fullName + " for using Jolly Pirate booking system."); }
@@ -150,6 +151,14 @@ public class English extends Mainview{
             "3. Kayak/Canoe\n" +
             "4. Other \n" +
             "5. Back to main menu\n");
+    }
+
+    public  void boatOptions(){
+        System.out.print("What would you like to update: \n" +
+                "1. Type \n" +
+                "2. Length \n" +
+                "3. Back to main menu\n");
+
     }
 
     //Part of grade 4

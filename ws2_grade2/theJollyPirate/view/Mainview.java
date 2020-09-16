@@ -30,6 +30,7 @@ public abstract class Mainview {
     public abstract void hasRegNumber();
     public abstract void confirmRemoveBoat();
     public abstract void likeToUpdate();
+    public abstract void hasLength();
     //Those two are for grade 4
     //public abstract void loggedInMessage(String fullName);
     //public abstract void loggedOutMessage(String fullName);
@@ -61,6 +62,8 @@ public abstract class Mainview {
     public abstract void changeView();
 
     public abstract void listTypes();
+
+    public abstract void boatOptions();
 
     //Error messages ################################
 
@@ -103,6 +106,7 @@ public abstract class Mainview {
     //public abstract void boatTypeCriteria();
 
     public abstract void exitOption();
+
 
 
 }

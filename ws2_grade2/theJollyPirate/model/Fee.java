@@ -5,6 +5,7 @@ import model.boats.Boat;
 import java.io.Serializable;
 
 public class Fee implements Serializable {
+    private static final long serialVersionUID = -5117116163379721982L;
     private double totalFee;
     private final int memberFee = 100;
     private final int sailboat = 500;

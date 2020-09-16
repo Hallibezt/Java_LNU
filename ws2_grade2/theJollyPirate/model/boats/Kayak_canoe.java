@@ -16,19 +16,14 @@ public class Kayak_canoe extends Boat {
         this.registrationNumber=registrationNumber;
     }
 
-    public void changeType(String type) {
 
-    }
 
     @Override
     public void changeLength(double length) {
         this.length = length;
     }
 
-    @Override
-    public void changeOwner(Users user) {
-        this.owner = user;
-    }
+
 
     @Override
     public void addLocation(int location) {

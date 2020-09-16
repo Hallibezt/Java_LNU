@@ -40,6 +40,7 @@ public class Icelandic extends Mainview{
     public void confirmRemoveBoat() { System.out.println("Ertu viss um að þú viljir fjarlǽga þennan bát úr gagnagrunninum? (já/nei) "); }
     public void exitOption() { System.out.println("Þú getur slegið inn  \"x\" til þess að fara aftur á forsíðu");   }
     public void likeToUpdate() { System.out.println("Viltu uppfæra meðlim? (já/nei) ");}
+    public  void hasLength(){System.out.println("Would you like to update the length too? (yes/no) ");}
 
     //Part of grade 4
     //public void loggedInMessage(String fullName) {System.out.println("Þú ert innskráð/ur! Velkomin/n " + fullName); }
@@ -93,10 +94,7 @@ public class Icelandic extends Mainview{
         }
     }
 
-    public void changeView() {
-        System.out.print("I. Íslenska \n" +
-                "J. Enska \n");
-    }
+
 
 
     public void verboseList(Users users) {
@@ -121,6 +119,10 @@ public class Icelandic extends Mainview{
     //public void nonLoginOptions(){ Part of grade 4
         //System.out.print("List of options if not logged in");
     //}
+    public void changeView() {
+        System.out.print("I. Íslenska \n" +
+                "J. Enska \n");
+    }
 
     public void loginOptions() {
         System.out.print("A. Loka forriti\n" +
@@ -157,6 +159,11 @@ public class Icelandic extends Mainview{
                 "J. Seglskúta \n" +
                 "K. Mótorbátur \n");
      }
+
+    public  void boatOptions(){System.out.print("What would you like to update: \n" +
+            "1. Type \n" +
+            "2. Length \n" +
+            "3. Back to main menu\n");}
 
     //Part of grade 4
     //public void searchMenu() {

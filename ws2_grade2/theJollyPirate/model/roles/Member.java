@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Member extends Users {
+    private static final long serialVersionUID = -5515181500783304862L;
     LocalDate currentdate = LocalDate.now();
     private Login credentials;
     private String firstName;
@@ -103,8 +104,8 @@ public class Member extends Users {
 
     public void updateBoat(Boat boat) {
         Boat prevBoat = null;
-        String prevType = null;
-        double prevLength = 0;
+        String prevType;
+        double prevLength;
         for (int i = 0; i < boats.size(); i++) {
             if (boats.get(i).getRegNumber().equals(boat.getRegNumber())) {
                 prevBoat = boats.get(i);
@@ -113,7 +114,6 @@ public class Member extends Users {
                 break;
             }
         }
-        //Now prepare to update fee if needed, i.e. changed the type or length you have to pay the difference
         prevType = prevBoat.getType();
         prevLength = prevBoat.getLength();
         fee.updateFee(boat, prevType, prevLength);
