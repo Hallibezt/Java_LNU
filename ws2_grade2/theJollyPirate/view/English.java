@@ -41,6 +41,8 @@ public class English extends Mainview{
     public void exitOption() { System.out.println("You can  enter \"x\" when prompted for input to return to main menu");   }
     public void likeToUpdate() { System.out.println("Would you like to update the member? (yes/no) ");}
     public  void hasLength(){System.out.println("Would you like to update the length too? (yes/no) ");}
+    public void acceptPrice(double price) {System.out.println("The price for this booking is: " + price + " kr. Do you accept? (yes/no) "); }
+    public void noBoatRegistered() {System.out.println("You did not accept the price and no boat is registered."); }
     //Part of grade 4
     //public void loggedInMessage(String fullName) {System.out.println("You Are Logged In! Welcome " + fullName);}
     //public void loggedOutMessage(String fullName) {System.out.println("You are logged out. Thank you " + fullName + " for using Jolly Pirate booking system."); }

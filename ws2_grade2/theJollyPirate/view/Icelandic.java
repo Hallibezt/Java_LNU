@@ -41,7 +41,8 @@ public class Icelandic extends Mainview{
     public void exitOption() { System.out.println("Þú getur slegið inn  \"x\" til þess að fara aftur á forsíðu");   }
     public void likeToUpdate() { System.out.println("Viltu uppfæra meðlim? (já/nei) ");}
     public  void hasLength(){System.out.println("Would you like to update the length too? (yes/no) ");}
-
+    public void acceptPrice(double price) {System.out.println("The price for this booking is: " + price + " kr. Do you accept? (yes/no) "); }
+    public void noBoatRegistered() {System.out.println("You did not accept the price and no boat is registered."); }
     //Part of grade 4
     //public void loggedInMessage(String fullName) {System.out.println("Þú ert innskráð/ur! Velkomin/n " + fullName); }
     //public void loggedOutMessage(String fullName) {System.out.println("Þú ert útskráð/ur. Takk fyrir " + fullName + " að nota Jolly Pirate bókunnar kerfið."); }

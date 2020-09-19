@@ -5,6 +5,7 @@ import controller.exceptions_errors.CreditFailureException;
 import controller.exceptions_errors.ErrorHandling;
 import controller.exceptions_errors.InputNotInListException;
 import model.Berths;
+import model.Price;
 import model.boats.Boat;
 import model.Login;
 import model.Registry;
@@ -240,24 +241,33 @@ public class MainControl {
                     }
                         boolean backToMain = false; //To find out if the method should return to updateMember or main menu
                         if(member == null ){  //If not called with certain member in mind (via updateMember) then prompt for one.
-                        member = findMember(false);
-                        backToMain = true;}
+                            backToMain = true;
+                            member = findMember(false);
+                        }
                     // TODO: 2020-09-13 should call boatfactory
                    Boat boat = createBoat(member);
+                        Price thePrice = new Price(boat);
+                        view.acceptPrice(thePrice.getPrice());
+                        if(!view.confirm()){
+                            view.noBoatRegistered();
+                            loginOptions();
+                        }
+                        else {
+                            Berths berth = jollyPirate.findBert(member); //Check for previously used berths
+                            assert boat != null;
+                            boat.addLocation(berth.getLocation()); //add the berth location given to the boat
+                            member.addBoat(boat);
+                            jollyPirate.updateMember(member,thePrice); // TODO: 2020-09-19 fix this and split fee into price 
+                            jollyPirate.updateBerths(berth.getLocation(), boat);
+                            view.boatRegistered();
+                            System.out.println(boat.getRegNumber()); //Message registration went through
 
-                   Berths berth = jollyPirate.findBert(member); //Check for previously used berths
-                    assert boat != null;
-                    boat.addLocation(berth.getLocation()); //add the berth location given to the boat
-                   member.addBoat(boat);
-                   jollyPirate.updateMember(member);
-                   jollyPirate.updateBerths(berth.getLocation(), boat);
-                   view.boatRegistered();  System.out.println(boat.getRegNumber()); //Message registration went through
-
-                    if(backToMain) //Either go to main menu or updateMember menu, depending on how the member got here.
-                        loginOptions();
-                    else
-                        updateMember(member);
-                                   }
+                            if (backToMain) //Either go to main menu or updateMember menu, depending on how the member got here.
+                                loginOptions();
+                            else
+                                updateMember(member);
+                        }
+                      }
                 catch(CreditFailureException | InputNotInListException e){ //If findmember() given credits are wrong: username does not match password
                     view.credFailure();
                     view.bar();
