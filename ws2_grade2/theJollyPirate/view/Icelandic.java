@@ -19,7 +19,7 @@ public class Icelandic extends Mainview{
     }
 
     //Common messages  ##############################
-    public void bar() {System.out.println("\n =============================================================================== \n");}
+    public void bar() {System.out.print("\n =============================================================================== \n");}
     public void closingProgram( ) {System.out.println("Loka forriti.........");}
     public void programClosed( ) {System.out.println("Forrit lokað.");}
     public void memberRegistered( ) {System.out.print(" hefur verið skráð/ur í gagnabankann og notendanafnið er: ");}

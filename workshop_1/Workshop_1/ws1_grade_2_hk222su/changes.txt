@@ -1,0 +1,14 @@
+My changes after peer review
+
+I changed the class name Berths to Berth, singular.      
+Removed BoatDescription class and moved its attributes under Boat.
+I changed the association between Member - YachtClub to Views Calendar to make more clear why the member has this relationship.
+I made attributes consistent by making all of them start by capital letter.
+Fixed all attributes so they were consistantly using camel case style.
+Moved the classes a bit further away from each other to make the diagram more readable and added padding around the diagram.
+
+What I did not change after the review:
+
+As concerning removing the price class. I decided not to do so because, item 6 in requierment 4, register a boat, states that a price must be returned of the booking (registration) for the member then to accept or deny. I believe I would like to have a separate class for this that covers calculations depending on boat type, size etc.
+ 
+As for removing the secretary class. I decided not to do so because, since the secretary is an important part of managing calendar events, the only one who can fulfill that requirement and should therefor be in the domain model, at least.

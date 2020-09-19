@@ -31,7 +31,8 @@ public class MainControl {
     }
     public void welcome(){
         view.welcome();
-        loginOptions();
+        if(programRunning)
+             loginOptions();
     }
     //If this becomes false - while loop in TheProgram stops and program stops
     public Boolean getProgramRunning(){
@@ -53,19 +54,22 @@ public class MainControl {
                 case "3":
                     try {
                         updateMember(findMember(false));
-                    } catch (Exception e) {
+                        break;
+                    }
+                    catch (CreditFailureException e) {
                         view.credFailure();
                         view.bar();
                         loginOptions();
                     }
-                    break;
+
                 case "4":
                     try{
-                    findMember(true);}
+                    findMember(true);
+                    break;}
                     catch (CreditFailureException e){
                         view.memberNotFound();
-                        loginOptions();};
-                    break;
+                        view.bar();
+                        loginOptions();}
                 case "5":
                     registerBoat(null);
                     break;
@@ -93,13 +97,19 @@ public class MainControl {
                     break;
             }
         }
+
         catch (InputMismatchException | InputNotInListException e){
             view.wrongInput();
             view.bar();
-            loginOptions();} catch (BoatNotFoundException e) {
-            e.printStackTrace();
+            loginOptions();}
+        catch (BoatNotFoundException e) {
+            view.boatNotFound();
+            view.bar();
+            view.loginOptions();
         } catch (CreditFailureException e) {
-            e.printStackTrace();
+            view.credFailure();
+            view.bar();
+            loginOptions();
         }
     }
 
@@ -146,15 +156,19 @@ public class MainControl {
              try{
               Users member = findMember(false);
               view.confirmRemoveMember(member);
-                if(view.confirm()){
+                if(view.confirm()) {
                     view.memberRemoved();
-                     jollyPirate.removeMember(member);
-                     }
+                    jollyPirate.removeMember(member);
+                }
                 loginOptions();
              }
-             catch (InputNotInListException e){view.wrongInput(); removeMember();}
-             catch (Exception e ){
-                 view.memberNotFound();
+             catch (InputNotInListException e){
+                 view.wrongInput();
+                 view.bar();
+                 removeMember();}
+             catch (CreditFailureException e ){
+                 view.credFailure();
+                 view.bar();
                     loginOptions();}
           }
 
@@ -168,7 +182,7 @@ public class MainControl {
                         String name = view.getInput();
                         if (!errorHandling.nameFormat(name)) {
                             view.nameFormat();
-                            loginOptions();
+                            updateMember(member);
                         }
                         member.addFirstName(name);
                         view.memberUpdated();
@@ -179,7 +193,7 @@ public class MainControl {
                         String name = view.getInput();
                         if (!errorHandling.nameFormat(name)) {
                             view.nameFormat();
-                            loginOptions();
+                            updateMember(member);
                         }
                         member.addSurName(name);
                         view.memberUpdated();
@@ -206,15 +220,14 @@ public class MainControl {
                         loginOptions();
                     }
                     else{view.wrongInput();
-                        view.bar();
-                        updateMember(member);}
+                       throw new InputNotInListException(""); }
 
                 }
-                catch (InputMismatchException e){
+                catch (InputMismatchException | InputNotInListException e){
                     view.wrongInput();
                     view.bar();
                     updateMember(member);}
-                    loginOptions();
+
 
             }
 
@@ -222,6 +235,7 @@ public class MainControl {
                 try{
                     if(!jollyPirate.availableBerth()){ //See first if there are any available berths
                         view.noBerths();
+                        view.bar();
                         loginOptions();
                     }
                         boolean backToMain = false; //To find out if the method should return to updateMember or main menu
@@ -281,9 +295,11 @@ public class MainControl {
                     view.bar();}
                 catch (InputNotInListException e ){
                     view.wrongInput();
+                    view.bar();
                     removeBoat(member);}
                 catch (BoatNotFoundException e){
                     view.boatNotFound();
+                    view.bar();
                     loginOptions();}
 
             }
@@ -352,10 +368,12 @@ public class MainControl {
                    for (Users users : membersList) {
                        view.compactList(users);
                    }
+                   view.bar();
                    loginOptions();
                }
                catch (NullPointerException e) {
                   view.noMemberRegistered();
+                   view.bar();
                   loginOptions();}
               }
 
@@ -365,10 +383,12 @@ public class MainControl {
                       for (Users users : membersList) {
                           view.verboseList(users);
                       }
+                      view.bar();
                       loginOptions();
                   }
                   catch (NullPointerException e) {
                       view.noMemberRegistered();
+                      view.bar();
                       loginOptions();}
               }
 
@@ -474,7 +494,10 @@ public class MainControl {
                                     regNumber = createRegNumber();
                               return boatFactory.getBoat(boatType, length, regNumber, member);
                           }
-                          catch (InputNotInListException | InputMismatchException e){view.wrongInput(); registerBoat(member);}
+                          catch (InputNotInListException | InputMismatchException e){
+                              view.wrongInput();
+                              view.bar();
+                              registerBoat(member);}
                           return null;
                         }
 

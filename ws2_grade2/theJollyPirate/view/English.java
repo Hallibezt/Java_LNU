@@ -19,7 +19,7 @@ public class English extends Mainview{
     }
 
     //Common messages  ##############################
-    public void bar() {System.out.println("\n =============================================================================== \n");}
+    public void bar() {System.out.print("\n =============================================================================== \n");}
     public void closingProgram( ) {System.out.println("Closing program.........");}
     public void programClosed( ) {System.out.println("Program closed.");}
     public void memberRegistered( ) {System.out.print(" has been registered to database and the username is: ");}
@@ -136,7 +136,6 @@ public class English extends Mainview{
     public void updateMember(Users member){
         System.out.println("Member to update: ");
         compactList(member);
-        bar();
         System.out.print("1. Update member's first name \n" +
                 "2. Update member's second name\n" +
                 "3. Change member's password\n" +
@@ -185,7 +184,7 @@ public class English extends Mainview{
     public void socialFormat(){System.out.println("Social security number(SSN) has a wrong format, use YYYYDDMMXXXX. Enter new SSN");}
     public void nameFormat(){System.out.println("Names can not include non-characters");}
     public void memberNotFound(){System.out.println("This membersID is not in the database");}
-    public void credFailure(){System.out.println("Credentials do not match or member not found. ");}
+    public void credFailure(){System.out.println("Credentials do not match or this membersID is not in the database. ");}
     public void noMemberRegistered(){System.out.println("There is no member registered in the database");}
     public void noBerths() {System.out.println("There are no berths available");   }
     public void noBoatsReg() {System.out.println("There are no boats registered at Jolly Pirate");   }
