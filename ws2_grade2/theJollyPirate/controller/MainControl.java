@@ -245,8 +245,9 @@ public class MainControl {
                             member = findMember(false);
                         }
                     // TODO: 2020-09-13 should call boatfactory
-                   Boat boat = createBoat(member);
-                        Price thePrice = new Price(boat);
+                        Boat boat = createBoat(member);
+                        Price thePrice = new Price();
+                        thePrice.setPrice(boat);
                         view.acceptPrice(thePrice.getPrice());
                         if(!view.confirm()){
                             view.noBoatRegistered();
@@ -256,17 +257,16 @@ public class MainControl {
                             Berths berth = jollyPirate.findBert(member); //Check for previously used berths
                             assert boat != null;
                             boat.addLocation(berth.getLocation()); //add the berth location given to the boat
-                            member.addBoat(boat);
-                            jollyPirate.updateMember(member,thePrice); // TODO: 2020-09-19 fix this and split fee into price 
+                            member.addBoat(boat, thePrice);
+                            jollyPirate.updateMember(member);
                             jollyPirate.updateBerths(berth.getLocation(), boat);
-                            view.boatRegistered();
-                            System.out.println(boat.getRegNumber()); //Message registration went through
-
-                            if (backToMain) //Either go to main menu or updateMember menu, depending on how the member got here.
-                                loginOptions();
-                            else
-                                updateMember(member);
+                            view.boatRegistered(boat); //Message registration went through
                         }
+                        if (backToMain) //Either go to main menu or updateMember menu, depending on how the member got here.
+                            loginOptions();
+                        else
+                            updateMember(member);
+
                       }
                 catch(CreditFailureException | InputNotInListException e){ //If findmember() given credits are wrong: username does not match password
                     view.credFailure();
@@ -317,11 +317,13 @@ public class MainControl {
         // TODO: 2020-09-05 make some easy updates
             private void updateBoat() throws CreditFailureException, InputNotInListException, BoatNotFoundException {
                 view.enterRegNumber();
+                Price newPrice = new Price();
                 String boatRegistrationNumber = view.getInput();
                 Users owner = findMember(false);
                 Boat boat = jollyPirate.findBoat(boatRegistrationNumber, owner);
                 view.boatOptions();
                 String boatType = null;
+                double oldLength = boat.getLength();
                 BoatFactory newBoat = new BoatFactory();
                 String input = view.inputConfirmation();
                     if (input.equalsIgnoreCase("1")) {
@@ -351,14 +353,16 @@ public class MainControl {
                             boat.changeLength(view.enterLength());
                         }
                             Boat updatedBoat = newBoat.getBoat(boatType, boat.getLength(), boat.getRegNumber(), boat.getOwner());
+                            newPrice.setUpdatePrice(updatedBoat, boat.getType(), oldLength);
                             updatedBoat.addLocation(boat.getLoacation());
-                            jollyPirate.updateBoat(updatedBoat);
-
+                            jollyPirate.updateBoat(updatedBoat, newPrice);
+                            view.boatUpdated(newPrice);
                         loginOptions();
                     }
                     else if (input.equalsIgnoreCase("2")){
                         boat.changeLength(view.enterLength());
-                        jollyPirate.updateBoat(boat);
+                        newPrice.setUpdatePrice(boat, boat.getType(), boat.getLength());
+                        jollyPirate.updateBoat(boat, newPrice);
                         loginOptions();
                     }
                     else if (input.equalsIgnoreCase("3")){

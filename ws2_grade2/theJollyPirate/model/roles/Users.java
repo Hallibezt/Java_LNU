@@ -1,6 +1,7 @@
 package model.roles;
 
 import model.Fee;
+import model.Price;
 import model.boats.Boat;
 import model.Login;
 
@@ -16,7 +17,7 @@ public abstract class Users implements Serializable {
     public abstract void addFirstName(String firstname);
     public abstract void addSurName(String surName);
     public abstract void removeBoat(Boat boat);
-    public abstract void addBoat(Boat boat);
+    public abstract void addBoat(Boat boat, Price price);
     public abstract String getUserType();
     public abstract void setAge();
     public abstract void setMonth();
@@ -24,5 +25,5 @@ public abstract class Users implements Serializable {
     public abstract int getMonth(); //for higher grade part
     public abstract Boat[] returnBoats();
     public abstract Fee getFee();
-    public abstract void updateBoat(Boat boat);
+    public abstract void updateBoat(Boat boat, Price price);
 }

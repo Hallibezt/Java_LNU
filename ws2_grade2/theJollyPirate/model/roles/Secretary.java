@@ -1,6 +1,7 @@
 package model.roles;
 
 import model.Fee;
+import model.Price;
 import model.boats.Boat;
 import model.Login;
 
@@ -64,7 +65,7 @@ public class Secretary extends Users {
     }
 
     @Override
-    public void addBoat(Boat boat){
+    public void addBoat(Boat boat, Price price){
     }
 
     @Override
@@ -100,7 +101,7 @@ public class Secretary extends Users {
         return null;
     }
 
-    public void updateBoat(Boat boat) {
+    public void updateBoat(Boat boat, Price price) {
 
     }
 

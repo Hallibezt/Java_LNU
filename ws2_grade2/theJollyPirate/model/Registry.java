@@ -150,14 +150,14 @@ public class Registry implements Serializable {
         return berth;
     }
 
-    public void updateBoat(Boat boat){    //changeOwner() update berth and ownerList changeType() - update berth, owner and possible fee changeLengt() update berth, owner and possible fee
+    public void updateBoat(Boat boat, Price price ){    //changeOwner() update berth and ownerList changeType() - update berth, owner and possible fee changeLengt() update berth, owner and possible fee
          for(int i = 0; i< berths.length; i++){
             if(berths[i].getLocation() == boat.getLoacation())
                     berths[i].addBoat(boat);
                 }
          for(int i = 0; i< regUsers.size(); i++){
              if(regUsers.get(i).getLogin().compareTo(boat.getOwner().getLogin()))
-                 regUsers.get(i).updateBoat(boat);
+                 regUsers.get(i).updateBoat(boat, price);
          }
 
     }

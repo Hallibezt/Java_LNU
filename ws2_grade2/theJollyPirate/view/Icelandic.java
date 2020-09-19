@@ -1,6 +1,7 @@
 package view;
 
 import controller.exceptions_errors.InputNotInListException;
+import model.Price;
 import model.boats.Boat;
 import model.roles.Users;
 import view.inputs.Input;
@@ -23,7 +24,8 @@ public class Icelandic extends Mainview{
     public void closingProgram( ) {System.out.println("Loka forriti.........");}
     public void programClosed( ) {System.out.println("Forrit lokað.");}
     public void memberRegistered( ) {System.out.print(" hefur verið skráð/ur í gagnabankann og notendanafnið er: ");}
-    public void boatRegistered( ) {System.out.print(" Báturinn hefur verið skráð/ur í gagnabankann og skráningarnúmerið er: ");}
+    public void boatRegistered(Boat boat) {System.out.print(" Báturinn hefur verið skráð/ur í gagnabankann og skráningarnúmerið er: ");}
+    public void boatUpdated(Price newPrice) {System.out.println(" The boat has been updated and the price added to the fee was: " + newPrice.getPrice() + " kr."); }
     public void promptFirstName() { System.out.println("Vinsamlegast skráðu inn fornafn meðlimsins: ");   }
     public void promptSurName() { System.out.println("Vinsamlegast skráðu inn eftirnafn meðlimsins: ");   }
     public void promptSocialNumber() { System.out.println("Vinsamlegast skráðu inn kennitölu meðlimsins (12 stafir): ");   }
@@ -121,13 +123,13 @@ public class Icelandic extends Mainview{
         //System.out.print("List of options if not logged in");
     //}
     public void changeView() {
-        System.out.print("I. Íslenska \n" +
-                "J. Enska \n");
+        System.out.print("J. Íslenska \n" +
+                "K. Enska \n");
     }
 
     public void loginOptions() {
         System.out.print("A. Loka forriti\n" +
-                "B. Breyta um tungumál \n" +
+                "B. Breyta um tungumál (change language)\n" +
                 "C. Leita að meðlim eða bátum \n" +
                 "D. Skoða lista yfir meðlimi \n" +
                 "E. Uppfæra bát\n" +

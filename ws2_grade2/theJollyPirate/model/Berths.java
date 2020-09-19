@@ -48,11 +48,8 @@ public class Berths implements Serializable {
     }
 
     public boolean hasRentedBert(Users user){
-        System.out.println("Has rented komst hingar..");
         if (previousUsers != null ){
-            System.out.println("Has rented komst hingar.. 2");
         for(int i = 0; i<previousUsers.size(); i++){
-            System.out.println("Has rented komst hingar.. 3");
             if(user.getSocialNumber().equalsIgnoreCase(previousUsers.get(i).getSocialNumber())){
                 return true;
             }

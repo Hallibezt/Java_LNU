@@ -1,6 +1,7 @@
 package view;
 
 import controller.exceptions_errors.InputNotInListException;
+import model.Price;
 import model.boats.Boat;
 import model.roles.Users;
 import view.inputs.Input;
@@ -23,7 +24,8 @@ public class English extends Mainview{
     public void closingProgram( ) {System.out.println("Closing program.........");}
     public void programClosed( ) {System.out.println("Program closed.");}
     public void memberRegistered( ) {System.out.print(" has been registered to database and the username is: ");}
-    public void boatRegistered( ) {System.out.print(" The boat been registered to database and the registration number is: ");}
+    public void boatRegistered(Boat boat) {System.out.println(" The boat has been registered to the database and the registration number is: " + boat.getRegNumber() + ", and it is located at berth number: " + boat.getLoacation() + ".");}
+    public void boatUpdated(Price newPrice) {System.out.println(" The boat has been updated and the price added to the fee was: " + newPrice.getPrice() + " kr."); }
     public void promptFirstName() { System.out.println("Please, enter member's firstname: ");   }
     public void promptSurName() { System.out.println("Please, enter member's surname: ");   }
     public void promptSocialNumber() { System.out.println("Please, enter member's social security number (12 digits): ");   }
@@ -39,9 +41,14 @@ public class English extends Mainview{
     public void hasRegNumber() {System.out.print("Does the boat have registration number yes/no: ");    }
     public void confirmRemoveBoat() { System.out.println("Are you sure you want to remove this boat from the registry? (yes/no))"); }
     public void exitOption() { System.out.println("You can  enter \"x\" when prompted for input to return to main menu");   }
+
+
+
+
     public void likeToUpdate() { System.out.println("Would you like to update the member? (yes/no) ");}
     public  void hasLength(){System.out.println("Would you like to update the length too? (yes/no) ");}
-    public void acceptPrice(double price) {System.out.println("The price for this booking is: " + price + " kr. Do you accept? (yes/no) "); }
+    public void acceptPrice(double price) {System.out.println("The price for this booking is: " + price + " kr and you fee will be updated accordingly.\n " +
+                                            "Do you accept? (yes/no) "); }
     public void noBoatRegistered() {System.out.println("You did not accept the price and no boat is registered."); }
     //Part of grade 4
     //public void loggedInMessage(String fullName) {System.out.println("You Are Logged In! Welcome " + fullName);}
@@ -83,10 +90,10 @@ public class English extends Mainview{
          //Printing informations about users and boats
     public void compactList(Users users) {
         try {
-            System.out.println(users.getFullName() + " UserID: " + users.getLogin().getUserID() + " Number of boats: " + users.returnBoats().length);
+            System.out.println(users.getFullName() + ", UserID: " + users.getLogin().getUserID() + ", Number of boats: " + users.returnBoats().length +".");
         }
         catch (NullPointerException e){
-            System.out.println(users.getFullName() + " UserID: " + users.getLogin().getUserID() +  " Number of boats: User has no registered boats.");
+            System.out.println(users.getFullName() + ", UserID: " + users.getLogin().getUserID() +  ", Number of boats: User has no registered boats.");
             bar();
         }
     }
@@ -94,19 +101,20 @@ public class English extends Mainview{
     public void verboseList(Users users) {
         try {
             Boat[] list = users.returnBoats();
-            System.out.println(users.getFullName() + " UserID: " + users.getLogin().getUserID() + " Social Security Number: " + users.getSocialNumber() + " Number of boats: " + users.returnBoats().length + "Members total fee: " + users.getFee().getTotalFee() + " kr.")  ;
+            System.out.println(users.getFullName() + " UserID: " + users.getLogin().getUserID() + " Social Security Number: " + users.getSocialNumber() + " Number of boats: " + users.returnBoats().length + " Members total fee: " + users.getFee().getTotalFee() + " kr. \n" +
+                    "  Boat info: ")  ;
             for (Boat boat : list) {
                 boatInfo(boat);
             }
         }
         catch (NullPointerException e){
-            System.out.println(users.getFullName() + " UserID: " + users.getLogin().getUserID() + " Social Security Number: " + users.getSocialNumber() +  "Members total fee: " + users.getFee().getTotalFee() + " kr." + " Number of boats: User has no registered boats.");
+            System.out.println(users.getFullName() + ", UserID: " + users.getLogin().getUserID() + ", Social Security Number: " + users.getSocialNumber() +  ", Members total fee: " + users.getFee().getTotalFee() + " kr." + ", Number of boats: User has no registered boats.");
             bar();
         }
     }
 
     public void boatInfo(Boat boat){
-        System.out.println("    - Boat type: " + boat.getType() + " Boat length: " + boat.getLength() + " Boat registration number: " + boat.getRegNumber() + " Boat owner: " + boat.getOwner().getFullName() + " Boat located at berth number : " +  boat.getLoacation());
+        System.out.println("    - Boat type: " + boat.getType() + ", Boat length: " + boat.getLength() + ", Boat registration number: " + boat.getRegNumber() + ", Boat located at berth number : " +  boat.getLoacation() + ".");
     }
 
 

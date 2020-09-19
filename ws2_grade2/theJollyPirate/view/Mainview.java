@@ -1,9 +1,9 @@
 package view;
 
 import controller.exceptions_errors.InputNotInListException;
+import model.Price;
 import model.boats.Boat;
 import model.roles.Users;
-import java.util.Scanner;
 
 public abstract class Mainview {
 
@@ -119,7 +119,7 @@ public abstract class Mainview {
 
  public abstract void boatAlreadyInRegistry();
 
- public abstract void boatRegistered();
+ public abstract void boatRegistered(Boat boat);
 
 
  //Below is part of higher grade implementation
@@ -135,4 +135,5 @@ public abstract class Mainview {
 
  public abstract void exitOption();
 
+ public abstract void boatUpdated(Price newPrice);
 }

@@ -1,4 +1,5 @@
 package model.roles;
+import model.Price;
 import model.boats.Boat;
 import model.Fee;
 import model.Login;
@@ -68,10 +69,9 @@ public class Member extends Users {
         }
     }
 
-    @Override
-    public void addBoat(Boat boat){
+    public void addBoat(Boat boat, Price price){
         this.boats.add(boat);
-        fee.addBoatFee(boat);
+        fee.addBoatFee(price);
     }
 
     @Override
@@ -102,7 +102,7 @@ public class Member extends Users {
         return this.birthMonth;
     }
 
-    public void updateBoat(Boat boat) {
+    public void updateBoat(Boat boat, Price price) {
         Boat prevBoat = null;
         String prevType;
         double prevLength;
@@ -116,7 +116,7 @@ public class Member extends Users {
         }
         prevType = prevBoat.getType();
         prevLength = prevBoat.getLength();
-        fee.updateFee(boat, prevType, prevLength);
+        fee.addBoatFee(price);
 
     }
 
