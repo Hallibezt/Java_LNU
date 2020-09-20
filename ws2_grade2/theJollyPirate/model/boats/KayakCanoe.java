@@ -1,16 +1,15 @@
 package model.boats;
 
-import model.Berths;
-import model.roles.Users;
+import model.roles.User;
 
-public class Kayak_canoe extends Boat {
-    private String registrationNumber;
+public class KayakCanoe extends Boat {
+    private final String registrationNumber;
     private double length;
-    private Users owner;
+    private final User owner;
     private int location;
-    private String color;
 
-    public Kayak_canoe( double length, String registrationNumber, Users owner){
+
+    public KayakCanoe(double length, String registrationNumber, User owner){
         this.length = length;
         this.owner = owner;
         this.registrationNumber=registrationNumber;
@@ -31,7 +30,7 @@ public class Kayak_canoe extends Boat {
     }
 
     @Override
-    public int getLoacation() {
+    public int getLocation() {
         return location;
     }
 
@@ -51,7 +50,7 @@ public class Kayak_canoe extends Boat {
     }
 
     @Override
-    public Users getOwner() {
+    public User getOwner() {
         return this.owner;
     }
 }

@@ -7,15 +7,15 @@ import model.Login;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Member extends Users {
+public class Member extends User {
     private static final long serialVersionUID = -5515181500783304862L;
-    LocalDate currentdate = LocalDate.now();
+    private final LocalDate currentDate = LocalDate.now();
     private Login credentials;
     private String firstName;
     private String surName;
     private String socialNumber;
-    private ArrayList<Boat> boats = new ArrayList<>();
-    private Fee fee = new Fee();
+    private final ArrayList<Boat> boats = new ArrayList<>();
+    private final Fee fee = new Fee();
     private int age;
     private int birthMonth;
 
@@ -25,10 +25,9 @@ public class Member extends Users {
         this.surName = surName;
         this.firstName = firstName;
         this.socialNumber = socialNumber;
-        // TODO: 2020-09-08 implement
         setAge();
         setMonth();
-        credentials = new Login(firstName.substring(0,1)+"." + surName + "_", password);
+        credentials = new Login(firstName.charAt(0)+"." + surName + "_", password);
     }
 
     @Override
@@ -38,8 +37,7 @@ public class Member extends Users {
 
     @Override
     public String getFullName() {
-        String fullName = firstName + " " + surName;
-        return fullName;
+        return firstName + " " + surName;
     }
 
     @Override
@@ -49,7 +47,7 @@ public class Member extends Users {
 
     @Override
     public void addLogin(String password) {
-        credentials = new Login(firstName.substring(0,1)+"." + surName + "_", password);    }
+        credentials = new Login(firstName.charAt(0)+"." + surName + "_", password);    }
 
     @Override
     public void addFirstName(String firstName) {
@@ -81,15 +79,15 @@ public class Member extends Users {
 
     @Override
     public void setAge() {
-        int currentYear = currentdate.getYear();
-        this.age = currentYear - Integer.valueOf(this.socialNumber.substring(0,3));
+        int currentYear = currentDate.getYear();
+        this.age = currentYear - Integer.parseInt(this.socialNumber.substring(0,3));
 
     }
 
     @Override
     public void setMonth() {
-        int currentMonth = currentdate.getMonthValue();
-        this.birthMonth = currentMonth - Integer.valueOf(this.socialNumber.substring(4,5));
+        int currentMonth = currentDate.getMonthValue();
+        this.birthMonth = currentMonth - Integer.parseInt(this.socialNumber.substring(4,5));
     }
 
     @Override
@@ -103,24 +101,16 @@ public class Member extends Users {
     }
 
     public void updateBoat(Boat boat, Price price) {
-        Boat prevBoat = null;
-        String prevType;
-        double prevLength;
         for (int i = 0; i < boats.size(); i++) {
             if (boats.get(i).getRegNumber().equals(boat.getRegNumber())) {
-                prevBoat = boats.get(i);
                 boats.remove(i);
                 boats.add(boat);
                 break;
             }
         }
-        prevType = prevBoat.getType();
-        prevLength = prevBoat.getLength();
         fee.addBoatFee(price);
 
     }
-
-
     public Boat[] returnBoats(){
         Boat[] temp = new Boat[boats.size()];
         for(int i = 0; i<boats.size(); i++){

@@ -2,7 +2,9 @@ package model;
 
 import model.boats.Boat;
 
-public class Price {
+import java.io.Serializable;
+
+public class Price implements Serializable {
     private double price = 0;
     private final int sailboat = 500;
     private final int motorsailer = 600; //Risk of oil-leakage - environment price

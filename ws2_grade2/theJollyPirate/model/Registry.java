@@ -3,15 +3,15 @@ package model;
 import controller.exceptions_errors.BoatNotFoundException;
 import model.boats.Boat;
 import model.roles.Secretary;
-import model.roles.Users;
+import model.roles.User;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 
 public class Registry implements Serializable {
-    private ArrayList<Users> regUsers = new ArrayList<>(); //Everyone is registered with password but only secretary can get the full login options, members registering is for them to handle event booking in the future
-    private final Berths[] berths = new Berths[200];
+    private ArrayList<User> regUsers = new ArrayList<>(); //Everyone is registered with password but only secretary can get the full login options, members registering is for them to handle event booking in the future
+    private final Berth[] berths = new Berth[200];
     private static final long serialVersionUID = -7013385061015921422L;
 
 
@@ -23,21 +23,22 @@ public class Registry implements Serializable {
 
     //When the program was started the first time at Jolly Pirate the berths got address/location and the secretary was registered
     private void hardcodedFirstTimeUse(){
-        Users theSecretary = new Secretary("Haraldur", "Kristjansson", "198410249999", "IceHot1");
+        //Secretary is more for grade4 part
+        User theSecretary = new Secretary("Haraldur", "Kristjansson", "198410249999", "IceHot1");
         regUsers.add(theSecretary);
         for(int i = 0; i < 200; i++){
-            berths[i] = new Berths();
+            berths[i] = new Berth();
             berths[i].setLocation(i+1);
         }
     }
 
 
-    // TODO: 2020-09-03 see if the else logic is working
-    public String addMember(Users member) {
+
+    public String addMember(User member) {
         boolean sameID = true;
         String memberUserName = member.getLogin().getUserID();
         while(sameID){
-            for (Users regUser : regUsers) {
+            for (User regUser : regUsers) {
                 if (member.getSocialNumber().equals(regUser.getSocialNumber()))
                     throw new IllegalArgumentException();
                 if (member.getLogin().getUserID().equals(regUser.getLogin().getUserID())) {
@@ -54,11 +55,11 @@ public class Registry implements Serializable {
     }
 
 
-    public void removeMember(Users member) { //Removes a member and frees all berths that has member's boats parked.
+    public void removeMember(User member) { //Removes a member and frees all berths that has member's boats parked.
             for(int i =0; i<regUsers.size();i++){
                 if(regUsers.get(i).getLogin().compareTo(member.getLogin())){
                     regUsers.remove(i);
-                    for (Berths berth : berths) {
+                    for (Berth berth : berths) {
                         if (berth.getBoat() != null) {
                             if (berth.getCurrentUser().getLogin().compareTo(member.getLogin())) {
                                 berth.removeBoat();
@@ -69,8 +70,8 @@ public class Registry implements Serializable {
             }
     }
 
-    public void updateMember(Users member){
-        ArrayList<Users> temp = regUsers;
+    public void updateMember(User member){
+        ArrayList<User> temp = regUsers;
         for(int i = 0; i< temp.size(); i++){
             if(temp.get(i).getLogin().getUserID().equalsIgnoreCase(member.getLogin().getUserID())){
                 temp.set(i, member);
@@ -79,14 +80,14 @@ public class Registry implements Serializable {
         regUsers = temp;
             }
 
-    public Users[] returnMembers(){ //Return all members - exclude secretary or treasury
-        ArrayList<Users> temp = new ArrayList<>();
-        for (Users regUser : regUsers) {
+    public User[] returnMembers(){ //Return all members - exclude secretary or treasury
+        ArrayList<User> temp = new ArrayList<>();
+        for (User regUser : regUsers) {
             if (regUser.getUserType().equalsIgnoreCase("Member")) {
                 temp.add(regUser);
             }
         }
-        Users[] members = new Users[temp.size()];
+        User[] members = new User[temp.size()];
             for(int i = 0; i<temp.size(); i++){
                 members[i] = temp.get(i);
             }
@@ -94,9 +95,9 @@ public class Registry implements Serializable {
         return members;
     }
 
-    public Users returnOneMember(Login login){
-        Users member = null;
-        for (Users regUser : regUsers) {
+    public User returnOneMember(Login login){
+        User member = null;
+        for (User regUser : regUsers) {
             if (regUser.getLogin().compareTo(login)) {
                 member = regUser;
             }
@@ -106,8 +107,8 @@ public class Registry implements Serializable {
 
     public boolean availableBerth(){ //See if there are any available berths
         boolean b = false;//2
-        Berths[] list = returnBerths();
-        for (Berths value : list) {
+        Berth[] list = returnBerths();
+        for (Berth value : list) {
             if (value.getCurrentUser() == null) {
                 b = true;
                 break;
@@ -116,12 +117,12 @@ public class Registry implements Serializable {
         return b;
     }
 
-    public Berths[] returnBerths(){
+    public Berth[] returnBerths(){
         return berths;
     }
 
     public boolean checkRegNumber(String regNumber) { //See if given registration number is in the database
-        for (Berths berth : berths) {
+        for (Berth berth : berths) {
             if (berth.getBoat() != null) {
                 if (berth.getBoat().getRegNumber().equals(regNumber))
                     return true;
@@ -135,10 +136,10 @@ public class Registry implements Serializable {
     }
 
 
-    public Berths findBert(Users member){
-        Berths[] list = returnBerths();
-        Berths berth = list[0];
-        for (Berths value : list) {
+    public Berth findBert(User member){
+        Berth[] list = returnBerths();
+        Berth berth = list[0];
+        for (Berth value : list) {
             if (value.getCurrentUser() == null) {
                 if (value.hasRentedBert(member)) {
                     berth = value;
@@ -150,22 +151,22 @@ public class Registry implements Serializable {
         return berth;
     }
 
-    public void updateBoat(Boat boat, Price price ){    //changeOwner() update berth and ownerList changeType() - update berth, owner and possible fee changeLengt() update berth, owner and possible fee
-         for(int i = 0; i< berths.length; i++){
-            if(berths[i].getLocation() == boat.getLoacation())
-                    berths[i].addBoat(boat);
-                }
-         for(int i = 0; i< regUsers.size(); i++){
-             if(regUsers.get(i).getLogin().compareTo(boat.getOwner().getLogin()))
-                 regUsers.get(i).updateBoat(boat, price);
-         }
+    public void updateBoat(Boat boat, Price price ){    //changeOwner() update berth and ownerList changeType() - update berth, owner and possible fee changeLength() update berth, owner and possible fee
+        for (Berth berth : berths) {
+            if (berth.getLocation() == boat.getLocation())
+                berth.addBoat(boat);
+        }
+        for (User regUser : regUsers) {
+            if (regUser.getLogin().compareTo(boat.getOwner().getLogin()))
+                regUser.updateBoat(boat, price);
+        }
 
     }
 
 
-    public Boat findBoat(String boatRegistrationNumber, Users member) throws BoatNotFoundException {
+    public Boat findBoat(String boatRegistrationNumber, User member) throws BoatNotFoundException {
         Boat boat;
-        for (Berths berth : berths) {
+        for (Berth berth : berths) {
             if (berth.getBoat() != null) {
                 if (berth.getBoat().getRegNumber().equals(boatRegistrationNumber) & berth.getBoat().getOwner().getLogin().compareTo(member.getLogin())) {
                     boat = berth.getBoat();
@@ -176,15 +177,15 @@ public class Registry implements Serializable {
         throw new BoatNotFoundException("");
     }
 
-    public void removeBoat(Boat boat, Users owner) {
-        for (Berths berth : berths) {
+    public void removeBoat(Boat boat, User owner) {
+        for (Berth berth : berths) {
             if (berth.getBoat() != null) {
                 if (berth.getBoat().getRegNumber().equals(boat.getRegNumber())) {
                     berth.removeBoat();
                 }
             }
         }
-        for (Users regUser : regUsers) {
+        for (User regUser : regUsers) {
             if (regUser.getLogin().compareTo(owner.getLogin()))
                 regUser.removeBoat(boat);
         }

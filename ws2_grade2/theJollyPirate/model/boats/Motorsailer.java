@@ -1,19 +1,17 @@
 package model.boats;
 
-import model.Berths;
-import model.roles.Users;
+import model.roles.User;
 
 public class Motorsailer extends Boat {
 
     private double length;
-    private String registrationNumber;
-    private Users owner;
+    private final String registrationNumber;
+    private final User owner;
     private int location;
-    private String color;
 
 
-    public Motorsailer( double length, String registrationNumber, Users owner){
-        ;
+
+    public Motorsailer( double length, String registrationNumber, User owner){
         this.length = length;
         this.registrationNumber = registrationNumber;
         this.owner = owner;
@@ -34,7 +32,7 @@ public class Motorsailer extends Boat {
     }
 
     @Override
-    public int getLoacation() {
+    public int getLocation() {
         return location;
     }
 
@@ -54,7 +52,7 @@ public class Motorsailer extends Boat {
     }
 
     @Override
-    public Users getOwner() {
+    public User getOwner() {
         return this.owner;
     }
 }

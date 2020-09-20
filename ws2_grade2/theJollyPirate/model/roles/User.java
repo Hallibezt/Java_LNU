@@ -7,7 +7,7 @@ import model.Login;
 
 import java.io.Serializable;
 
-public abstract class Users implements Serializable {
+public abstract class User implements Serializable {
     private static final long serialVersionUID = 4442257940559189557L;
 
     public abstract Login getLogin();

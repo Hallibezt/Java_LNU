@@ -18,10 +18,7 @@ public class Login implements Serializable {
     }
 
     public boolean compareTo(Login passed){
-        if(passed.getUserID().equals(this.userID) & passed.getPassword().equals(this.password))
-        return true;
-        else
-            return false;
+        return passed.getUserID().equals(this.userID) & passed.getPassword().equals(this.password);
     }
 
     public void addLoginUserID(String input) {

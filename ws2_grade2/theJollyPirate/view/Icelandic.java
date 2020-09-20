@@ -1,17 +1,18 @@
 package view;
 
+import controller.exceptions_errors.BoatLengthError;
 import controller.exceptions_errors.InputNotInListException;
 import model.Price;
 import model.boats.Boat;
-import model.roles.Users;
+import model.roles.User;
 import view.inputs.Input;
 import view.inputs.InputFactory;
-import java.util.InputMismatchException;
+
 import java.util.Scanner;
 
-public class Icelandic extends Mainview{
-    private Scanner input = new Scanner(System.in);
-    private String viewType = "Icelandic";
+public class Icelandic extends MainView {
+    private final Scanner input = new Scanner(System.in);
+    private final String viewType = "Icelandic";
 
 
     public void welcome(){
@@ -31,7 +32,7 @@ public class Icelandic extends Mainview{
     public void promptSocialNumber() { System.out.println("Vinsamlegast skráðu inn kennitölu meðlimsins (12 stafir): ");   }
     public void promptPassword() {System.out.println("Vinsamlegast skráðu inn valið leyniorð meðlimsins: ");    }
     public void findMember() {System.out.println("Vinsamlegast skráðu inn notendanafn: ");    }
-    public void confirmRemoveMember(Users member) { System.out.print("Ertu viss um að þú viljir fjarlæga " + member.getFullName() + ", kennitala: " + member.getSocialNumber() + "? (já/nei): "); }
+    public void confirmRemoveMember(User member) { System.out.print("Ertu viss um að þú viljir fjarlæga " + member.getFullName() + ", kennitala: " + member.getSocialNumber() + "? (já/nei): "); }
     public void memberRemoved(){System.out.println("Meðlimur hefur verið fjarlægður úr gagnabankanum og bátar tengdir honum");}
     public void firstNameUpdate(){System.out.println("Vinsamlegast skráðu inn nýtt fornafn meðlimsins: ");}
     public void secondNameUpdate(){System.out.println("Vinsamlegast skráðu inn nýtt eftirnafn meðlimsins: ");}
@@ -64,11 +65,11 @@ public class Icelandic extends Mainview{
         return input.inputConfirmation(uInput);
     }
 
-    public double enterLength() {
+    public double enterLength() throws BoatLengthError {
         System.out.print("Vinsamlegast skráðu inn lengd bátsins: ");
         double length = input.nextDouble();
         if(length <1 || length>20)
-            throw  new InputMismatchException();
+            throw  new BoatLengthError("");
         return length;
     }
         //Handling inputs
@@ -78,47 +79,42 @@ public class Icelandic extends Mainview{
 
     public boolean confirm() throws InputNotInListException {
         String input = getInput();
-        if(!input.equalsIgnoreCase("yes") || !input.equalsIgnoreCase("já") || !input.equalsIgnoreCase("no") || !input.equalsIgnoreCase("yes"))
-            throw new InputNotInListException("");
         if(input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("já") )
             return true;
-        else
+        if(input.equalsIgnoreCase("no") || input.equalsIgnoreCase("nei"))
             return false;
+        else
+            throw new InputNotInListException("");
     }
 
          //Printing informations about users and boats
-    public void compactList(Users users) {
-        try {
-            System.out.println(users.getFullName() + " Notendanafn: " + users.getLogin().getUserID() + " Fjöldi báta: " + users.returnBoats().length);
-        }
-        catch (NullPointerException e){
-            System.out.println(users.getFullName() + " Notendanafn: " + users.getLogin().getUserID()  + " Fjöldi báta: Notandi er ekki með skráða báta.");
-            bar();
-        }
+    public void compactList(User user) {
+
+            System.out.println(user.getFullName() + " Notendanafn: " + user.getLogin().getUserID() + " Fjöldi báta: " + user.returnBoats().length);
+
     }
 
 
 
 
-    public void verboseList(Users users) {
-        try {
-            Boat[] list = users.returnBoats();
-            System.out.println(users.getFullName() + " Notendanafn: " + users.getLogin().getUserID() + " Kennitala: " + users.getSocialNumber() + " Fjöldi báta: " + users.returnBoats().length + "Heildargjöld meðlims: " + users.getFee().getTotalFee() + " kr.");
+    public void verboseList(User user) {
+
+            Boat[] list = user.returnBoats();
+            System.out.println(user.getFullName() + " Notendanafn: " + user.getLogin().getUserID() + " Kennitala: " + user.getSocialNumber() + " Fjöldi báta: " + user.returnBoats().length + "Heildargjöld meðlims: " + user.getFee().getTotalFee() + " kr.");
+            if(user.returnBoats().length == 0)
+                noBoatsAreReg();
             for (Boat boat : list) {
                 boatInfo(boat);
             }
-        }
-        catch (NullPointerException e){
-            System.out.println(users.getFullName() + " Notendanafn: " + users.getLogin().getUserID() + " Kennitala: " + users.getSocialNumber() +  "Heildagjöld meðlims: " + users.getFee().getTotalFee() + " kr." + " Fjöldi báta: Notandi er ekki með skráða báta.");
-            bar();
-        }
+
     }
+
     public void boatInfo(Boat boat){
-        System.out.println("Tegund báts: " + boat.getType() + " Lengd báts: " + boat.getLength() + " Skráningarnúmer báts: " + boat.getRegNumber() + "Eigandi báts: " + boat.getOwner().getFullName() + " Bátur er staðsettur í stæði : " +  boat.getLoacation());
+        System.out.println("Tegund báts: " + boat.getType() + " Lengd báts: " + boat.getLength() + " Skráningarnúmer báts: " + boat.getRegNumber() + "Eigandi báts: " + boat.getOwner().getFullName() + " Bátur er staðsettur í stæði : " +  boat.getLocation());
     }
 
     //Option messages ##########################
-    // TODO: 2020-08-28 Create non-login options
+
     //public void nonLoginOptions(){ Part of grade 4
         //System.out.print("List of options if not logged in");
     //}
@@ -142,7 +138,7 @@ public class Icelandic extends Mainview{
 
     }
 
-    public void updateMember(Users member){
+    public void updateMember(User member){
         System.out.println("Meðlimur til að uppfæra: ");
         compactList(member);
         bar();
@@ -191,7 +187,7 @@ public class Icelandic extends Mainview{
     public void credFailure(){System.out.println("Auðkenni stemma ekki eða meðlimur fannst ekki.");}
     public void noMemberRegistered(){System.out.println("Það er enginn meðlimur skráður í gagnagrunninum.");}
     public void noBerths() {System.out.println("Engin bátastæði laus.");   }
-    public void noBoatsReg() {System.out.println("Engir bátar skráði hjá Jolly Pirate");   }
+    public void noBoatsAreReg() {System.out.println("Engir bátar skráði hjá Jolly Pirate");   }
     public void boatNotFound() {System.out.println("Fannst enginn bátur með þetta skráningarnúmer");   }
     public void lengthError() { System.out.println("Við skráum EKKI báta undir 1 m. eða yfir 20 m."); }
     public void boatAlreadyInRegistry() {System.out.println("Bátur með þetta skráningarnúmer er þegar í gagnagrunninum ");  }

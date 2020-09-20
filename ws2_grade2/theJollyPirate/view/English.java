@@ -1,18 +1,18 @@
 package view;
 
+import controller.exceptions_errors.BoatLengthError;
 import controller.exceptions_errors.InputNotInListException;
 import model.Price;
 import model.boats.Boat;
-import model.roles.Users;
+import model.roles.User;
 import view.inputs.Input;
 import view.inputs.InputFactory;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class English extends Mainview{
+public class English extends MainView {
     private final Scanner input = new Scanner(System.in);
-    private String viewType = "English";
+    private final String viewType = "English";
 
     public void welcome(){
         System.out.print("Welcome to Jolly Pirate Yacht Club! \n" +
@@ -24,14 +24,14 @@ public class English extends Mainview{
     public void closingProgram( ) {System.out.println("Closing program.........");}
     public void programClosed( ) {System.out.println("Program closed.");}
     public void memberRegistered( ) {System.out.print(" has been registered to database and the username is: ");}
-    public void boatRegistered(Boat boat) {System.out.println(" The boat has been registered to the database and the registration number is: " + boat.getRegNumber() + ", and it is located at berth number: " + boat.getLoacation() + ".");}
+    public void boatRegistered(Boat boat) {System.out.println(" The boat has been registered to the database and the registration number is: " + boat.getRegNumber() + ", and it is located at berth number: " + boat.getLocation() + ".");}
     public void boatUpdated(Price newPrice) {System.out.println(" The boat has been updated and the price added to the fee was: " + newPrice.getPrice() + " kr."); }
     public void promptFirstName() { System.out.println("Please, enter member's firstname: ");   }
     public void promptSurName() { System.out.println("Please, enter member's surname: ");   }
     public void promptSocialNumber() { System.out.println("Please, enter member's social security number (12 digits): ");   }
     public void promptPassword() {System.out.println("Please, enter member's chosen password: ");    }
     public void findMember() {System.out.println("Please, enter memberID: ");    }
-    public void confirmRemoveMember(Users member) { System.out.print("Are you sure you want to remove " + member.getFullName() + ", social security number: " + member.getSocialNumber() + "?(yes/no)"); }
+    public void confirmRemoveMember(User member) { System.out.print("Are you sure you want to remove " + member.getFullName() + ", social security number: " + member.getSocialNumber() + "?(yes/no)"); }
     public void memberRemoved(){System.out.println("Member has been removed from the database and associated boats");}
     public void firstNameUpdate(){System.out.println("Please, enter member's new first name: ");}
     public void secondNameUpdate(){System.out.println("Please, enter member's new second name: ");}
@@ -41,10 +41,6 @@ public class English extends Mainview{
     public void hasRegNumber() {System.out.print("Does the boat have registration number yes/no: ");    }
     public void confirmRemoveBoat() { System.out.println("Are you sure you want to remove this boat from the registry? (yes/no))"); }
     public void exitOption() { System.out.println("You can  enter \"x\" when prompted for input to return to main menu");   }
-
-
-
-
     public void likeToUpdate() { System.out.println("Would you like to update the member? (yes/no) ");}
     public  void hasLength(){System.out.println("Would you like to update the length too? (yes/no) ");}
     public void acceptPrice(double price) {System.out.println("The price for this booking is: " + price + " kr and you fee will be updated accordingly.\n " +
@@ -55,22 +51,23 @@ public class English extends Mainview{
     //public void loggedOutMessage(String fullName) {System.out.println("You are logged out. Thank you " + fullName + " for using Jolly Pirate booking system."); }
 
 
-
-
     //Control messages #######################
+
      //Those two are for switching the language/view
     public String getViewType() {return this.viewType;}
+
     public String inputConfirmation()  {
         String uInput = getInput();
         Input input = new InputFactory().getInput(getViewType());
         return input.inputConfirmation(uInput);
     }
+
         //Handling inputs
-    public double enterLength() {
+    public double enterLength() throws BoatLengthError {
         System.out.print("Please enter the boats length: ");
         double length = input.nextDouble();
         if(length <1 || length>20)
-            throw  new InputMismatchException();
+            throw  new BoatLengthError("");
         return length; }
 
     public String getInput(){
@@ -87,39 +84,32 @@ public class English extends Mainview{
             throw new InputNotInListException("");
     }
 
-         //Printing informations about users and boats
-    public void compactList(Users users) {
-        try {
-            System.out.println(users.getFullName() + ", UserID: " + users.getLogin().getUserID() + ", Number of boats: " + users.returnBoats().length +".");
-        }
-        catch (NullPointerException e){
-            System.out.println(users.getFullName() + ", UserID: " + users.getLogin().getUserID() +  ", Number of boats: User has no registered boats.");
-            bar();
-        }
+         //Printing information about users and boats
+    public void compactList(User user) {
+            System.out.println(user.getFullName() + ", UserID: " + user.getLogin().getUserID() + ", Number of boats: " + user.returnBoats().length +".");
+
+
     }
 
-    public void verboseList(Users users) {
-        try {
-            Boat[] list = users.returnBoats();
-            System.out.println(users.getFullName() + " UserID: " + users.getLogin().getUserID() + " Social Security Number: " + users.getSocialNumber() + " Number of boats: " + users.returnBoats().length + " Members total fee: " + users.getFee().getTotalFee() + " kr. \n" +
+    public void verboseList(User user) {
+            Boat[] list = user.returnBoats();
+            System.out.println(user.getFullName() + " UserID: " + user.getLogin().getUserID() + " Social Security Number: " + user.getSocialNumber() + " Number of boats: " + user.returnBoats().length + " Members total fee: " + user.getFee().getTotalFee() + " kr. \n" +
                     "  Boat info: ")  ;
+            if(user.returnBoats().length == 0)
+                noBoatsAreReg();
             for (Boat boat : list) {
                 boatInfo(boat);
             }
-        }
-        catch (NullPointerException e){
-            System.out.println(users.getFullName() + ", UserID: " + users.getLogin().getUserID() + ", Social Security Number: " + users.getSocialNumber() +  ", Members total fee: " + users.getFee().getTotalFee() + " kr." + ", Number of boats: User has no registered boats.");
-            bar();
-        }
+
     }
 
     public void boatInfo(Boat boat){
-        System.out.println("    - Boat type: " + boat.getType() + ", Boat length: " + boat.getLength() + ", Boat registration number: " + boat.getRegNumber() + ", Boat located at berth number : " +  boat.getLoacation() + ".");
+        System.out.println("    - Boat type: " + boat.getType() + ", Boat length: " + boat.getLength() + ", Boat registration number: " + boat.getRegNumber() + ", Boat located at berth number : " +  boat.getLocation() + ".");
     }
 
 
     //Option messages ##########################
-    // TODO: 2020-08-28 Create non-login options
+
     //public void nonLoginOptions(){ Part of grade 4
         //System.out.print("List of options if not logged in");
     //}
@@ -143,7 +133,7 @@ public class English extends Mainview{
 
     }
 
-    public void updateMember(Users member){
+    public void updateMember(User member){
         System.out.println("Member to update: ");
         compactList(member);
         System.out.print("1. Update member's first name \n" +
@@ -197,10 +187,9 @@ public class English extends Mainview{
     public void credFailure(){System.out.println("Credentials do not match or this membersID is not in the database. ");}
     public void noMemberRegistered(){System.out.println("There is no member registered in the database");}
     public void noBerths() {System.out.println("There are no berths available");   }
-    public void noBoatsReg() {System.out.println("There are no boats registered at Jolly Pirate");   }
+    public void noBoatsAreReg() {System.out.println("There are no boats registered at Jolly Pirate");   }
     public void boatNotFound() {System.out.println("A boat with this registration number was not found");   }
     public void lengthError() { System.out.println("We do NOT register boats under 1 meter or over 20 meters"); }
     public void boatAlreadyInRegistry() {System.out.println("The boat with this registration number is already in the database ");  }
-
 
 }

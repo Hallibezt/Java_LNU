@@ -1,18 +1,15 @@
 package controller;
 
-import controller.exceptions_errors.BoatNotFoundException;
-import controller.exceptions_errors.CreditFailureException;
-import controller.exceptions_errors.ErrorHandling;
-import controller.exceptions_errors.InputNotInListException;
-import model.Berths;
+import controller.exceptions_errors.*;
+import model.Berth;
 import model.Price;
 import model.boats.Boat;
 import model.Login;
 import model.Registry;
 import model.boats.BoatFactory;
 import model.roles.Member;
-import model.roles.Users;
-import view.Mainview;
+import model.roles.User;
+import view.MainView;
 import view.ViewFactory;
 
 import java.util.InputMismatchException;
@@ -21,12 +18,12 @@ import java.util.Random;
 
 public class MainControl {
     private final Registry jollyPirate;
-    private Mainview view;
+    private MainView view;
     private final ErrorHandling errorHandling = new ErrorHandling();
     private Boolean programRunning = true;
 
 
-    public MainControl(Registry jollyPirate, Mainview view){
+    public MainControl(Registry jollyPirate, MainView view){
         this.jollyPirate = jollyPirate;
         this.view = view;
     }
@@ -40,7 +37,7 @@ public class MainControl {
         return programRunning;
     }
 
-    //Main menu ############### todo ADD look up one member
+    //Main menu ###############
     private void loginOptions(){
         view.loginOptions();
         try {
@@ -78,7 +75,7 @@ public class MainControl {
                     removeBoat(null);
                     break;
                 case "7":
-                    updateBoat(); // TODO: 2020-09-06 left - get information, create boat and call jollypirate.updateboat
+                    updateBoat();
                     break;
                 case "8":
                     compactListMembers();
@@ -92,14 +89,14 @@ public class MainControl {
                     break;
                 case "11":
                     view.closingProgram();
-                    ExportInport export = new ExportInport();
+                    ExportImport export = new ExportImport();
                     export.exportRegistry(this.jollyPirate);
                     programRunning = false;
                     break;
             }
         }
 
-        catch (InputMismatchException | InputNotInListException e){
+        catch (InputNotInListException | InputMismatchException e){
             view.wrongInput();
             view.bar();
             loginOptions();}
@@ -127,7 +124,7 @@ public class MainControl {
             String surName = view.getInput();
                 if(surName.equalsIgnoreCase("x"))
                     loginOptions();
-             if(!errorHandling.nameFormat(firstName) || !errorHandling.nameFormat(surName)){
+             if(errorHandling.nameFormat(firstName) || errorHandling.nameFormat(surName)){
                 view.nameFormat();
                 registerMember(); }
             view.promptSocialNumber();
@@ -141,7 +138,7 @@ public class MainControl {
             String password = view.getInput();
                 if(password.equalsIgnoreCase("x"))
                     loginOptions();
-            Users member = new Member(firstName, surName, socialNumber,password);
+            User member = new Member(firstName, surName, socialNumber,password);
                 try{
                 String memberUsername = jollyPirate.addMember(member);
                 System.out.print(member.getFullName()); view.memberRegistered(); System.out.println(memberUsername);
@@ -155,7 +152,7 @@ public class MainControl {
 
           private void removeMember() {
              try{
-              Users member = findMember(false);
+              User member = findMember(false);
               view.confirmRemoveMember(member);
                 if(view.confirm()) {
                     view.memberRemoved();
@@ -174,14 +171,14 @@ public class MainControl {
           }
 
 
-          private void updateMember(Users member)  {
+          private void updateMember(User member)  {
                 view.updateMember(member);
                 try {
                     String input = view.inputConfirmation();
                     if (input.equalsIgnoreCase("1")) {//enter new name - member.update())
                         view.firstNameUpdate();
                         String name = view.getInput();
-                        if (!errorHandling.nameFormat(name)) {
+                        if (errorHandling.nameFormat(name)) {
                             view.nameFormat();
                             updateMember(member);
                         }
@@ -192,7 +189,7 @@ public class MainControl {
                     } else if (input.equalsIgnoreCase("2")) {//enter new name - member.update())
                         view.secondNameUpdate();
                         String name = view.getInput();
-                        if (!errorHandling.nameFormat(name)) {
+                        if (errorHandling.nameFormat(name)) {
                             view.nameFormat();
                             updateMember(member);
                         }
@@ -224,7 +221,7 @@ public class MainControl {
                        throw new InputNotInListException(""); }
 
                 }
-                catch (InputMismatchException | InputNotInListException e){
+                catch (InputNotInListException | InputMismatchException e){
                     view.wrongInput();
                     view.bar();
                     updateMember(member);}
@@ -232,7 +229,7 @@ public class MainControl {
 
             }
 
-            private void registerBoat(Users member) {
+            private void registerBoat(User member) {
                 try{
                     if(!jollyPirate.availableBerth()){ //See first if there are any available berths
                         view.noBerths();
@@ -244,9 +241,10 @@ public class MainControl {
                             backToMain = true;
                             member = findMember(false);
                         }
-                    // TODO: 2020-09-13 should call boatfactory
                         Boat boat = createBoat(member);
                         Price thePrice = new Price();
+                        if(boat == null)
+                            throw new NullPointerException();
                         thePrice.setPrice(boat);
                         view.acceptPrice(thePrice.getPrice());
                         if(!view.confirm()){
@@ -254,8 +252,7 @@ public class MainControl {
                             loginOptions();
                         }
                         else {
-                            Berths berth = jollyPirate.findBert(member); //Check for previously used berths
-                            assert boat != null;
+                            Berth berth = jollyPirate.findBert(member); //Check for previously used berths
                             boat.addLocation(berth.getLocation()); //add the berth location given to the boat
                             member.addBoat(boat, thePrice);
                             jollyPirate.updateMember(member);
@@ -268,14 +265,16 @@ public class MainControl {
                             updateMember(member);
 
                       }
-                catch(CreditFailureException | InputNotInListException e){ //If findmember() given credits are wrong: username does not match password
+                catch(NullPointerException ignored){}
+                catch(CreditFailureException | InputNotInListException | InputMismatchException e){ //If findmember() given credits are wrong: username does not match password
                     view.credFailure();
                     view.bar();
+                    loginOptions();
                 }
             }
 
 
-            private void removeBoat(Users member) {
+            private void removeBoat(User member) {
             try {
                 boolean backToMain = false; //To find out if the method should return to updateMember or main menu
                 if (member == null) {  //If not called with certain member in mind (via updateMember) then prompt for one.
@@ -295,15 +294,10 @@ public class MainControl {
                 else
                     updateMember(member);
             }
-            // TODO: 2020-09-13 see what to do about this one
-                catch (NullPointerException e){
-                    e.printStackTrace();
-                    loginOptions();
-                  }
                 catch (CreditFailureException e){
                     view.credFailure();
                     view.bar();}
-                catch (InputNotInListException e ){
+                catch (InputNotInListException | InputMismatchException e ){
                     view.wrongInput();
                     view.bar();
                     removeBoat(member);}
@@ -314,96 +308,93 @@ public class MainControl {
 
             }
 
-        // TODO: 2020-09-05 make some easy updates
             private void updateBoat() throws CreditFailureException, InputNotInListException, BoatNotFoundException {
+            try {
                 view.enterRegNumber();
                 Price newPrice = new Price();
                 String boatRegistrationNumber = view.getInput();
-                Users owner = findMember(false);
+                User owner = findMember(false);
                 Boat boat = jollyPirate.findBoat(boatRegistrationNumber, owner);
                 view.boatOptions();
                 String boatType = null;
                 double oldLength = boat.getLength();
                 BoatFactory newBoat = new BoatFactory();
                 String input = view.inputConfirmation();
-                    if (input.equalsIgnoreCase("1")) {
-                        view.listTypes();
-                        String type = view.inputConfirmation();
-                        switch (type) {
-                            case "1":
-                                boatType = "motorsailer";
-                                break;
-                            case "2":
-                                boatType = "sailboat";
-                                break;
-                            case "3":
-                                boatType = "kayak_canoe";
-                                break;
-                            case "4":
-                                boatType = "other";
-                                break;
-                            default:
-                                view.wrongInput();
-                                view.bar();
-                               updateBoat();
-                                break;
-                        }
-                        view.hasLength();
-                        if(view.confirm()){
-                            boat.changeLength(view.enterLength());
-                        }
-                            Boat updatedBoat = newBoat.getBoat(boatType, boat.getLength(), boat.getRegNumber(), boat.getOwner());
-                            newPrice.setUpdatePrice(updatedBoat, boat.getType(), oldLength);
-                            updatedBoat.addLocation(boat.getLoacation());
-                            jollyPirate.updateBoat(updatedBoat, newPrice);
-                            view.boatUpdated(newPrice);
-                        loginOptions();
+                if (input.equalsIgnoreCase("1")) {
+                    view.listTypes();
+                    String type = view.inputConfirmation();
+                    switch (type) {
+                        case "1":
+                            boatType = "motorsailer";
+                            break;
+                        case "2":
+                            boatType = "sailboat";
+                            break;
+                        case "3":
+                            boatType = "kayak_canoe";
+                            break;
+                        case "4":
+                            boatType = "other";
+                            break;
+                        default:
+                            view.wrongInput();
+                            view.bar();
+                            updateBoat();
+                            break;
                     }
-                    else if (input.equalsIgnoreCase("2")){
+                    view.hasLength();
+                    if (view.confirm()) {
                         boat.changeLength(view.enterLength());
-                        newPrice.setUpdatePrice(boat, boat.getType(), boat.getLength());
-                        jollyPirate.updateBoat(boat, newPrice);
-                        loginOptions();
                     }
-                    else if (input.equalsIgnoreCase("3")){
-                        loginOptions();
-                    }
-                    else{view.wrongInput();
-                        view.bar();
-                        updateBoat();}
-
+                    Boat updatedBoat = newBoat.getBoat(boatType, boat.getLength(), boat.getRegNumber(), boat.getOwner());
+                    newPrice.setUpdatePrice(updatedBoat, boat.getType(), oldLength);
+                    updatedBoat.addLocation(boat.getLocation());
+                    jollyPirate.updateBoat(updatedBoat, newPrice);
+                    view.boatUpdated(newPrice);
+                    loginOptions();
+                } else if (input.equalsIgnoreCase("2")) {
+                    boat.changeLength(view.enterLength());
+                    newPrice.setUpdatePrice(boat, boat.getType(), boat.getLength());
+                    jollyPirate.updateBoat(boat, newPrice);
+                    view.boatUpdated(newPrice);
+                    loginOptions();
+                } else if (input.equalsIgnoreCase("3")) {
+                    loginOptions();
+                } else {
+                    view.wrongInput();
+                    view.bar();
+                    updateBoat();
+                }
+            }
+            catch(BoatLengthError e){
+                view.lengthError();
+                updateBoat();
+            }
 
             }
 
 
             private void compactListMembers(){
-              try {
-                   Users[] membersList = jollyPirate.returnMembers();
-                   for (Users users : membersList) {
-                       view.compactList(users);
+                   User[] membersList = jollyPirate.returnMembers();
+                   for (User user : membersList) {
+                       view.compactList(user);
                    }
+                   if(membersList.length == 0)
+                       view.noMemberRegistered();
                    view.bar();
                    loginOptions();
-               }
-               catch (NullPointerException e) {
-                  view.noMemberRegistered();
-                   view.bar();
-                  loginOptions();}
+
               }
 
               private void verboseListMembers(){
-                  try {
-                      Users[] membersList = jollyPirate.returnMembers();
-                      for (Users users : membersList) {
-                          view.verboseList(users);
+                      User[] membersList = jollyPirate.returnMembers();
+                      for (User user : membersList) {
+                          view.verboseList(user);
                       }
+                          if(membersList.length == 0)
+                              view.noMemberRegistered();
                       view.bar();
                       loginOptions();
-                  }
-                  catch (NullPointerException e) {
-                      view.noMemberRegistered();
-                      view.bar();
-                      loginOptions();}
               }
 
             private void changeView(String input){
@@ -418,9 +409,9 @@ public class MainControl {
 
             //Assistant methods to loginOptions controllers ###############
             private boolean confirmMember(Login givenLogin){
-                Users[] members = jollyPirate.returnMembers();
+                User[] members = jollyPirate.returnMembers();
 
-                for (Users member : members) {
+                for (User member : members) {
                     if (member.getLogin().compareTo(givenLogin)) {
                         return true;
                     }
@@ -428,15 +419,15 @@ public class MainControl {
                 return false;
             }
 
-            private Users findMember(boolean viaNr4) throws CreditFailureException, InputNotInListException {
-                Users member = null;
+            private User findMember(boolean viaNr4) throws CreditFailureException, InputNotInListException {
+                User member = null;
                 view.findMember();
                 String userID = view.getInput();
                             if(viaNr4){ //This is when I use this method via nr 4 in main menu and do not want to promt for password unless you want to change the member searched for
-                                Users [] all = jollyPirate.returnMembers();
-                                for(int i = 0; i< all.length;i++){
-                                    if(all[i].getLogin().getUserID().equals(userID))
-                                        member = all[i];
+                                User[] all = jollyPirate.returnMembers();
+                                for (User user : all) {
+                                    if (user.getLogin().getUserID().equals(userID))
+                                        member = user;
                                 }
                                 if(member == null){throw new CreditFailureException("");}
                                 view.compactList(member);
@@ -463,12 +454,12 @@ public class MainControl {
                 return member;
             }
 
-            private Boat createBoat(Users member) {
+            private Boat createBoat(User member) {
                           try{
                             BoatFactory boatFactory = new BoatFactory();
                             String regNumber;
                             String boatType = null;
-                            double length = 0;
+                            double length;
                             view.listTypes();
                             //Get the type and handle input error
                                   String input = view.inputConfirmation();
@@ -491,7 +482,7 @@ public class MainControl {
                                       default:
                                           view.wrongInput();
                                           view.bar();
-                                          registerBoat(member);
+                                          registerBoat(null);
                                           break;
                                   }
                                   //Get the length - checking allowed length and handle input error
@@ -500,7 +491,6 @@ public class MainControl {
                                   if(view.confirm()){
                                     view.enterRegNumber();
                                     regNumber = view.getInput();
-                                    // errorHandling.validRegNumber(regNumber); if I have time
                                     if(jollyPirate.checkRegNumber(regNumber)){
                                         view.boatAlreadyInRegistry();
                                         loginOptions();}}
@@ -508,10 +498,14 @@ public class MainControl {
                                     regNumber = createRegNumber();
                               return boatFactory.getBoat(boatType, length, regNumber, member);
                           }
+                          catch (BoatLengthError x){
+                              view.lengthError();
+                              registerBoat(null);
+                          }
                           catch (InputNotInListException | InputMismatchException e){
                               view.wrongInput();
                               view.bar();
-                              registerBoat(member);}
+                              registerBoat(null);}
                           return null;
                         }
 

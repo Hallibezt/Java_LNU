@@ -1,22 +1,22 @@
 package model;
 
 import model.boats.Boat;
-import model.roles.Users;
+import model.roles.User;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Berths implements Serializable {
+public class Berth implements Serializable {
     private int location;
     private Boat boat = null;
-    private Users currentUser = null;
-    private ArrayList<Users> previousUsers = new ArrayList<>();
+    private User currentUser = null;
+    private ArrayList<User> previousUsers = new ArrayList<>();
 
     public void setLocation(int i) {
         location = i;
     }
 
-    public Users getCurrentUser() {
+    public User getCurrentUser() {
         return currentUser;
     }
 
@@ -32,7 +32,7 @@ public class Berths implements Serializable {
     public void removeBoat(){
         boat = null;
         if (previousUsers == null ){
-            ArrayList<Users> temp = new ArrayList<>();
+            ArrayList<User> temp = new ArrayList<>();
             temp.add(currentUser);
             this.previousUsers = temp;}
         else {
@@ -47,13 +47,14 @@ public class Berths implements Serializable {
 
     }
 
-    public boolean hasRentedBert(Users user){
+    public boolean hasRentedBert(User user){
         if (previousUsers != null ){
-        for(int i = 0; i<previousUsers.size(); i++){
-            if(user.getSocialNumber().equalsIgnoreCase(previousUsers.get(i).getSocialNumber())){
-                return true;
+            for (User previousUser : previousUsers) {
+                if (user.getSocialNumber().equalsIgnoreCase(previousUser.getSocialNumber())) {
+                    return true;
+                }
             }
-        }}
+        }
         return false;
     }
 

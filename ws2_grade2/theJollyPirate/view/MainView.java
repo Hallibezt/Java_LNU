@@ -1,11 +1,12 @@
 package view;
 
+import controller.exceptions_errors.BoatLengthError;
 import controller.exceptions_errors.InputNotInListException;
 import model.Price;
 import model.boats.Boat;
-import model.roles.Users;
+import model.roles.User;
 
-public abstract class Mainview {
+public abstract class MainView {
 
  public abstract void welcome();
 
@@ -28,7 +29,7 @@ public abstract class Mainview {
 
  public abstract void findMember();
 
- public abstract void confirmRemoveMember(Users member);
+ public abstract void confirmRemoveMember(User member);
 
  public abstract void memberRemoved();
 
@@ -53,6 +54,7 @@ public abstract class Mainview {
  public abstract void acceptPrice(double price);
 
  public abstract void noBoatRegistered();
+ public abstract void boatUpdated(Price newPrice);
 
 
  //Those two are for grade 4
@@ -67,16 +69,16 @@ public abstract class Mainview {
  public abstract String inputConfirmation();
 
  //Handling inputs
- public abstract double enterLength();
+ public abstract double enterLength() throws InputNotInListException, BoatLengthError;
 
  public abstract String getInput();
 
  public abstract boolean confirm() throws InputNotInListException; //Yes or no question
 
- //Printing informations about users and boats
- public abstract void compactList(Users users);
+ //Printing information about users and boats
+ public abstract void compactList(User user);
 
- public abstract void verboseList(Users users);
+ public abstract void verboseList(User user);
 
  public abstract void boatInfo(Boat boat);
 
@@ -85,7 +87,7 @@ public abstract class Mainview {
  public abstract void loginOptions();
  // public abstract void nonLoginOptions(); //for grade 4
 
- public abstract void updateMember(Users member);
+ public abstract void updateMember(User member);
 
  public abstract void changeView();
 
@@ -111,7 +113,7 @@ public abstract class Mainview {
 
  public abstract void noBerths();
 
- public abstract void noBoatsReg();
+ public abstract void noBoatsAreReg();
 
  public abstract void boatNotFound();
 
@@ -135,5 +137,5 @@ public abstract class Mainview {
 
  public abstract void exitOption();
 
- public abstract void boatUpdated(Price newPrice);
+
 }
