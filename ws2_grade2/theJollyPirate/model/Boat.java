@@ -1,20 +1,23 @@
 package model;
 
+import controller.EnumValues;
+
 import java.io.Serializable;
 
 public  class Boat implements Serializable {
+    private static final long serialVersionUID = 1989992313610046251L;
     private double length;
     private  String registrationNumber;
     private  User owner;
     private int location;
-     String type;
+    private EnumValues.boatType type;
     private Price price;
 
 
 
 
 
-    public Boat(String boatType, double length, String registrationNumber, User owner){
+    public Boat(EnumValues.boatType boatType, double length, String registrationNumber, User owner){
         this.length = length;
         this.registrationNumber = registrationNumber;
         this.owner = owner;
@@ -37,10 +40,10 @@ public  class Boat implements Serializable {
         return this.registrationNumber;
     }
 
-    public void setType(String type) {
+    public void setType(EnumValues.boatType type) {
         this.type = type;
     }
-    public String getType() {
+    public EnumValues.boatType getType() {
         return this.type;
     }
 

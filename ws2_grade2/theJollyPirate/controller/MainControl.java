@@ -161,7 +161,7 @@ public class MainControl implements Serializable {
         String userID = view.getInput();
         User[] all = jollyPirate.returnMembers();
         for (User user : all) {
-            if (user.getLogin().getUserID().equals(userID))
+            if (user.getLogin().getUserID().equalsIgnoreCase(userID))
                 member = user;
         }
         if(member == null){throw new CreditFailureException("");} //Username wasn't found
@@ -181,53 +181,59 @@ public class MainControl implements Serializable {
 
 
           private void updateMember(User member)  {
+                  try {
+                      switch (view.showUpdateMenu(member)) {
+                          case firstName:
+                              view.firstNameUpdate();
+                              member.addFirstName(view.getInput());
+                              jollyPirate.updateMember(member);
+                              view.memberUpdated();
+                              updateMember(member);
+                              break;
+                          case secondName:
+                              view.secondNameUpdate();
+                              member.addSurName(view.getInput());
+                              jollyPirate.updateMember(member);
+                              view.memberUpdated();
+                              updateMember(member);
+                              break;
+                          case password:
+                              view.passwordUpdate();
+                              member.getLogin().addPassword(view.getInput());
+                              jollyPirate.updateMember(member);
+                              view.memberUpdated();
+                              updateMember(member);
+                              break;
+                          case registerBoat:
+                              registerBoat(member);
+                              break;
+                          case removeBoat:
+                              removeBoat(member);
+                              break;
+                          case exit:
+                              view.bar();
+                              loginOptions();
+                              break;
+                          default:
+                              view.wrongInput();
+                              updateMember(member);
 
-                try {
-                    switch (view.showUpdateMenu(member)) {
-                        case firstName:
-                            view.firstNameUpdate();
-                            member.addFirstName(view.getInput());
-                            updateMember(member);
-                            break;
-                        case secondName:
-                            view.secondNameUpdate();
-                            member.addSurName(view.getInput());
-                            jollyPirate.updateMember(member);
-                            updateMember(member);
-                            break;
-                        case password:
-                            view.passwordUpdate();
-                            member.getLogin().addPassword(view.getInput());
-                            jollyPirate.updateMember(member);
-                            updateMember(member);
-                            break;
-                        case registerBoat:
-                            registerBoat(member);
-                            updateMember(member);
-                            break;
-                        case removeBoat:
-                            removeBoat(member);
-                            updateMember(member);
-                            break;
-                        case exit:
-                            view.bar();
-                            loginOptions();
-                            break;
-                        default:
-                            view.wrongInput();
-                            loginOptions();
-
-                    }
-                }
-                catch(WrongFormatException e){
-                    view.nameFormat();
-                    updateMember(member);
-                }
-                catch (InputMismatchException e){
-                    view.wrongInput();
-                    view.bar();
-                    updateMember(member);
-                }
+                      }
+                  } catch (WrongFormatException e) {
+                      view.nameFormat();
+                      updateMember(member);
+                  }
+                  catch (InputNotInListException e) {
+                      view.wrongInput();
+                      view.bar();
+                      updateMember(member);
+                  }
+                  catch (InputMismatchException e) {
+                      view.wrongInput();
+                      view.bar();
+                      view.input.next();
+                      updateMember(member);
+                  }
             }
 
             private void registerBoat(User member) {
@@ -260,7 +266,7 @@ public class MainControl implements Serializable {
                     if (backToMain) //Either go to main menu or updateMember menu, depending on how the member got here.
                         loginOptions();
                     else
-                        updateMember(member);// TODO: 2020-09-24 get back the main/update return function
+                        updateMember(member);
                 }
                 catch( CreditFailureException e){
                     view.credFailure();
@@ -282,12 +288,15 @@ public class MainControl implements Serializable {
                     backToMain = true;
                     member = findMember();
                 }
-                view.enterRegNumber();
+                view.enterRegNumberRemove();
                 String boatRegistrationNumber = view.getInput();
+                if (view.x(boatRegistrationNumber)){
+                    return;}
                 Boat boat = jollyPirate.findBoat(boatRegistrationNumber, member); //Find a boat, but it has to have same memberID, so you can not remove from others
                 view.confirmRemoveBoat();
                 if (view.confirm()) {
                     jollyPirate.removeBoat(boat, member);
+                    view.boatRemoved();
                 }
                 if (backToMain) //Either go to main menu or updateMember menu, depending on how the member got here.
                     loginOptions();
@@ -308,22 +317,22 @@ public class MainControl implements Serializable {
             catch (BoatNotFoundException e){
                     view.boatNotFound();
                     view.bar();
-                    loginOptions();
+                     removeBoat(member);
             }
 
             }
 
             private void updateBoat() throws CreditFailureException, InputNotInListException, BoatNotFoundException {
-                try {
                     Price newPrice = new Price();
                     view.enterRegNumber();
                     String boatRegistrationNumber = view.getInput();
                     User owner = findMember();
                     Boat boat = jollyPirate.findBoat(boatRegistrationNumber, owner);
                     double oldLength = boat.getLength();
-                    String type;
+                    EnumValues.boatType type;
                     view.boatOptions();
-                    if (view.showUpdateBoatMenu() == MainView.updateBoatOptions.type) {
+                    EnumValues.updateBoatOptions options = view.showUpdateBoatMenu();
+                    if (options ==  EnumValues.updateBoatOptions.type) {
                         view.listTypes();
                         type = view.getBoatType();
                         view.hasLength();
@@ -335,23 +344,16 @@ public class MainControl implements Serializable {
                         jollyPirate.updateBoat(updatedBoat);
                         view.boatUpdated(newPrice);
                         loginOptions();
-                    } else if (view.showUpdateBoatMenu() == MainView.updateBoatOptions.length) {
+                    } else if (options ==  EnumValues.updateBoatOptions.length) {
                         boat.changeLength(view.enterLength());
                         newPrice.setUpdatePrice(boat, boat.getType(), boat.getLength());
                         jollyPirate.updateBoat(boat);
                         view.boatUpdated(newPrice);
                         loginOptions();
-                    } else if (view.showUpdateBoatMenu() == MainView.updateBoatOptions.exit) {
+                    } else if (options ==  EnumValues.updateBoatOptions.exit) {
                         view.bar();
                         loginOptions();
                     }
-                }
-
-                catch(BoatLengthError e){
-                    view.lengthError();
-                    updateBoat();
-                }
-
             }
 
 
@@ -398,7 +400,7 @@ public class MainControl implements Serializable {
 
                 private Boat createBoat(User member) {
                     try {
-                        String boatType = view.getBoatType();
+                        EnumValues.boatType boatType = view.getBoatType();
                         String regNumber;
                         double length = view.enterLength();
                         view.hasRegNumber(); //enter registration number or create one from the club if the boat has none
@@ -416,10 +418,7 @@ public class MainControl implements Serializable {
                            thePrice.setPrice(boat);
                            boat.setPrice(thePrice);
                         return boat;
-                    } catch (BoatLengthError x) {
-                        view.lengthError();
-
-                    } catch (InputNotInListException e) {
+                    }  catch (InputNotInListException e) {
                         view.wrongInput();
                         view.bar();
                     }

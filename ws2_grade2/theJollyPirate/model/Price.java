@@ -1,8 +1,11 @@
 package model;
 
+import controller.EnumValues;
+
 import java.io.Serializable;
 
 public class Price implements Serializable {
+    private static final long serialVersionUID = -4021840820602133716L;
     private double price = 0;
     private final int sailboat = 500;
     private final int motorsailer = 600; //Risk of oil-leakage - environment price
@@ -20,23 +23,22 @@ public class Price implements Serializable {
     }
 
     public void setPrice(Boat boat){
-        String type = boat.getType();
+        EnumValues.boatType type = boat.getType();
         double length = boat.getLength();
-        if(type.equalsIgnoreCase("sailboat")){
+        if(type == EnumValues.boatType.sailboat){
             if (length<=5){this.price = this.sailboat + this.underFive;}
             else if (length>5 & boat.getLength() <= 10){this.price =  this.sailboat + this.fiveToTen;}
             else
                 this.price = this.sailboat + this.overTen;}
-        else if(type.equalsIgnoreCase("motorsailer")){
+        else if(type == EnumValues.boatType.motorsailer){
             if (length<=5){this.price =  this.motorsailer + this.underFive;}
             else if (length>5 & boat.getLength() <= 10){this.price = this.motorsailer + this.fiveToTen;}
             else
                 this.price = this.motorsailer + this.overTen;}
-        else if(type.equalsIgnoreCase("kayak_canoe")) {
+        else if(type == EnumValues.boatType.kayakCanoe) {
             this.price = this.kayak_canoe;
         }
-
-        else if(type.equalsIgnoreCase("other")){
+        else if(type == EnumValues.boatType.other){
             if (length<=5){this.price =  this.other + this.underFive;}
             else if (length>5 & boat.getLength() <= 10){this.price = this.other + this.fiveToTen;}
             else
@@ -44,7 +46,7 @@ public class Price implements Serializable {
 
     }
 
-    public void setUpdatePrice(Boat boat, String prevType, double prevLength) {
+    public void setUpdatePrice(Boat boat, EnumValues.boatType prevType, double prevLength) {
         double lengthDifference = boat.getLength()-prevLength;
         double typeDifference = 0;
         if(!boat.getType().equals(prevType))
@@ -60,28 +62,28 @@ public class Price implements Serializable {
 
     }
 
-    private double findDifference(String newType, String prevType) {
+    private double findDifference(EnumValues.boatType newType, EnumValues.boatType prevType) {
 
-        if (prevType.equalsIgnoreCase("kayak_canoe")) {
-            if (newType.equalsIgnoreCase("motorsailer"))
+        if (prevType == EnumValues.boatType.kayakCanoe) {
+            if (newType == EnumValues.boatType.motorsailer)
                 return 450;
-            if (newType.equalsIgnoreCase("sailboat"))
+            if (newType == EnumValues.boatType.sailboat)
                 return 350;
-            if (newType.equalsIgnoreCase("other"))
+            if (newType == EnumValues.boatType.other)
                 return 200;
             else
                 return 0;
         }
-        if (prevType.equalsIgnoreCase("other")) {
-            if (newType.equalsIgnoreCase("motorsailer"))
+        if (prevType==EnumValues.boatType.other) {
+            if (newType == EnumValues.boatType.motorsailer)
                 return 250;
-            if (newType.equalsIgnoreCase("sailboat"))
+            if (newType == EnumValues.boatType.sailboat)
                 return 150;
             else
                 return 0;
         }
-        if (prevType.equalsIgnoreCase("sailboat")) {
-            if (newType.equalsIgnoreCase("motorsailer"))
+        if (prevType == EnumValues.boatType.sailboat) {
+            if (newType == EnumValues.boatType.motorsailer)
                 return 100;
             else
                 return 0;

@@ -40,7 +40,7 @@ public class Registry implements Serializable {
             for (User regUser : regUsers) {
                 if (member.getSocialNumber().equals(regUser.getSocialNumber()))
                     throw new IllegalArgumentException();
-                if (member.getLogin().getUserID().equals(regUser.getLogin().getUserID())) {
+                if (member.getLogin().getUserID().equalsIgnoreCase(regUser.getLogin().getUserID())) {
                     member.getLogin().changeUserID();
                     sameID = true;
                     break;
