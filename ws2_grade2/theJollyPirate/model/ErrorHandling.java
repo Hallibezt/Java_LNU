@@ -1,6 +1,8 @@
-package controller.exceptions_errors;
+package model;
 
-public class ErrorHandling {
+import java.io.Serializable;
+
+public class ErrorHandling implements Serializable {
 
     public boolean socialFormat(String socialNumber){
         return socialNumber.matches("^((2000|2400|2800|(19|2[0-9](0[48]|[2468][048]|[13579][26])))0229)\\d{4}$"

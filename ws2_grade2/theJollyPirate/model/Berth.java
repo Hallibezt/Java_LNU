@@ -1,12 +1,10 @@
 package model;
 
-import model.boats.Boat;
-import model.roles.User;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Berth implements Serializable {
+    private static final long serialVersionUID = -3564668532112937369L;
     private int location;
     private Boat boat = null;
     private User currentUser = null;

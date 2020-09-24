@@ -1,27 +1,30 @@
-package model.roles;
-import model.Price;
-import model.boats.Boat;
-import model.Fee;
-import model.Login;
+package model;
 
+import controller.exceptions_errors.WrongFormatException;
+
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Member extends User {
+public  class User implements Serializable {
+
     private static final long serialVersionUID = -5515181500783304862L;
     private final LocalDate currentDate = LocalDate.now();
-    private Login credentials;
+    private final Login credentials;
     private String firstName;
     private String surName;
-    private String socialNumber;
+    private final String socialNumber;
+    private final ErrorHandling errorHandling = new ErrorHandling();
     private final ArrayList<Boat> boats = new ArrayList<>();
     private final Fee fee = new Fee();
-    private int age;
-    private int birthMonth;
+    private int age; //WS3 attribute
+    private int birthMonth; //WS3 attribute
 
-    public Member(){}
 
-    public Member(String firstName, String surName, String socialNumber, String password){
+
+    public User(String firstName, String surName, String socialNumber, String password) throws WrongFormatException {
+        if(errorHandling.nameFormat(firstName) || errorHandling.nameFormat(surName) || !errorHandling.socialFormat(socialNumber))
+            throw new WrongFormatException("");
         this.surName = surName;
         this.firstName = firstName;
         this.socialNumber = socialNumber;
@@ -30,36 +33,39 @@ public class Member extends User {
         credentials = new Login(firstName.charAt(0)+"." + surName + "_", password);
     }
 
-    @Override
+
     public Login getLogin() {
         return credentials;
     }
 
-    @Override
     public String getFullName() {
         return firstName + " " + surName;
     }
 
-    @Override
+
     public String getSocialNumber() {
         return socialNumber;
     }
 
-    @Override
-    public void addLogin(String password) {
-        credentials = new Login(firstName.charAt(0)+"." + surName + "_", password);    }
 
-    @Override
-    public void addFirstName(String firstName) {
+   // public void addLogin(String password) { WS3 method
+     //   credentials = new Login(firstName.charAt(0)+"." + surName + "_", password);    }
+
+
+    public void addFirstName(String firstName) throws WrongFormatException {
+        if(errorHandling.nameFormat(firstName))
+            throw new WrongFormatException("");
         this.firstName = firstName;
     }
 
-    @Override
-    public void addSurName(String surname) {
-       this.surName = surname;
+
+    public void addSurName(String surname) throws WrongFormatException {
+        if(errorHandling.nameFormat(firstName))
+            throw new WrongFormatException("");
+        this.surName = surname;
     }
 
-    @Override
+
     public void removeBoat(Boat boat) {
         for(int i = 0; i<boats.size(); i++){
             if(boats.get(i).getRegNumber().equalsIgnoreCase(boat.getRegNumber()))
@@ -67,40 +73,34 @@ public class Member extends User {
         }
     }
 
-    public void addBoat(Boat boat, Price price){
+    public void addBoat(Boat boat){
         this.boats.add(boat);
-        fee.addBoatFee(price);
+        fee.addBoatFee(boat.getPrice());
     }
 
-    @Override
-    public String getUserType() {
-        return "Member";
-    }
-
-    @Override
     public void setAge() {
         int currentYear = currentDate.getYear();
         this.age = currentYear - Integer.parseInt(this.socialNumber.substring(0,3));
 
     }
 
-    @Override
+
     public void setMonth() {
         int currentMonth = currentDate.getMonthValue();
         this.birthMonth = currentMonth - Integer.parseInt(this.socialNumber.substring(4,5));
     }
 
-    @Override
-    public int getAge() {
-        return this.age;
-    }
 
-    @Override
-    public int getMonth() {
-        return this.birthMonth;
-    }
+    //public int getAge() { WS3 method
+        //return this.age;
+   // }
 
-    public void updateBoat(Boat boat, Price price) {
+
+    //public int getMonth() { WS3 method
+    //    return this.birthMonth;
+    //}
+
+    public void updateBoat(Boat boat) {
         for (int i = 0; i < boats.size(); i++) {
             if (boats.get(i).getRegNumber().equals(boat.getRegNumber())) {
                 boats.remove(i);
@@ -108,7 +108,7 @@ public class Member extends User {
                 break;
             }
         }
-        fee.addBoatFee(price);
+        fee.addBoatFee(boat.getPrice());
 
     }
     public Boat[] returnBoats(){
@@ -120,11 +120,6 @@ public class Member extends User {
     }
 
     public Fee getFee(){return this.fee;}
-
-
-
-
-//private ArrayList<Event> events
 
 
 }

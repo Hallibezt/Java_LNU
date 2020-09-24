@@ -18,8 +18,7 @@ public class ExportImport {
         ObjectOutputStream out = new ObjectOutputStream(fileOut);
         out.writeObject(obj);
         out.close();
-        fileOut.close();       
-
+        fileOut.close();
             } catch (
             IOException e) {
                 e.printStackTrace();

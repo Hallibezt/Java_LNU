@@ -1,58 +1,62 @@
-package model.boats;
+package model;
 
-import model.roles.User;
+import java.io.Serializable;
 
-public class Motorsailer extends Boat {
-
+public  class Boat implements Serializable {
     private double length;
-    private final String registrationNumber;
-    private final User owner;
+    private  String registrationNumber;
+    private  User owner;
     private int location;
+     String type;
+    private Price price;
 
 
 
-    public Motorsailer( double length, String registrationNumber, User owner){
+
+
+    public Boat(String boatType, double length, String registrationNumber, User owner){
         this.length = length;
         this.registrationNumber = registrationNumber;
         this.owner = owner;
+        this.type = boatType;
     }
 
-
-
-
-    @Override
     public void changeLength(double length) {
         this.length = length;
     }
 
-
-    @Override
     public void addLocation(int location) {
         this.location = location;
     }
 
-    @Override
     public int getLocation() {
         return location;
     }
 
-    @Override
     public String getRegNumber() {
         return this.registrationNumber;
     }
 
-    @Override
+    public void setType(String type) {
+        this.type = type;
+    }
     public String getType() {
-        return "Motorsailer";
+        return this.type;
     }
 
-    @Override
     public double getLength() {
         return this.length;
     }
 
-    @Override
     public User getOwner() {
         return this.owner;
+    }
+
+    public void setPrice(Price price) {
+        this.price = price;
+    }
+
+    public Price getPrice(){
+        return this.price;
     }
 }

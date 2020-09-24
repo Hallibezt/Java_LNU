@@ -1,7 +1,5 @@
 package model;
 
-import model.boats.Boat;
-
 import java.io.Serializable;
 
 public class Price implements Serializable {

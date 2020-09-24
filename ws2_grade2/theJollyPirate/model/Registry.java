@@ -1,9 +1,8 @@
 package model;
 
 import controller.exceptions_errors.BoatNotFoundException;
-import model.boats.Boat;
-import model.roles.Secretary;
-import model.roles.User;
+import controller.exceptions_errors.CreditFailureException;
+
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,39 +16,40 @@ public class Registry implements Serializable {
 
 
 
-    public Registry() {
+
+
+    public Registry()  {
         hardcodedFirstTimeUse();
     }
 
     //When the program was started the first time at Jolly Pirate the berths got address/location and the secretary was registered
-    private void hardcodedFirstTimeUse(){
-        //Secretary is more for grade4 part
-        User theSecretary = new Secretary("Haraldur", "Kristjansson", "198410249999", "IceHot1");
-        regUsers.add(theSecretary);
+    private void hardcodedFirstTimeUse()  {
         for(int i = 0; i < 200; i++){
             berths[i] = new Berth();
             berths[i].setLocation(i+1);
         }
     }
 
-
-
     public String addMember(User member) {
         boolean sameID = true;
         String memberUserName = member.getLogin().getUserID();
         while(sameID){
+            if(regUsers.size() == 0)//for the first time so we do not get stuck in forever loop
+                sameID = false;
+
             for (User regUser : regUsers) {
                 if (member.getSocialNumber().equals(regUser.getSocialNumber()))
                     throw new IllegalArgumentException();
                 if (member.getLogin().getUserID().equals(regUser.getLogin().getUserID())) {
                     member.getLogin().changeUserID();
+                    sameID = true;
                     break;
-                } else {
+                }
+                else {
                     sameID = false;
                 }
             }
         }
-
         regUsers.add(member);
         return memberUserName;
     }
@@ -81,21 +81,27 @@ public class Registry implements Serializable {
             }
 
     public User[] returnMembers(){ //Return all members - exclude secretary or treasury
-        ArrayList<User> temp = new ArrayList<>();
-        for (User regUser : regUsers) {
-            if (regUser.getUserType().equalsIgnoreCase("Member")) {
-                temp.add(regUser);
-            }
-        }
-        User[] members = new User[temp.size()];
-            for(int i = 0; i<temp.size(); i++){
-                members[i] = temp.get(i);
+        User[] members = new User[regUsers.size()];
+            for(int i = 0; i<regUsers.size(); i++){
+                members[i] = regUsers.get(i);
             }
 
         return members;
     }
 
-    public User returnOneMember(Login login){
+    private boolean confirmMember(Login givenLogin){
+
+        for (User member : regUsers) {
+            if (member.getLogin().compareTo(givenLogin)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public User returnOneMember(Login login) throws CreditFailureException {
+        if(!confirmMember(login))
+            throw new CreditFailureException("");
         User member = null;
         for (User regUser : regUsers) {
             if (regUser.getLogin().compareTo(login)) {
@@ -151,14 +157,14 @@ public class Registry implements Serializable {
         return berth;
     }
 
-    public void updateBoat(Boat boat, Price price ){    //changeOwner() update berth and ownerList changeType() - update berth, owner and possible fee changeLength() update berth, owner and possible fee
+    public void updateBoat(Boat boat ){    //changeOwner() update berth and ownerList changeType() - update berth, owner and possible fee changeLength() update berth, owner and possible fee
         for (Berth berth : berths) {
             if (berth.getLocation() == boat.getLocation())
                 berth.addBoat(boat);
         }
         for (User regUser : regUsers) {
             if (regUser.getLogin().compareTo(boat.getOwner().getLogin()))
-                regUser.updateBoat(boat, price);
+                regUser.updateBoat(boat);
         }
 
     }
