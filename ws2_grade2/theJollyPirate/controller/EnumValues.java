@@ -10,5 +10,5 @@ public class EnumValues implements Serializable {
 
     public enum mainOptions {createMember, removeMember, editMember, findMember, registerBoat, removeBoat, editBoat, compact, verbose, exit}
 
-    public enum boatType {motorsailer, sailboat, kayakCanoe, other}
+    public enum boatType {Motorsailer, Sailboat, Kayak_Canoe, Other}
 }

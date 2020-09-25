@@ -13,11 +13,11 @@ public class TheProgram {
       MainView view = new MainView();
       ExportImport importDatabase = new ExportImport();
       Registry jollyPirate = new Registry();
-     try {
-        jollyPirate = importDatabase.importRegistry();
+    try {
+     jollyPirate = importDatabase.importRegistry();
       }
-        catch (EOFException ignored){
-        }
+       catch (EOFException ignored){
+      }
 
       MainControl user = new MainControl(jollyPirate, view);
 

@@ -51,9 +51,11 @@ public class MainControl implements Serializable {
                     registerBoat(null);
                     break;
                 case removeBoat:
+                    view.needCredentialsWarning();
                     removeBoat(null);
                     break;
                 case editBoat:
+                    view.needCredentialsWarning();
                     updateBoat();
                     break;
                 case compact:
@@ -78,7 +80,11 @@ public class MainControl implements Serializable {
             view.bar();
             loginOptions();
         }
-        catch (InputNotInListException | InputMismatchException e){
+        catch (InputNotInListException e){
+            view.wrongInput();
+            view.bar();
+        }
+        catch (InputMismatchException e){
             view.wrongInput();
             view.bar();
             view.input.next();
@@ -284,14 +290,14 @@ public class MainControl implements Serializable {
             private void removeBoat(User member) {
             try {
                 boolean backToMain = false; //To find out if the method should return to updateMember or main menu
-                if(member == null ){  //If not called with certain member in mind (via updateMember) then prompt for one.
-                    backToMain = true;
-                    member = findMember();
-                }
                 view.enterRegNumberRemove();
                 String boatRegistrationNumber = view.getInput();
                 if (view.x(boatRegistrationNumber)){
                     return;}
+                if(member == null ){  //If not called with certain member in mind (via updateMember) then prompt for one.
+                    backToMain = true;
+                    member = findMember();
+                }
                 Boat boat = jollyPirate.findBoat(boatRegistrationNumber, member); //Find a boat, but it has to have same memberID, so you can not remove from others
                 view.confirmRemoveBoat();
                 if (view.confirm()) {
@@ -323,37 +329,56 @@ public class MainControl implements Serializable {
             }
 
             private void updateBoat() throws CreditFailureException, InputNotInListException, BoatNotFoundException {
-                    Price newPrice = new Price();
+                try {
                     view.enterRegNumber();
                     String boatRegistrationNumber = view.getInput();
                     User owner = findMember();
                     Boat boat = jollyPirate.findBoat(boatRegistrationNumber, owner);
                     double oldLength = boat.getLength();
+                    double newLength = oldLength;
                     EnumValues.boatType type;
                     view.boatOptions();
                     EnumValues.updateBoatOptions options = view.showUpdateBoatMenu();
-                    if (options ==  EnumValues.updateBoatOptions.type) {
-                        view.listTypes();
+                    if (options == EnumValues.updateBoatOptions.type) {
                         type = view.getBoatType();
                         view.hasLength();
                         if (view.confirm()) {
-                            boat.changeLength(view.enterLength());
+                            newLength = view.enterLength();
+                            if (newLength < 1 || newLength > 20) {
+                                view.lengthError();
+                                while (newLength < 1 || newLength > 20) {
+                                    newLength = view.enterLength();
+                                }
+                            }
                         }
-                        Boat updatedBoat = new Boat(type, boat.getLength(), boat.getRegNumber(), boat.getOwner());
-                        newPrice.setUpdatePrice(updatedBoat, boat.getType(), oldLength);
+
+                        Boat updatedBoat = new Boat(type, newLength, boat.getRegNumber(), boat.getOwner());
+                        updatedBoat.getMoreUpdateInfo(boat, updatedBoat, oldLength);
                         jollyPirate.updateBoat(updatedBoat);
-                        view.boatUpdated(newPrice);
+                        view.boatUpdated(updatedBoat.getPrice());
                         loginOptions();
-                    } else if (options ==  EnumValues.updateBoatOptions.length) {
-                        boat.changeLength(view.enterLength());
-                        newPrice.setUpdatePrice(boat, boat.getType(), boat.getLength());
+                    } else if (options == EnumValues.updateBoatOptions.length) {
+                        newLength = view.enterLength();
+                        if (newLength < 1 || newLength > 20) {
+                            view.lengthError();
+                            while (newLength < 1 || newLength > 20) {
+                                newLength = view.enterLength();
+                            }
+                        }
+                        boat.changeLength(newLength);
+                        boat.getPrice().setUpdatePrice(boat, boat.getType(), boat.getLength());
                         jollyPirate.updateBoat(boat);
-                        view.boatUpdated(newPrice);
+                        view.boatUpdated(boat.getPrice());
                         loginOptions();
-                    } else if (options ==  EnumValues.updateBoatOptions.exit) {
+                    } else if (options == EnumValues.updateBoatOptions.exit) {
                         view.bar();
                         loginOptions();
                     }
+                }
+                catch (InputMismatchException e){
+                    view.wrongInput();
+                    loginOptions();
+                }
             }
 
 
@@ -403,6 +428,12 @@ public class MainControl implements Serializable {
                         EnumValues.boatType boatType = view.getBoatType();
                         String regNumber;
                         double length = view.enterLength();
+                            if (length < 1 || length > 20) {
+                                view.lengthError();
+                                while (length < 1 || length > 20) {
+                                    length = view.enterLength();
+                                }
+                            }
                         view.hasRegNumber(); //enter registration number or create one from the club if the boat has none
                         if (view.confirm()) {
                             view.enterRegNumber();
@@ -418,7 +449,7 @@ public class MainControl implements Serializable {
                            thePrice.setPrice(boat);
                            boat.setPrice(thePrice);
                         return boat;
-                    }  catch (InputNotInListException e) {
+                    }  catch (InputNotInListException | InputMismatchException e) {
                         view.wrongInput();
                         view.bar();
                     }

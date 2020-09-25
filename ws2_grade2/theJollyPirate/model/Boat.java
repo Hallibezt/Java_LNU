@@ -7,11 +7,11 @@ import java.io.Serializable;
 public  class Boat implements Serializable {
     private static final long serialVersionUID = 1989992313610046251L;
     private double length;
-    private  String registrationNumber;
-    private  User owner;
+    private final String registrationNumber;
+    private final User owner;
     private int location;
     private EnumValues.boatType type;
-    private Price price;
+    private Price price = new Price();
 
 
 
@@ -61,5 +61,11 @@ public  class Boat implements Serializable {
 
     public Price getPrice(){
         return this.price;
+    }
+
+    public void getMoreUpdateInfo(Boat boat, Boat updatedBoat, double oldLength){
+        this.price.setUpdatePrice(updatedBoat, boat.getType(), oldLength);
+        this.location = boat.getLocation();
+
     }
 }

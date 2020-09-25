@@ -25,20 +25,20 @@ public class Price implements Serializable {
     public void setPrice(Boat boat){
         EnumValues.boatType type = boat.getType();
         double length = boat.getLength();
-        if(type == EnumValues.boatType.sailboat){
+        if(type == EnumValues.boatType.Sailboat){
             if (length<=5){this.price = this.sailboat + this.underFive;}
             else if (length>5 & boat.getLength() <= 10){this.price =  this.sailboat + this.fiveToTen;}
             else
                 this.price = this.sailboat + this.overTen;}
-        else if(type == EnumValues.boatType.motorsailer){
+        else if(type == EnumValues.boatType.Motorsailer){
             if (length<=5){this.price =  this.motorsailer + this.underFive;}
             else if (length>5 & boat.getLength() <= 10){this.price = this.motorsailer + this.fiveToTen;}
             else
                 this.price = this.motorsailer + this.overTen;}
-        else if(type == EnumValues.boatType.kayakCanoe) {
+        else if(type == EnumValues.boatType.Kayak_Canoe) {
             this.price = this.kayak_canoe;
         }
-        else if(type == EnumValues.boatType.other){
+        else if(type == EnumValues.boatType.Other){
             if (length<=5){this.price =  this.other + this.underFive;}
             else if (length>5 & boat.getLength() <= 10){this.price = this.other + this.fiveToTen;}
             else
@@ -47,6 +47,7 @@ public class Price implements Serializable {
     }
 
     public void setUpdatePrice(Boat boat, EnumValues.boatType prevType, double prevLength) {
+        this.price = 0;
         double lengthDifference = boat.getLength()-prevLength;
         double typeDifference = 0;
         if(!boat.getType().equals(prevType))
@@ -64,26 +65,26 @@ public class Price implements Serializable {
 
     private double findDifference(EnumValues.boatType newType, EnumValues.boatType prevType) {
 
-        if (prevType == EnumValues.boatType.kayakCanoe) {
-            if (newType == EnumValues.boatType.motorsailer)
+        if (prevType == EnumValues.boatType.Kayak_Canoe) {
+            if (newType == EnumValues.boatType.Motorsailer)
                 return 450;
-            if (newType == EnumValues.boatType.sailboat)
+            if (newType == EnumValues.boatType.Sailboat)
                 return 350;
-            if (newType == EnumValues.boatType.other)
+            if (newType == EnumValues.boatType.Other)
                 return 200;
             else
                 return 0;
         }
-        if (prevType==EnumValues.boatType.other) {
-            if (newType == EnumValues.boatType.motorsailer)
+        if (prevType==EnumValues.boatType.Other) {
+            if (newType == EnumValues.boatType.Motorsailer)
                 return 250;
-            if (newType == EnumValues.boatType.sailboat)
+            if (newType == EnumValues.boatType.Sailboat)
                 return 150;
             else
                 return 0;
         }
-        if (prevType == EnumValues.boatType.sailboat) {
-            if (newType == EnumValues.boatType.motorsailer)
+        if (prevType == EnumValues.boatType.Sailboat) {
+            if (newType == EnumValues.boatType.Motorsailer)
                 return 100;
             else
                 return 0;

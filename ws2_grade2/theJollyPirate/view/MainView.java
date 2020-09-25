@@ -37,7 +37,7 @@ public  class MainView implements Serializable {
   System.out.print(" has been registered to database and the username is: ");
  }
 
- public void boatRegistered(Boat boat) { System.out.println(" The boat has been registered to the database and the registration number is: " + boat.getRegNumber() + ", and it is located at berth number: " + boat.getLocation() + "."); }
+ public void boatRegistered(Boat boat) { System.out.print(" The boat has been registered to the database and the registration number is: " + boat.getRegNumber() + ", and it is located at berth number: " + boat.getLocation() + "."); bar(); }
 
  public void boatUpdated(Price newPrice) {  System.out.println(" The boat has been updated and the price added to the fee was: " + newPrice.getPrice() + " kr."); }
 
@@ -84,7 +84,7 @@ public  class MainView implements Serializable {
  }
 
  public void enterRegNumber() {
-  System.out.print("Please enter the boat's registration number: ");
+  System.out.print("Please enter the boat's registration number (case sensitive): ");
  }
 
  public void hasRegNumber() {
@@ -114,8 +114,8 @@ public  class MainView implements Serializable {
  }
  public void boatRemoved() { System.out.println("The boat has been removed"); }
 
- public void enterRegNumberRemove() {System.out.print("Please enter the boat's registration number (or \"x\" to exit): "); }
-
+ public void enterRegNumberRemove() {System.out.print("Please enter the boat's registration number (case sensitive) (or \"x\" to exit): "); }
+ public void needCredentialsWarning() { System.out.println("Attention - You will need the boat's owner credentials to remove or edit it.");}
 
  //Part of grade 4
  //public void loggedInMessage(String fullName) {System.out.println("You Are Logged In! Welcome " + fullName);}
@@ -130,17 +130,19 @@ public  class MainView implements Serializable {
   int input = this.input.nextInt();
   switch (input) {
    case 1:
-    return  EnumValues.boatType.motorsailer;
+    return  EnumValues.boatType.Motorsailer;
    case 2:
-    return EnumValues.boatType.sailboat;
+    return EnumValues.boatType.Sailboat;
    case 3:
-    return  EnumValues.boatType.kayakCanoe;
+    return  EnumValues.boatType.Kayak_Canoe;
    case 4:
-    return  EnumValues.boatType.other;
+    return  EnumValues.boatType.Other;
    default:
     throw new InputNotInListException("");
   }
  }
+
+
 
  public enum updateOptions {firstName, secondName, password, registerBoat, removeBoat, exit}
 
@@ -166,8 +168,7 @@ public  class MainView implements Serializable {
  }
 
 
- public EnumValues.updateBoatOptions showUpdateBoatMenu() {
-  try {
+ public EnumValues.updateBoatOptions showUpdateBoatMenu() throws InputNotInListException {
    int i = input.nextInt();
    switch (i) {
     case 1:
@@ -177,14 +178,8 @@ public  class MainView implements Serializable {
     case 3:
      return EnumValues.updateBoatOptions.exit;
     default:
-     wrongInput();
-     showUpdateBoatMenu();
+     throw new InputNotInListException("");
    }
-  } catch (InputMismatchException e) {
-   wrongInput();
-   input.next();
-  }
-  return null;
  }
 
  public enum mainOptions {createMember, removeMember, editMember, findMember, registerBoat, removeBoat, editBoat, compact, verbose, exit}
@@ -223,21 +218,8 @@ public  class MainView implements Serializable {
 
  //Handling inputs
  public double enterLength()  {
-  double length = 0;
-  try {
-   System.out.print("Please enter the boats length: ");
-   length = input.nextDouble();
-   if (length < 1 || length > 20)
-    throw new BoatLengthError("");
-  }
-  catch (BoatLengthError e){
-   lengthError();
-   enterLength();}
-  catch (InputMismatchException e){
-     wrongInput();
-     input.next();
-     enterLength();}
-  return length;
+  System.out.println("Please enter the boats length: ");
+  return input.nextDouble();
 }
 
 
