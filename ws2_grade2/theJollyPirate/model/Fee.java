@@ -6,7 +6,6 @@ import java.io.Serializable;
 
 public class Fee implements Serializable {
     private static final long serialVersionUID = -5238198694769009192L;
-
     private double totalFee;
     private final int memberFee = 100;
 

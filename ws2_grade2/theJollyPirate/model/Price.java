@@ -1,94 +1,96 @@
 package model;
-
-import controller.EnumValues;
+import model.enums.BoatType;
 
 import java.io.Serializable;
 
 public class Price implements Serializable {
     private static final long serialVersionUID = -4021840820602133716L;
-    private double price = 0;
+    private double price;
     private final int sailboat = 500;
-    private final int motorsailer = 600; //Risk of oil-leakage - environment price
+    private final int motorsailer = 600;
     private final int kayak_canoe = 150;
     private final int other = 350;
     private final int underFive = 0;
     private final int fiveToTen = 100;
     private final int overTen = 200;
 
-    public Price() {
-    }
+    public Price() {    }
 
+    private enum LengthEnum {
+        fiveMeterLong(5), tenMeterLong(10);
+        private final int value;
+         LengthEnum(int value) {
+            this.value = value;
+        }
+    }
     public double getPrice() {
         return this.price;
     }
 
     public void setPrice(Boat boat){
-        EnumValues.boatType type = boat.getType();
+        BoatType type = boat.getType();
         double length = boat.getLength();
-        if(type == EnumValues.boatType.Sailboat){
-            if (length<=5){this.price = this.sailboat + this.underFive;}
-            else if (length>5 & boat.getLength() <= 10){this.price =  this.sailboat + this.fiveToTen;}
+        int five = LengthEnum.fiveMeterLong.value;
+        int ten = LengthEnum.tenMeterLong.value;
+        if(type == BoatType.Sailboat){
+            if (length<=five){this.price = this.sailboat + this.underFive;}
+            else if (length>ten & boat.getLength() <= ten){this.price =  this.sailboat + this.fiveToTen;}
             else
                 this.price = this.sailboat + this.overTen;}
-        else if(type == EnumValues.boatType.Motorsailer){
-            if (length<=5){this.price =  this.motorsailer + this.underFive;}
-            else if (length>5 & boat.getLength() <= 10){this.price = this.motorsailer + this.fiveToTen;}
+        else if(type == BoatType.Motorsailer){
+            if (length<=five){this.price =  this.motorsailer + this.underFive;}
+            else if (length>five & boat.getLength() <= ten){this.price = this.motorsailer + this.fiveToTen;}
             else
                 this.price = this.motorsailer + this.overTen;}
-        else if(type == EnumValues.boatType.Kayak_Canoe) {
+        else if(type == BoatType.Kayak_Canoe) {
             this.price = this.kayak_canoe;
         }
-        else if(type == EnumValues.boatType.Other){
-            if (length<=5){this.price =  this.other + this.underFive;}
-            else if (length>5 & boat.getLength() <= 10){this.price = this.other + this.fiveToTen;}
+        else if(type == BoatType.Other){
+            if (length<=five){this.price =  this.other + this.underFive;}
+            else if (length>five & boat.getLength() <= ten){this.price = this.other + this.fiveToTen;}
             else
                 this.price =  this.other + this.overTen;}
 
     }
 
-    public void setUpdatePrice(Boat boat, EnumValues.boatType prevType, double prevLength) {
-        this.price = 0;
+    public void setUpdatePrice(Boat boat, BoatType prevType, double prevLength) {
         double lengthDifference = boat.getLength()-prevLength;
-        double typeDifference = 0;
-        if(!boat.getType().equals(prevType))
-            typeDifference = findDifference(boat.getType(), prevType);
-        this.price =  typeDifference;
-        if(lengthDifference > 0){
-            //if the length change is under 5 m - no fee is charged
-            if(lengthDifference >= 5)
+        this.price =  findDifference(boat.getType(), prevType);
+            if(lengthDifference < LengthEnum.fiveMeterLong.value)
+                this.price = price + underFive;
+            if(lengthDifference >= LengthEnum.fiveMeterLong.value)
                 this.price = price + fiveToTen;
-            if(lengthDifference >= 10)
+            if(lengthDifference >= LengthEnum.tenMeterLong.value)
                 this.price = price + overTen;
-        }
 
     }
 
-    private double findDifference(EnumValues.boatType newType, EnumValues.boatType prevType) {
-
-        if (prevType == EnumValues.boatType.Kayak_Canoe) {
-            if (newType == EnumValues.boatType.Motorsailer)
-                return 450;
-            if (newType == EnumValues.boatType.Sailboat)
-                return 350;
-            if (newType == EnumValues.boatType.Other)
-                return 200;
+    @SuppressWarnings("PointlessArithmeticExpression")
+    private double findDifference(BoatType newType, BoatType prevType) {
+        if (prevType == BoatType.Kayak_Canoe) {
+            if (newType == BoatType.Motorsailer)
+                return this.motorsailer-this.kayak_canoe;
+            if (newType == BoatType.Sailboat)
+                return this.sailboat-this.kayak_canoe;
+            if (newType == BoatType.Other)
+                return this.other-this.kayak_canoe;
             else
-                return 0;
+                return this.kayak_canoe-this.kayak_canoe;
         }
-        if (prevType==EnumValues.boatType.Other) {
-            if (newType == EnumValues.boatType.Motorsailer)
-                return 250;
-            if (newType == EnumValues.boatType.Sailboat)
-                return 150;
+        if (prevType== BoatType.Other) {
+            if (newType == BoatType.Motorsailer)
+                return this.motorsailer-this.other;
+            if (newType == BoatType.Sailboat)
+                return this.sailboat-this.other;
             else
-                return 0;
+                return this.other-this.other;
         }
-        if (prevType == EnumValues.boatType.Sailboat) {
-            if (newType == EnumValues.boatType.Motorsailer)
-                return 100;
+        if (prevType == BoatType.Sailboat) {
+            if (newType == BoatType.Motorsailer)
+                return this.motorsailer-this.sailboat;
             else
-                return 0;
+                return this.sailboat-this.sailboat;
         } else
-            return 0;
+            return this.motorsailer-this.motorsailer;
         }
     }

@@ -7,14 +7,14 @@ public class Berth implements Serializable {
     private static final long serialVersionUID = -3564668532112937369L;
     private int location;
     private Boat boat = null;
-    private User currentUser = null;
-    private ArrayList<User> previousUsers = new ArrayList<>();
+    private Member currentUser = null;
+    private ArrayList<Member> previousUsers = new ArrayList<>();
 
     public void setLocation(int i) {
         location = i;
     }
 
-    public User getCurrentUser() {
+    public Member getCurrentUser() {
         return currentUser;
     }
 
@@ -30,7 +30,7 @@ public class Berth implements Serializable {
     public void removeBoat(){
         boat = null;
         if (previousUsers == null ){
-            ArrayList<User> temp = new ArrayList<>();
+            ArrayList<Member> temp = new ArrayList<>();
             temp.add(currentUser);
             this.previousUsers = temp;}
         else {
@@ -45,9 +45,9 @@ public class Berth implements Serializable {
 
     }
 
-    public boolean hasRentedBert(User user){
+    public boolean hasRentedBert(Member user){
         if (previousUsers != null ){
-            for (User previousUser : previousUsers) {
+            for (Member previousUser : previousUsers) {
                 if (user.getSocialNumber().equalsIgnoreCase(previousUser.getSocialNumber())) {
                     return true;
                 }

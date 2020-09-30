@@ -1,4 +1,4 @@
-package controller;
+package model;
 
 import model.Registry;
 
@@ -23,7 +23,7 @@ public class ExportImport {
             IOException e) {
                 e.printStackTrace();
             }
-            }
+    }
 
     public Registry importRegistry() throws IOException {
         Registry registry = null;

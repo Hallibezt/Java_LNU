@@ -1,23 +1,22 @@
 package controller;
 
-import controller.exceptions_errors.*;
 import model.*;
-import model.Boat;
-import model.User;
-import view.MainView;
-
-import java.io.Serializable;
+import model.enums.BoatType;
+import model.enums.UpdateBoatOption;
+import controller.exceptions_errors.*;
+import view.UserInterface;
 import java.util.InputMismatchException;
 import java.util.Random;
 
 
-public class MainControl implements Serializable {
+public class MainControl  {
     private final Registry jollyPirate;
-    private final MainView view;
+    private final UserInterface view;
     private Boolean programRunning = true;
 
 
-    public MainControl(Registry jollyPirate, MainView view){
+
+    public MainControl(Registry jollyPirate, UserInterface view){
         this.jollyPirate = jollyPirate;
         this.view = view;
     }
@@ -101,13 +100,14 @@ public class MainControl implements Serializable {
 
         //LoginOptions() controls ###############
         private void registerMember() {
-            view.exitOption();
+            try{
+                view.exitOption();
                 view.promptFirstName();
-                String firstName = view.getInput();
+                String firstName = view.getName();
                  if(view.x(firstName)){ //If user enters x he can cancel member creation and return to main menu
                      return;}
                 view.promptSurName();
-                String surName = view.getInput();
+                String surName = view.getName();
                     if(view.x(surName))
                         return;
                 view.promptSocialNumber();
@@ -118,8 +118,8 @@ public class MainControl implements Serializable {
                 String password = view.getInput();
                     if(view.x(password))
                         return;
-        try{
-            User member = new User(firstName, surName, socialNumber,password);
+
+            Member member = new Member(firstName, surName, socialNumber,password);
                 //we add the member and then we get returned the registered username
                 String memberUsername = jollyPirate.addMember(member);
                     System.out.print(member.getFullName());
@@ -140,7 +140,7 @@ public class MainControl implements Serializable {
 
       private void removeMember() {
          try{
-          User member = findMember();
+          Member member = findMember();
           view.confirmRemoveMember(member);
             if(view.confirm()) {
                 view.memberRemoved();
@@ -162,11 +162,11 @@ public class MainControl implements Serializable {
 
     //This is when I use this method via nr 4, find one member, in main menu and do not want to prompt for password unless you want to change the member searched for
     private void findMemberViaOptionFour() throws CreditFailureException, InputNotInListException {
-        User member = null;
+        Member member = null;
         view.findMember();
         String userID = view.getInput();
-        User[] all = jollyPirate.returnMembers();
-        for (User user : all) {
+        Member[] all = jollyPirate.returnMembers();
+        for (Member user : all) {
             if (user.getLogin().getUserID().equalsIgnoreCase(userID))
                 member = user;
         }
@@ -186,8 +186,8 @@ public class MainControl implements Serializable {
     }
 
 
-          private void updateMember(User member)  {
-                  try {
+          private void updateMember(Member member)  {
+                   try {
                       switch (view.showUpdateMenu(member)) {
                           case firstName:
                               view.firstNameUpdate();
@@ -225,9 +225,6 @@ public class MainControl implements Serializable {
                               updateMember(member);
 
                       }
-                  } catch (WrongFormatException e) {
-                      view.nameFormat();
-                      updateMember(member);
                   }
                   catch (InputNotInListException e) {
                       view.wrongInput();
@@ -242,7 +239,7 @@ public class MainControl implements Serializable {
                   }
             }
 
-            private void registerBoat(User member) {
+            private void registerBoat(Member member) {
                 try {
                     if (!jollyPirate.availableBerth()) { //See first if there are any available berths
                         view.noBerths();
@@ -287,7 +284,7 @@ public class MainControl implements Serializable {
             }
 
 
-            private void removeBoat(User member) {
+            private void removeBoat(Member member) {
             try {
                 boolean backToMain = false; //To find out if the method should return to updateMember or main menu
                 view.enterRegNumberRemove();
@@ -332,14 +329,14 @@ public class MainControl implements Serializable {
                 try {
                     view.enterRegNumber();
                     String boatRegistrationNumber = view.getInput();
-                    User owner = findMember();
+                    Member owner = findMember();
                     Boat boat = jollyPirate.findBoat(boatRegistrationNumber, owner);
                     double oldLength = boat.getLength();
                     double newLength = oldLength;
-                    EnumValues.boatType type;
+                    BoatType type;
                     view.boatOptions();
-                    EnumValues.updateBoatOptions options = view.showUpdateBoatMenu();
-                    if (options == EnumValues.updateBoatOptions.type) {
+                    UpdateBoatOption options = view.showUpdateBoatMenu();
+                    if (options == UpdateBoatOption.type) {
                         type = view.getBoatType();
                         view.hasLength();
                         if (view.confirm()) {
@@ -357,7 +354,7 @@ public class MainControl implements Serializable {
                         jollyPirate.updateBoat(updatedBoat);
                         view.boatUpdated(updatedBoat.getPrice());
                         loginOptions();
-                    } else if (options == EnumValues.updateBoatOptions.length) {
+                    } else if (options == UpdateBoatOption.length) {
                         newLength = view.enterLength();
                         if (newLength < 1 || newLength > 20) {
                             view.lengthError();
@@ -370,7 +367,7 @@ public class MainControl implements Serializable {
                         jollyPirate.updateBoat(boat);
                         view.boatUpdated(boat.getPrice());
                         loginOptions();
-                    } else if (options == EnumValues.updateBoatOptions.exit) {
+                    } else if (options == UpdateBoatOption.exit) {
                         view.bar();
                         loginOptions();
                     }
@@ -383,8 +380,8 @@ public class MainControl implements Serializable {
 
 
             private void compactListMembers(){
-                   User[] membersList = jollyPirate.returnMembers();
-                   for (User user : membersList) {
+                   Member[] membersList = jollyPirate.returnMembers();
+                   for (Member user : membersList) {
                        view.compactList(user);
                    }
                    if(membersList.length == 0)
@@ -395,8 +392,8 @@ public class MainControl implements Serializable {
               }
 
               private void verboseListMembers(){
-                      User[] membersList = jollyPirate.returnMembers();
-                      for (User user : membersList) {
+                      Member[] membersList = jollyPirate.returnMembers();
+                      for (Member user : membersList) {
                           view.verboseList(user);
                       }
                           if(membersList.length == 0)
@@ -408,8 +405,8 @@ public class MainControl implements Serializable {
 
             //Assistant methods to loginOptions controllers ###############
 
-                private User findMember() throws CreditFailureException{
-                    User member;
+                private Member findMember() throws CreditFailureException{
+                    Member member;
                     view.findMember();
                     String userID = view.getInput();
                     view.promptPassword();
@@ -423,9 +420,9 @@ public class MainControl implements Serializable {
 
 
 
-                private Boat createBoat(User member) {
+                private Boat createBoat(Member member) {
                     try {
-                        EnumValues.boatType boatType = view.getBoatType();
+                        BoatType boatType = view.getBoatType();
                         String regNumber;
                         double length = view.enterLength();
                             if (length < 1 || length > 20) {

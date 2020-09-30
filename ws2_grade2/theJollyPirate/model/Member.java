@@ -1,12 +1,10 @@
 package model;
 
-import controller.exceptions_errors.WrongFormatException;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public  class User implements Serializable {
+public  class Member implements Serializable {
 
     private static final long serialVersionUID = -5515181500783304862L;
     private final LocalDate currentDate = LocalDate.now();
@@ -14,7 +12,6 @@ public  class User implements Serializable {
     private String firstName;
     private String surName;
     private final String socialNumber;
-    private final ErrorHandling errorHandling = new ErrorHandling();
     private final ArrayList<Boat> boats = new ArrayList<>();
     private final Fee fee = new Fee();
     private int age; //WS3 attribute
@@ -22,9 +19,7 @@ public  class User implements Serializable {
 
 
 
-    public User(String firstName, String surName, String socialNumber, String password) throws WrongFormatException {
-        if(errorHandling.nameFormat(firstName) || errorHandling.nameFormat(surName) || !errorHandling.socialFormat(socialNumber))
-            throw new WrongFormatException("");
+    public Member(String firstName, String surName, String socialNumber, String password) {
         this.surName = surName;
         this.firstName = firstName;
         this.socialNumber = socialNumber;
@@ -52,16 +47,12 @@ public  class User implements Serializable {
      //   credentials = new Login(firstName.charAt(0)+"." + surName + "_", password);    }
 
 
-    public void addFirstName(String firstName) throws WrongFormatException {
-        if(errorHandling.nameFormat(firstName))
-            throw new WrongFormatException("");
+    public void addFirstName(String firstName)  {
         this.firstName = firstName;
     }
 
 
-    public void addSurName(String surname) throws WrongFormatException {
-        if(errorHandling.nameFormat(firstName))
-            throw new WrongFormatException("");
+    public void addSurName(String surname) {
         this.surName = surname;
     }
 

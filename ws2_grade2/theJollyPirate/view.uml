@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>view</OriginalElement>
+  <nodes>
+    <node x="707.6129744363682" y="1406.0">view.MainView</node>
+    <node x="10.5" y="1286.0">controller.EnumValues.MainOptions</node>
+    <node x="917.2831764565706" y="935.0">model.Price</node>
+    <node x="1486.8813088287854" y="995.5">model.Berth</node>
+    <node x="380.6313088287852" y="48.5">controller.EnumValues</node>
+    <node x="1690.5040097899039" y="0.0">model.Login</node>
+    <node x="1078.5297979797974" y="622.0">model.Boat</node>
+    <node x="758.2831764565706" y="281.5">controller.EnumValues.BoatType</node>
+    <node x="856.8629744363682" y="670.0">model.Price.LengthEnum</node>
+    <node x="338.4999999999999" y="1370.0">controller.EnumValues.UpdateBoatOptions</node>
+    <node x="1655.7316656075827" y="1648.0">model.ExportImport</node>
+    <node x="564.8297979797976" y="1636.0">view.UserInterface</node>
+    <node x="1233.8813088287854" y="1055.5">controller.exceptions_errors</node>
+    <node x="166.4999999999999" y="1334.0">controller.EnumValues.UpdateOptions</node>
+    <node x="1127.9816656075827" y="1830.0">controller.MainControl</node>
+    <node x="1438.4646421621187" y="0.0">model.Fee</node>
+    <node x="609.9316656075828" y="1055.5">view.ErrorHandling</node>
+    <node x="1556.3095653454595" y="1357.5">model.Registry</node>
+    <node x="1486.1313088287854" y="197.0">model.Member</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="model.Berth" target="model.Member">
+      <point x="57.0" y="-75.0" />
+      <point x="1686.3813088287854" y="915.0" />
+      <point x="1689.9499999999998" y="915.0" />
+      <point x="1689.9499999999998" y="602.0" />
+      <point x="1660.6646421621188" y="602.0" />
+      <point x="20.533333333333303" y="147.5" />
+    </edge>
+    <edge source="view.UserInterface" target="controller.EnumValues.MainOptions">
+      <point x="-68.39999999999998" y="-27.0" />
+      <point x="572.4297979797976" y="1616.0" />
+      <point x="112.5" y="1616.0" />
+      <point x="34.0" y="135.0" />
+    </edge>
+    <edge source="view.UserInterface" target="view.ErrorHandling">
+      <point x="7.600000000000023" y="-27.0" />
+      <point x="648.4297979797976" y="1616.0" />
+      <point x="654.2313088287854" y="1616.0" />
+      <point x="654.2313088287854" y="1266.0" />
+      <point x="635.2649989409161" y="1266.0" />
+      <point x="-50.66666666666663" y="15.0" />
+    </edge>
+    <edge source="model.Member" target="model.Login">
+      <point x="128.33333333333326" y="-147.5" />
+      <point x="1768.4646421621187" y="177.0" />
+      <point x="1770.5040097899039" y="177.0" />
+      <point x="-16.0" y="63.5" />
+    </edge>
+    <edge source="model.Boat" target="controller.EnumValues.BoatType">
+      <point x="-93.71428571428578" y="-111.5" />
+      <point x="1148.8155122655116" y="512.0" />
+      <point x="859.0831764565705" y="512.0" />
+      <point x="44.799999999999955" y="63.0" />
+    </edge>
+    <edge source="controller.MainControl" target="controller.EnumValues">
+      <point x="-145.090909090909" y="-63.5" />
+      <point x="1134.8907565166737" y="1810.0" />
+      <point x="0.0" y="1810.0" />
+      <point x="0.0" y="147.0" />
+      <point x="389.77416597164233" y="147.0" />
+      <point x="-54.85714285714289" y="15.0" />
+    </edge>
+    <edge source="model.Registry" target="model.Boat">
+      <point x="-82.66666666666652" y="-63.5" />
+      <point x="1597.642898678793" y="1246.0" />
+      <point x="1476.3813088287854" y="1246.0" />
+      <point x="1476.3813088287854" y="915.0" />
+      <point x="1324.5297979797974" y="915.0" />
+      <point x="82.0" y="111.5" />
+    </edge>
+    <edge source="controller.MainControl" target="model.Boat">
+      <point x="-6.909090909090992" y="-63.5" />
+      <point x="1273.0725746984917" y="1710.0" />
+      <point x="1223.3813088287854" y="1710.0" />
+      <point x="1223.3813088287854" y="915.0" />
+      <point x="1291.7297979797975" y="915.0" />
+      <point x="49.200000000000045" y="111.5" />
+    </edge>
+    <edge source="view.MainView" target="view.ErrorHandling">
+      <point x="-22.399999999999977" y="-15.0" />
+      <point x="741.2129744363683" y="1266.0" />
+      <point x="736.5983322742494" y="1266.0" />
+      <point x="50.66666666666663" y="15.0" />
+    </edge>
+    <edge source="model.Fee" target="model.Price">
+      <point x="-74.25" y="63.5" />
+      <point x="1463.2146421621187" y="177.0" />
+      <point x="1048.3629744363682" y="177.0" />
+      <point x="1048.3629744363682" y="875.0" />
+      <point x="1016.2831764565706" y="875.0" />
+      <point x="0.0" y="-135.5" />
+    </edge>
+    <edge source="controller.EnumValues.MainOptions" target="controller.EnumValues">
+      <point x="0.0" y="-135.0" />
+      <point x="78.49999999999989" y="157.0" />
+      <point x="408.05988025735667" y="157.0" />
+      <point x="-36.571428571428555" y="15.0" />
+    </edge>
+    <edge source="view.UserInterface" target="model.Member">
+      <point x="53.200000000000045" y="-27.0" />
+      <point x="694.0297979797976" y="1606.0" />
+      <point x="830.1129744363682" y="1606.0" />
+      <point x="830.1129744363682" y="552.0" />
+      <point x="1516.9313088287854" y="552.0" />
+      <point x="-123.20000000000005" y="147.5" />
+    </edge>
+    <edge source="controller.MainControl" target="model.Registry">
+      <point x="62.181818181818244" y="-63.5" />
+      <point x="1342.163483789401" y="1750.0" />
+      <point x="1645.2316656075827" y="1750.0" />
+      <point x="1645.2316656075827" y="1616.0" />
+      <point x="1680.3095653454595" y="1616.0" />
+      <point x="0.0" y="63.5" />
+    </edge>
+    <edge source="view.MainView" target="model.Boat">
+      <point x="44.799999999999955" y="-15.0" />
+      <point x="808.4129744363681" y="1256.0" />
+      <point x="1201.3813088287854" y="1256.0" />
+      <point x="1201.3813088287854" y="895.0" />
+      <point x="1226.1297979797976" y="895.0" />
+      <point x="-16.399999999999864" y="111.5" />
+    </edge>
+    <edge source="model.Member" target="model.Boat">
+      <point x="-20.533333333333303" y="147.5" />
+      <point x="1619.5979754954521" y="602.0" />
+      <point x="1383.101226551226" y="602.0" />
+      <point x="140.57142857142867" y="-111.5" />
+    </edge>
+    <edge source="model.Member" target="model.Fee">
+      <point x="-25.666666666666742" y="-147.5" />
+      <point x="1614.4646421621187" y="177.0" />
+      <point x="1611.7146421621187" y="177.0" />
+      <point x="74.25" y="63.5" />
+    </edge>
+    <edge source="view.MainView" target="model.Member">
+      <point x="0.0" y="-15.0" />
+      <point x="763.6129744363682" y="1266.0" />
+      <point x="772.4316656075828" y="1266.0" />
+      <point x="772.4316656075828" y="542.0" />
+      <point x="1496.397975495452" y="542.0" />
+      <point x="-143.73333333333335" y="147.5" />
+    </edge>
+    <edge source="view.MainView" target="model.Price">
+      <point x="22.399999999999977" y="-15.0" />
+      <point x="786.0129744363683" y="1246.0" />
+      <point x="950.2831764565706" y="1246.0" />
+      <point x="-66.0" y="135.5" />
+    </edge>
+    <edge source="view.UserInterface" target="controller.EnumValues.UpdateOptions">
+      <point x="-53.19999999999993" y="-27.0" />
+      <point x="587.6297979797977" y="1606.0" />
+      <point x="280.4999999999999" y="1606.0" />
+      <point x="38.0" y="87.0" />
+    </edge>
+    <edge source="view.UserInterface" target="controller.exceptions_errors">
+      <point x="68.39999999999998" y="-27.0" />
+      <point x="709.2297979797976" y="1616.0" />
+      <point x="925.8999999999999" y="1616.0" />
+      <point x="925.8999999999999" y="1266.0" />
+      <point x="1262.8813088287854" y="1266.0" />
+      <point x="-87.0" y="15.0" />
+    </edge>
+    <edge source="controller.MainControl" target="model.Berth">
+      <point x="34.545454545454504" y="-63.5" />
+      <point x="1314.5271201530372" y="1730.0" />
+      <point x="1545.8095653454595" y="1730.0" />
+      <point x="1545.8095653454595" y="1266.0" />
+      <point x="1522.5063088287854" y="1266.0" />
+      <point x="-106.875" y="75.0" />
+    </edge>
+    <edge source="model.Price" target="controller.EnumValues.BoatType">
+      <point x="-88.0" y="-135.5" />
+      <point x="928.2831764565706" y="915.0" />
+      <point x="846.3629744363682" y="915.0" />
+      <point x="846.3629744363682" y="532.0" />
+      <point x="814.2831764565706" y="532.0" />
+      <point x="0.0" y="63.0" />
+    </edge>
+    <edge source="view.UserInterface" target="controller.EnumValues.BoatType">
+      <point x="-7.600000000000023" y="-27.0" />
+      <point x="633.2297979797976" y="1576.0" />
+      <point x="599.4316656075828" y="1576.0" />
+      <point x="599.4316656075828" y="532.0" />
+      <point x="791.8831764565705" y="532.0" />
+      <point x="-22.40000000000009" y="63.0" />
+    </edge>
+    <edge source="model.Registry" target="model.Berth">
+      <point x="0.0" y="-63.5" />
+      <point x="1680.3095653454595" y="1226.0" />
+      <point x="1736.2563088287854" y="1226.0" />
+      <point x="106.875" y="75.0" />
+    </edge>
+    <edge source="view.UserInterface" target="view.MainView">
+      <point x="22.799999999999955" y="-27.0" />
+      <point x="663.6297979797976" y="1586.0" />
+      <point x="735.6129744363682" y="1586.0" />
+      <point x="-28.0" y="15.0" />
+    </edge>
+    <edge source="model.Price" target="model.Price.LengthEnum">
+      <point x="-66.0" y="-135.5" />
+      <point x="950.2831764565706" y="905.0" />
+      <point x="899.3629744363682" y="905.0" />
+      <point x="-42.5" y="63.5" />
+    </edge>
+    <edge source="view.UserInterface" target="controller.EnumValues.UpdateBoatOptions">
+      <point x="-38.0" y="-27.0" />
+      <point x="602.8297979797976" y="1596.0" />
+      <point x="476.4999999999999" y="1596.0" />
+      <point x="46.0" y="51.0" />
+    </edge>
+    <edge source="model.Price" target="controller.EnumValues">
+      <point x="-22.0" y="-135.5" />
+      <point x="994.2831764565706" y="865.0" />
+      <point x="1037.3629744363682" y="865.0" />
+      <point x="1037.3629744363682" y="157.0" />
+      <point x="499.4884516859281" y="157.0" />
+      <point x="54.85714285714289" y="15.0" />
+    </edge>
+    <edge source="view.UserInterface" target="controller.EnumValues">
+      <point x="-22.799999999999955" y="-27.0" />
+      <point x="618.0297979797976" y="1586.0" />
+      <point x="559.9816656075827" y="1586.0" />
+      <point x="559.9816656075827" y="177.0" />
+      <point x="462.91702311449956" y="177.0" />
+      <point x="18.285714285714334" y="15.0" />
+    </edge>
+    <edge source="controller.MainControl" target="model.ExportImport">
+      <point x="89.81818181818176" y="-63.5" />
+      <point x="1369.7998474257645" y="1770.0" />
+      <point x="1763.7316656075827" y="1770.0" />
+      <point x="36.0" y="15.0" />
+    </edge>
+    <edge source="model.Berth" target="model.Boat">
+      <point x="-57.0" y="-75.0" />
+      <point x="1572.3813088287854" y="895.0" />
+      <point x="1390.1297979797976" y="895.0" />
+      <point x="147.60000000000014" y="111.5" />
+    </edge>
+    <edge source="controller.MainControl" target="model.Price">
+      <point x="-34.545454545454504" y="-63.5" />
+      <point x="1245.4362110621282" y="1730.0" />
+      <point x="1090.4316656075828" y="1730.0" />
+      <point x="1090.4316656075828" y="1246.0" />
+      <point x="1082.2831764565706" y="1246.0" />
+      <point x="66.0" y="135.5" />
+    </edge>
+    <edge source="controller.EnumValues.UpdateBoatOptions" target="controller.EnumValues">
+      <point x="0.0" y="-51.0" />
+      <point x="430.4999999999999" y="177.0" />
+      <point x="444.6313088287852" y="177.0" />
+      <point x="0.0" y="15.0" />
+    </edge>
+    <edge source="controller.MainControl" target="view.UserInterface">
+      <point x="-62.181818181818244" y="-63.5" />
+      <point x="1217.7998474257645" y="1750.0" />
+      <point x="678.8297979797976" y="1750.0" />
+      <point x="38.0" y="27.0" />
+    </edge>
+    <edge source="controller.EnumValues.BoatType" target="controller.EnumValues">
+      <point x="0.0" y="-63.0" />
+      <point x="814.2831764565706" y="167.0" />
+      <point x="481.2027374002138" y="167.0" />
+      <point x="36.571428571428555" y="15.0" />
+    </edge>
+    <edge source="controller.MainControl" target="controller.EnumValues.UpdateBoatOptions">
+      <point x="-103.63636363636351" y="-63.5" />
+      <point x="1176.3453019712192" y="1780.0" />
+      <point x="384.4999999999999" y="1780.0" />
+      <point x="-46.0" y="51.0" />
+    </edge>
+    <edge source="model.Price" target="model.Boat">
+      <point x="22.0" y="-135.5" />
+      <point x="1038.2831764565706" y="885.0" />
+      <point x="1094.9297979797975" y="885.0" />
+      <point x="-147.5999999999999" y="111.5" />
+    </edge>
+    <edge source="controller.EnumValues.UpdateOptions" target="controller.EnumValues">
+      <point x="0.0" y="-87.0" />
+      <point x="242.4999999999999" y="167.0" />
+      <point x="426.345594543071" y="167.0" />
+      <point x="-18.28571428571422" y="15.0" />
+    </edge>
+    <edge source="controller.MainControl" target="controller.EnumValues.UpdateOptions">
+      <point x="-117.4545454545455" y="-63.5" />
+      <point x="1162.5271201530372" y="1790.0" />
+      <point x="204.4999999999999" y="1790.0" />
+      <point x="-38.0" y="87.0" />
+    </edge>
+    <edge source="model.Registry" target="model.Login">
+      <point x="110.22222222222217" y="-63.5" />
+      <point x="1790.5317875676817" y="1266.0" />
+      <point x="1833.6838077697016" y="1266.0" />
+      <point x="1833.6838077697016" y="177.0" />
+      <point x="1802.5040097899039" y="177.0" />
+      <point x="16.0" y="63.5" />
+    </edge>
+    <edge source="controller.MainControl" target="model.Login">
+      <point x="145.090909090909" y="-63.5" />
+      <point x="1425.0725746984917" y="1810.0" />
+      <point x="1881.2701977176744" y="1810.0" />
+      <point x="1881.2701977176744" y="157.0" />
+      <point x="1866.5040097899039" y="157.0" />
+      <point x="80.0" y="63.5" />
+    </edge>
+    <edge source="model.Price.LengthEnum" target="model.Price">
+      <point x="42.5" y="63.5" />
+      <point x="984.3629744363682" y="915.0" />
+      <point x="972.2831764565706" y="915.0" />
+      <point x="-44.0" y="-135.5" />
+    </edge>
+    <edge source="controller.MainControl" target="model.Member">
+      <point x="103.63636363636374" y="-63.5" />
+      <point x="1383.6180292439465" y="1780.0" />
+      <point x="1848.2701977176744" y="1780.0" />
+      <point x="1848.2701977176744" y="552.0" />
+      <point x="1763.3313088287855" y="552.0" />
+      <point x="123.20000000000005" y="147.5" />
+    </edge>
+    <edge source="model.Registry" target="controller.exceptions_errors">
+      <point x="-110.22222222222217" y="-63.5" />
+      <point x="1570.0873431232374" y="1256.0" />
+      <point x="1436.8813088287854" y="1256.0" />
+      <point x="87.0" y="15.0" />
+    </edge>
+    <edge source="model.Boat" target="model.Member">
+      <point x="0.0" y="-111.5" />
+      <point x="1242.5297979797974" y="572.0" />
+      <point x="1557.997975495452" y="572.0" />
+      <point x="-82.13333333333344" y="147.5" />
+    </edge>
+    <edge source="controller.MainControl" target="controller.exceptions_errors">
+      <point x="6.909090909090992" y="-63.5" />
+      <point x="1286.8907565166737" y="1710.0" />
+      <point x="1344.3813088287854" y="1710.0" />
+      <point x="1344.3813088287854" y="1266.0" />
+      <point x="1320.8813088287854" y="1266.0" />
+      <point x="-29.0" y="15.0" />
+    </edge>
+    <edge source="model.Boat" target="model.Price">
+      <point x="-49.200000000000045" y="111.5" />
+      <point x="1193.3297979797974" y="915.0" />
+      <point x="1104.2831764565706" y="915.0" />
+      <point x="88.0" y="-135.5" />
+    </edge>
+    <edge source="controller.MainControl" target="controller.EnumValues.BoatType">
+      <point x="-89.81818181818176" y="-63.5" />
+      <point x="1190.163483789401" y="1770.0" />
+      <point x="532.9999999999999" y="1770.0" />
+      <point x="532.9999999999999" y="522.0" />
+      <point x="769.4831764565706" y="522.0" />
+      <point x="-44.799999999999955" y="63.0" />
+    </edge>
+    <edge source="model.Registry" target="model.Member">
+      <point x="82.66666666666674" y="-63.5" />
+      <point x="1762.9762320121263" y="1256.0" />
+      <point x="1804.3813088287854" y="1256.0" />
+      <point x="1804.3813088287854" y="562.0" />
+      <point x="1742.7979754954522" y="562.0" />
+      <point x="102.66666666666674" y="147.5" />
+    </edge>
+    <edge source="model.ExportImport" target="model.Registry">
+      <point x="0.0" y="-15.0" />
+      <point x="1727.7316656075827" y="1616.0" />
+      <point x="1762.9762320121263" y="1616.0" />
+      <point x="82.66666666666674" y="63.5" />
+    </edge>
+    <edge source="controller.MainControl" target="controller.EnumValues.MainOptions">
+      <point x="-131.27272727272725" y="-63.5" />
+      <point x="1148.7089383348555" y="1800.0" />
+      <point x="44.5" y="1800.0" />
+      <point x="-34.0" y="135.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.5000000000000001" x="887.9999999999999" y="531.9999999999999" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Inner Classes</Category>
+    <Category>Fields</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

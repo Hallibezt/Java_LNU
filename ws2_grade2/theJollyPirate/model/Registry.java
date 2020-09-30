@@ -2,14 +2,12 @@ package model;
 
 import controller.exceptions_errors.BoatNotFoundException;
 import controller.exceptions_errors.CreditFailureException;
-
-
 import java.io.Serializable;
 import java.util.ArrayList;
 
 
 public class Registry implements Serializable {
-    private ArrayList<User> regUsers = new ArrayList<>(); //Everyone is registered with password but only secretary can get the full login options, members registering is for them to handle event booking in the future
+    private ArrayList<Member> regUsers = new ArrayList<>(); //Everyone is registered with password but only secretary can get the full login options, members registering is for them to handle event booking in the future
     private final Berth[] berths = new Berth[200];
     private static final long serialVersionUID = -7013385061015921422L;
 
@@ -30,14 +28,14 @@ public class Registry implements Serializable {
         }
     }
 
-    public String addMember(User member) {
+    public String addMember(Member member) {
         boolean sameID = true;
         String memberUserName = member.getLogin().getUserID();
         while(sameID){
             if(regUsers.size() == 0)//for the first time so we do not get stuck in forever loop
                 sameID = false;
 
-            for (User regUser : regUsers) {
+            for (Member regUser : regUsers) {
                 if (member.getSocialNumber().equals(regUser.getSocialNumber()))
                     throw new IllegalArgumentException();
                 if (member.getLogin().getUserID().equalsIgnoreCase(regUser.getLogin().getUserID())) {
@@ -55,7 +53,7 @@ public class Registry implements Serializable {
     }
 
 
-    public void removeMember(User member) { //Removes a member and frees all berths that has member's boats parked.
+    public void removeMember(Member member) { //Removes a member and frees all berths that has member's boats parked.
             for(int i =0; i<regUsers.size();i++){
                 if(regUsers.get(i).getLogin().compareTo(member.getLogin())){
                     regUsers.remove(i);
@@ -70,8 +68,8 @@ public class Registry implements Serializable {
             }
     }
 
-    public void updateMember(User member){
-        ArrayList<User> temp = regUsers;
+    public void updateMember(Member member){
+        ArrayList<Member> temp = regUsers;
         for(int i = 0; i< temp.size(); i++){
             if(temp.get(i).getLogin().getUserID().equalsIgnoreCase(member.getLogin().getUserID())){
                 temp.set(i, member);
@@ -80,8 +78,8 @@ public class Registry implements Serializable {
         regUsers = temp;
             }
 
-    public User[] returnMembers(){ //Return all members - exclude secretary or treasury
-        User[] members = new User[regUsers.size()];
+    public Member[] returnMembers(){ //Return all members - exclude secretary or treasury
+        Member[] members = new Member[regUsers.size()];
             for(int i = 0; i<regUsers.size(); i++){
                 members[i] = regUsers.get(i);
             }
@@ -91,7 +89,7 @@ public class Registry implements Serializable {
 
     private boolean confirmMember(Login givenLogin){
 
-        for (User member : regUsers) {
+        for (Member member : regUsers) {
             if (member.getLogin().compareTo(givenLogin)) {
                 return true;
             }
@@ -99,11 +97,11 @@ public class Registry implements Serializable {
         return false;
     }
 
-    public User returnOneMember(Login login) throws CreditFailureException {
+    public Member returnOneMember(Login login) throws CreditFailureException {
         if(!confirmMember(login))
             throw new CreditFailureException("");
-        User member = null;
-        for (User regUser : regUsers) {
+        Member member = null;
+        for (Member regUser : regUsers) {
             if (regUser.getLogin().compareTo(login)) {
                 member = regUser;
             }
@@ -142,7 +140,7 @@ public class Registry implements Serializable {
     }
 
 
-    public Berth findBert(User member){
+    public Berth findBert(Member member){
         Berth[] list = returnBerths();
         Berth berth = list[0];
         for (Berth value : list) {
@@ -162,7 +160,7 @@ public class Registry implements Serializable {
             if (berth.getLocation() == boat.getLocation())
                 berth.addBoat(boat);
         }
-        for (User regUser : regUsers) {
+        for (Member regUser : regUsers) {
             if (regUser.getLogin().compareTo(boat.getOwner().getLogin()))
                 regUser.updateBoat(boat);
         }
@@ -170,7 +168,7 @@ public class Registry implements Serializable {
     }
 
 
-    public Boat findBoat(String boatRegistrationNumber, User member) throws BoatNotFoundException {
+    public Boat findBoat(String boatRegistrationNumber, Member member) throws BoatNotFoundException {
         Boat boat;
         for (Berth berth : berths) {
             if (berth.getBoat() != null) {
@@ -183,7 +181,7 @@ public class Registry implements Serializable {
         throw new BoatNotFoundException("");
     }
 
-    public void removeBoat(Boat boat, User owner) {
+    public void removeBoat(Boat boat, Member owner) {
         for (Berth berth : berths) {
             if (berth.getBoat() != null) {
                 if (berth.getBoat().getRegNumber().equals(boat.getRegNumber())) {
@@ -191,7 +189,7 @@ public class Registry implements Serializable {
                 }
             }
         }
-        for (User regUser : regUsers) {
+        for (Member regUser : regUsers) {
             if (regUser.getLogin().compareTo(owner.getLogin()))
                 regUser.removeBoat(boat);
         }
