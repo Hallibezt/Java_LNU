@@ -19,7 +19,7 @@ public class SwedishView implements IView
             while (c == '\r' || c =='\n') {
               c = System.in.read();
             }
-            return c;
+              return c;
           } catch (java.io.IOException e) {
             System.out.println("" + e);
             return 0;

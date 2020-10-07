@@ -17,20 +17,20 @@ public class PlayGame {
     }
 
     int input = a_view.GetInput();
-    
-    if (input == 'p')
+
+    if (input == Input.p.getValue())
     {
         a_game.NewGame();
     }
-    else if (input == 'h')
+    else if (input == Input.h.getValue())
     {
         a_game.Hit();
     }
-    else if (input == 's')
+    else if (input == Input.s.getValue())
     {
         a_game.Stand();
     }
 
-    return input != 'q';
+    return input != Input.q.getValue();
   }
 }
