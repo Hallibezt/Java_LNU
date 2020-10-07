@@ -1,0 +1,15 @@
+1. Fix execution if savedMembers.json is empty
+
+2. Validate personalnumber function
+
+3. implement login / logout
+
+4. Change password (match old one before change)
+
+5. Get only members with boats (when changing boats etc...)
+
+6. Code stronger responsibilities
+
+7. Get rid of dependancies
+
+8. Revision sd's
