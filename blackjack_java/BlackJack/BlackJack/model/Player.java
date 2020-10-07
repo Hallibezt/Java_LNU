@@ -16,9 +16,11 @@ public class Player {
     System.out.println("Hello List World");
   }
   
-  public void DealCard(Card a_addToHand)
+  public void DealCard(Deck a_deck, Boolean notHidden)
   {
-    m_hand.add(a_addToHand);
+      Card c = a_deck.GetCard();
+      c.Show(notHidden);
+      m_hand.add(c);
   }
   
   public Iterable<Card> GetHand()
@@ -39,7 +41,7 @@ public class Player {
     }
   }
 
-  public boolean getSofthand(){
+  public boolean softhandUsed(){
       return this.softHandUsed;
   }
   

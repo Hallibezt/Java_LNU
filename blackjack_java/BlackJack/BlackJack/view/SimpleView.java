@@ -1,6 +1,8 @@
 package BlackJack.view;
 
-public class SimpleView implements IView 
+import java.util.concurrent.TimeUnit;
+
+public class SimpleView implements IView
 {
 
   public void DisplayWelcomeMessage()
@@ -20,13 +22,13 @@ public class SimpleView implements IView
               c = System.in.read();
             }
             switch (c){
-                case 1 : c = 112;
+                case 112 :
                     return Input.Play;
-                case 2 : c = 104;
+                case 104 :
                      return Input.Hit;
-                case 3 : c = 115;
+                case 115 :
                     return Input.Stand;
-                case 4 : c = 113;
+                case 113 :
                     return Input.Quit;
                 default: return Input.wrong;
 
@@ -42,22 +44,20 @@ public class SimpleView implements IView
             System.out.println("" + a_card.GetValue() + " of " + a_card.GetColor());
         }
 
-        public void DisplayPlayerHand(Iterable<BlackJack.model.Card> a_hand, int a_score)
-        {
+        public void DisplayPlayerHand(Iterable<BlackJack.model.Card> a_hand, int a_score) throws InterruptedException {
             DisplayHand("Player", a_hand, a_score);
         }
 
-        public void DisplayDealerHand(Iterable<BlackJack.model.Card> a_hand, int a_score)
-        {
+        public void DisplayDealerHand(Iterable<BlackJack.model.Card> a_hand, int a_score) throws InterruptedException {
             DisplayHand("Dealer", a_hand, a_score);
         }
 
-        private void DisplayHand(String a_name, Iterable<BlackJack.model.Card> a_hand, int a_score)
-        {
+        private void DisplayHand(String a_name, Iterable<BlackJack.model.Card> a_hand, int a_score) throws InterruptedException {
             System.out.println(a_name + " Has: ");
             for(BlackJack.model.Card c : a_hand)
             {
                 DisplayCard(c);
+                TimeUnit.SECONDS.sleep(1);
             }
             System.out.println("Score: " + a_score);
             System.out.println("");
