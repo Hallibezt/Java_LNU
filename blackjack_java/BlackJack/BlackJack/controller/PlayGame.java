@@ -2,6 +2,7 @@ package BlackJack.controller;
 
 import BlackJack.view.IView;
 import BlackJack.model.Game;
+import BlackJack.view.SimpleView;
 
 public class PlayGame {
 
@@ -16,21 +17,21 @@ public class PlayGame {
         a_view.DisplayGameOver(a_game.IsDealerWinner());
     }
 
-    int input = a_view.GetInput();
+    SimpleView.Input input = a_view.GetInput();
 
-    if (input == Input.p.getValue())
+    if (input == SimpleView.Input.Play)
     {
         a_game.NewGame();
     }
-    else if (input == Input.h.getValue())
+    else if (input == SimpleView.Input.Hit)
     {
         a_game.Hit();
     }
-    else if (input == Input.s.getValue())
+    else if (input == SimpleView.Input.Stand)
     {
         a_game.Stand();
     }
 
-    return input != Input.q.getValue();
+    return input != SimpleView.Input.Quit;
   }
 }

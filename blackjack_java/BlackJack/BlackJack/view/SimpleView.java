@@ -10,17 +10,30 @@ public class SimpleView implements IView
           System.out.println("Type 'p' to Play, 'h' to Hit, 's' to Stand or 'q' to Quit\n");
         }
 
-        public int GetInput()
+        public enum Input{Play,Hit, Stand, Quit, wrong}
+
+        public Input GetInput()
         {
           try {
             int c = System.in.read();
             while (c == '\r' || c =='\n') {
               c = System.in.read();
             }
-            return c;
+            switch (c){
+                case 1 : c = 112;
+                    return Input.Play;
+                case 2 : c = 104;
+                     return Input.Hit;
+                case 3 : c = 115;
+                    return Input.Stand;
+                case 4 : c = 113;
+                    return Input.Quit;
+                default: return Input.wrong;
+
+            }
           } catch (java.io.IOException e) {
             System.out.println("" + e);
-            return 0;
+            return Input.wrong;
           }
         }
 

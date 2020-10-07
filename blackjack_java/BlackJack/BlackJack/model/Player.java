@@ -6,6 +6,7 @@ import java.util.LinkedList;
 public class Player {
 
   private List<Card> m_hand;
+  private boolean softHandUsed = false;
   protected final int g_maxScore = 21;
 
   public Player()
@@ -37,6 +38,10 @@ public class Player {
       c.Show(true);
     }
   }
+
+  public boolean getSofthand(){
+      return this.softHandUsed;
+  }
   
   public int CalcScore()
   {
@@ -65,6 +70,7 @@ public class Player {
             if (c.GetValue() == Card.Value.Ace && score > g_maxScore)
             {
                 score -= 10;
+                this.softHandUsed = true;
             }
         }
     }
