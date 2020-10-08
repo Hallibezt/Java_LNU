@@ -16,7 +16,7 @@ public class Soft17HitStrategy implements IHitStrategy{
         }
 
 
-        if(a_dealer.CalcScore() == 17 & ace & !a_dealer.softhandUsed()){
+        if(a_dealer.CalcScore() == 17 & ace & !a_dealer.SoftHandUsed()){
             return true;
         }
         else

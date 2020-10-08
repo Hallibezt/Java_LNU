@@ -6,11 +6,16 @@ import BlackJack.view.SimpleView;
 
 public class PlayGame {
 
+
+
   public boolean Play(Game a_game, IView a_view) throws InterruptedException {
     a_view.DisplayWelcomeMessage();
-    
-    a_view.DisplayDealerHand(a_game.GetDealerHand(), a_game.GetDealerScore());
-    a_view.DisplayPlayerHand(a_game.GetPlayerHand(), a_game.GetPlayerScore());
+
+    if (a_game.newCard())
+    {
+      a_view.DisplayDealerHand(a_game.GetDealerHand(), a_game.GetDealerScore());
+      a_view.DisplayPlayerHand(a_game.GetPlayerHand(), a_game.GetPlayerScore());
+    }
 
     if (a_game.IsGameOver())
     {
@@ -34,4 +39,6 @@ public class PlayGame {
 
     return input != SimpleView.Input.Quit;
   }
+
+
 }

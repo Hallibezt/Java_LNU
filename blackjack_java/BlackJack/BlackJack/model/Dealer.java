@@ -2,9 +2,12 @@ package BlackJack.model;
 
 import BlackJack.model.rules.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Dealer extends Player {
+
+
   public enum Rule{
     basic,
     soft17
@@ -14,6 +17,9 @@ public class Dealer extends Player {
   private INewGameStrategy m_newGameRule;
   private IHitStrategy m_hitRule;
   private IWinsStrategy m_winRule;
+
+
+
 
   public Dealer(RulesFactory a_rulesFactory) {
   
@@ -38,9 +44,16 @@ public class Dealer extends Player {
     return false;
   }
 
+  public void DealCard(Player a_player, Boolean notHidden)
+  {
+    Card c = this.m_deck.GetCard();
+    c.Show(notHidden);
+    a_player.addCard(c);
+  }
+
   public boolean Hit(Player a_player) {
     if (m_deck != null && a_player.CalcScore() < g_maxScore && !IsGameOver()) {
-      a_player.DealCard(m_deck,true);
+      DealCard(a_player,true);
       
       return true;
     }
@@ -69,7 +82,7 @@ public class Dealer extends Player {
 
     while(m_hitRule.DoHit(this)){
       m_hitRule.DoHit(this);
-      DealCard(m_deck,true);
+      DealCard(this,true);
     }
     }
     return true;

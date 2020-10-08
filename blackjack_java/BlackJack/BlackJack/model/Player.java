@@ -1,26 +1,46 @@
 package BlackJack.model;
 
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.LinkedList;
 
-public class Player {
+
+public class Player implements Subject {
 
   private List<Card> m_hand;
   private boolean softHandUsed = false;
   protected final int g_maxScore = 21;
+  private List<Observer> observers = new ArrayList<Observer>();
+  private boolean status = false;
+
 
   public Player()
   {
-  
     m_hand = new LinkedList<Card>();
     System.out.println("Hello List World");
   }
+
+    public void notifyAllObservers(){
+        for (Observer observer : observers) {
+            observer.Update(status);}
+        setStatus(false);
+    }
+
+    public void attach(Observer observer){
+        observers.add(observer);
+    }
+
+
+    public void setStatus(boolean status){
+        this.status = status;
+    }
   
-  public void DealCard(Deck a_deck, Boolean notHidden)
-  {
-      Card c = a_deck.GetCard();
-      c.Show(notHidden);
+  public void addCard(Card c){
       m_hand.add(c);
+      setStatus(true);
+      notifyAllObservers();
+      //Notify view == print hand + pause
   }
   
   public Iterable<Card> GetHand()
@@ -41,7 +61,7 @@ public class Player {
     }
   }
 
-  public boolean softhandUsed(){
+  public boolean SoftHandUsed(){
       return this.softHandUsed;
   }
   
@@ -79,4 +99,7 @@ public class Player {
 
     return score;
   }
+
+
+
 }

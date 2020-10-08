@@ -1,9 +1,10 @@
 package BlackJack.model;
 
-public class Game {
+public class Game implements Observer {
 
   private Dealer m_dealer;
   private Player m_player;
+  private Boolean status = false;
 
 
 
@@ -11,8 +12,11 @@ public class Game {
   {
     m_dealer = new Dealer(new BlackJack.model.rules.RulesFactory());
     m_player = new Player();
+    this.m_player.attach(this);
   }
-    
+
+
+  public boolean newCard(){ return status;}
     
   public boolean IsGameOver()
   {
@@ -55,6 +59,8 @@ public class Game {
   {
     return m_player.CalcScore();
   }
-    
-  
+
+
+
+  public void Update(boolean status) { this.status = status;  }
 }
