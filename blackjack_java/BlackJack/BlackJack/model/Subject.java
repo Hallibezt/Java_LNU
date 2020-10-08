@@ -1,10 +1,6 @@
 package BlackJack.model;
 
 public interface Subject {
-
-    void notifyAllObservers();
-
-    void attach(Observer observer);
-
-
+    void NotifyObservers() throws InterruptedException;
+    void Attach(Observer observer);
 }

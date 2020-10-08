@@ -1,10 +1,10 @@
 package BlackJack.model;
 
-public class Game implements Observer {
+public class Game {
 
   private Dealer m_dealer;
   private Player m_player;
-  private Boolean status = false;
+
 
 
 
@@ -12,12 +12,9 @@ public class Game implements Observer {
   {
     m_dealer = new Dealer(new BlackJack.model.rules.RulesFactory());
     m_player = new Player();
-    this.m_player.attach(this);
   }
 
 
-  public boolean newCard(){ return status;}
-    
   public boolean IsGameOver()
   {
     return m_dealer.IsGameOver();
@@ -28,17 +25,15 @@ public class Game implements Observer {
     return m_dealer.IsDealerWinner(m_player);
   }
   
-  public boolean NewGame()
-  {
+  public boolean NewGame() throws InterruptedException {
     return m_dealer.NewGame(m_player);
   }
   
-  public boolean Hit()
-  {
+  public boolean Hit() throws InterruptedException {
     return m_dealer.Hit(m_player);
   }
 
-  public boolean Stand()  {  return m_dealer.Stand();  }
+  public boolean Stand() throws InterruptedException {  return m_dealer.Stand();  }
   
   public Iterable<Card> GetDealerHand()
   {
@@ -61,6 +56,6 @@ public class Game implements Observer {
   }
 
 
-
-  public void Update(boolean status) { this.status = status;  }
+  public Subject getDealer() {return this.m_dealer;
+  }
 }

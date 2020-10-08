@@ -44,20 +44,19 @@ public class SimpleView implements IView
             System.out.println("" + a_card.GetValue() + " of " + a_card.GetColor());
         }
 
-        public void DisplayPlayerHand(Iterable<BlackJack.model.Card> a_hand, int a_score) throws InterruptedException {
+        public void DisplayPlayerHand(Iterable<BlackJack.model.Card> a_hand, int a_score)  {
             DisplayHand("Player", a_hand, a_score);
         }
 
-        public void DisplayDealerHand(Iterable<BlackJack.model.Card> a_hand, int a_score) throws InterruptedException {
+        public void DisplayDealerHand(Iterable<BlackJack.model.Card> a_hand, int a_score)  {
             DisplayHand("Dealer", a_hand, a_score);
         }
 
-        private void DisplayHand(String a_name, Iterable<BlackJack.model.Card> a_hand, int a_score) throws InterruptedException {
+        private void DisplayHand(String a_name, Iterable<BlackJack.model.Card> a_hand, int a_score)  {
             System.out.println(a_name + " Has: ");
             for(BlackJack.model.Card c : a_hand)
             {
                 DisplayCard(c);
-                TimeUnit.SECONDS.sleep(1);
             }
             System.out.println("Score: " + a_score);
             System.out.println("");

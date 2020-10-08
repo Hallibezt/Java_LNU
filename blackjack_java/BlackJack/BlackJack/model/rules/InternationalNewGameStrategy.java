@@ -7,7 +7,7 @@ import BlackJack.model.Card;
 
 class InternationalNewGameStrategy implements INewGameStrategy {
 
-  public boolean NewGame(Deck a_deck, Dealer a_dealer, Player a_player) {
+  public boolean NewGame(Deck a_deck, Dealer a_dealer, Player a_player) throws InterruptedException {
     a_dealer.DealCard(a_player,true);
 
     a_dealer.DealCard(a_dealer,true);

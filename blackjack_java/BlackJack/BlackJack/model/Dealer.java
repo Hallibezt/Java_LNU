@@ -5,7 +5,9 @@ import BlackJack.model.rules.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Dealer extends Player {
+public class Dealer extends Player implements Subject{
+
+
 
 
   public enum Rule{
@@ -17,7 +19,7 @@ public class Dealer extends Player {
   private INewGameStrategy m_newGameRule;
   private IHitStrategy m_hitRule;
   private IWinsStrategy m_winRule;
-
+  private List<Observer> observers = new ArrayList<Observer>();
 
 
 
@@ -34,7 +36,7 @@ public class Dealer extends Player {
   }
   
   
-  public boolean NewGame(Player a_player) {
+  public boolean NewGame(Player a_player) throws InterruptedException {
     if (m_deck == null || IsGameOver()) {
       m_deck = new Deck();
       ClearHand();
@@ -44,14 +46,27 @@ public class Dealer extends Player {
     return false;
   }
 
-  public void DealCard(Player a_player, Boolean notHidden)
-  {
+  @Override
+  public void NotifyObservers() throws InterruptedException {
+    for (Observer observer : observers) {
+      observer.Update();
+    }
+  }
+
+  @Override
+  public void Attach(Observer observer) {
+    this.observers.add(observer);
+  }
+
+
+  public void DealCard(Player a_player, Boolean notHidden) throws InterruptedException {
     Card c = this.m_deck.GetCard();
     c.Show(notHidden);
     a_player.addCard(c);
+    NotifyObservers();
   }
 
-  public boolean Hit(Player a_player) {
+  public boolean Hit(Player a_player) throws InterruptedException {
     if (m_deck != null && a_player.CalcScore() < g_maxScore && !IsGameOver()) {
       DealCard(a_player,true);
       
@@ -71,7 +86,7 @@ public class Dealer extends Player {
     return false;
   }
 
-  public boolean Stand() {
+  public boolean Stand() throws InterruptedException {
     if(m_deck != null){
       ShowHand();
 

@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.LinkedList;
 
 
-public class Player implements Subject {
+public class Player {
 
   private List<Card> m_hand;
   private boolean softHandUsed = false;
   protected final int g_maxScore = 21;
-  private List<Observer> observers = new ArrayList<Observer>();
-  private boolean status = false;
+
+
 
 
   public Player()
@@ -21,25 +21,9 @@ public class Player implements Subject {
     System.out.println("Hello List World");
   }
 
-    public void notifyAllObservers(){
-        for (Observer observer : observers) {
-            observer.Update(status);}
-        setStatus(false);
-    }
-
-    public void attach(Observer observer){
-        observers.add(observer);
-    }
-
-
-    public void setStatus(boolean status){
-        this.status = status;
-    }
   
   public void addCard(Card c){
       m_hand.add(c);
-      setStatus(true);
-      notifyAllObservers();
       //Notify view == print hand + pause
   }
   
