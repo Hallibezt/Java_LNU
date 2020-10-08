@@ -1,0 +1,15 @@
+
+
+WS2 :
+	- Ath hvort eh hafi klikkað við að fjarlæga boat to member accosiation
+	- if possible remove all these "use" labels for dependencies
+        -  composition is generally not used in garbage collected languages, there is no way to look at the code and see "composition" so I would use plain associations
+        - some association is missing the role name
+        - Ef eitthvað kemur upp úr review
+WS3
+	-Sjá hvort að TA samþykki observer pattern dæmið
+	- Uppfæra Class Diagram
+	
+Undirbúa fyrir prófið:
+        Skoða final exam frá 2013
+	The following chapters are vital in the course: 1, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 25, 26, 32, 33, 34, 35, 38, 39

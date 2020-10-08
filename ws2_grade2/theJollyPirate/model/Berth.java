@@ -18,8 +18,8 @@ public class Berth implements Serializable {
         return currentUser;
     }
 
-    public void addBoat(Boat boat){
-            currentUser = boat.getOwner();
+    public void addBoat(Boat boat, Member owner){
+            currentUser = owner;
             this.boat = boat;
     }
 

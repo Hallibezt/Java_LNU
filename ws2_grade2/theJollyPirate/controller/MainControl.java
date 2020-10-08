@@ -3,7 +3,7 @@ package controller;
 import model.*;
 import model.enums.BoatType;
 import model.enums.UpdateBoatOption;
-import controller.exceptions_errors.*;
+import model.exceptions_errors.*;
 import view.UserInterface;
 import java.util.InputMismatchException;
 import java.util.Random;
@@ -262,7 +262,7 @@ public class MainControl  {
                             boat.addLocation(berth.getLocation()); //add the berth location given to the boat
                             member.addBoat(boat);
                             jollyPirate.updateMember(member);
-                            jollyPirate.updateBerths(berth.getLocation(), boat);
+                            jollyPirate.updateBerths(berth.getLocation(), boat, member);
                             view.boatRegistered(boat); //Message registration went through
                         }
                     }
@@ -349,7 +349,7 @@ public class MainControl  {
                             }
                         }
 
-                        Boat updatedBoat = new Boat(type, newLength, boat.getRegNumber(), boat.getOwner());
+                        Boat updatedBoat = new Boat(type, newLength, boat.getRegNumber());
                         updatedBoat.getMoreUpdateInfo(boat, updatedBoat, oldLength);
                         jollyPirate.updateBoat(updatedBoat);
                         view.boatUpdated(updatedBoat.getPrice());
@@ -441,7 +441,7 @@ public class MainControl  {
                             }
                         } else
                             regNumber = createRegNumber();
-                        Boat boat = new Boat(boatType, length, regNumber, member);
+                        Boat boat = new Boat(boatType, length, regNumber);
                         Price thePrice = new Price();
                            thePrice.setPrice(boat);
                            boat.setPrice(thePrice);

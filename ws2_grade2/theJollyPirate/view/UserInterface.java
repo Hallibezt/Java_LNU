@@ -4,8 +4,8 @@ import model.enums.BoatType;
 import model.enums.MainOption;
 import model.enums.UpdateBoatOption;
 import model.enums.UpdateOption;
-import controller.exceptions_errors.InputNotInListException;
-import controller.exceptions_errors.WrongFormatException;
+import model.exceptions_errors.InputNotInListException;
+import model.exceptions_errors.WrongFormatException;
 import model.Member;
 import java.util.Scanner;
 

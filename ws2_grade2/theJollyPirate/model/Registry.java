@@ -1,7 +1,7 @@
 package model;
 
-import controller.exceptions_errors.BoatNotFoundException;
-import controller.exceptions_errors.CreditFailureException;
+import model.exceptions_errors.BoatNotFoundException;
+import model.exceptions_errors.CreditFailureException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -135,8 +135,8 @@ public class Registry implements Serializable {
         return false;
     }
 
-    public void updateBerths(int location, Boat boat){
-        berths[location-1].addBoat(boat);
+    public void updateBerths(int location, Boat boat, Member owner){
+        berths[location-1].addBoat(boat, owner);
     }
 
 
@@ -157,12 +157,14 @@ public class Registry implements Serializable {
 
     public void updateBoat(Boat boat ){    //changeOwner() update berth and ownerList changeType() - update berth, owner and possible fee changeLength() update berth, owner and possible fee
         for (Berth berth : berths) {
-            if (berth.getLocation() == boat.getLocation())
-                berth.addBoat(boat);
-        }
-        for (Member regUser : regUsers) {
-            if (regUser.getLogin().compareTo(boat.getOwner().getLogin()))
-                regUser.updateBoat(boat);
+            if (berth.getLocation() == boat.getLocation()){
+                Member boatOwner = berth.getCurrentUser();
+                berth.addBoat(boat, boatOwner);
+                for (Member regUser : regUsers) {
+                    if (regUser.getLogin().compareTo(boatOwner.getLogin()))
+                        regUser.updateBoat(boat);
+                }
+            }
         }
 
     }
@@ -172,7 +174,7 @@ public class Registry implements Serializable {
         Boat boat;
         for (Berth berth : berths) {
             if (berth.getBoat() != null) {
-                if (berth.getBoat().getRegNumber().equals(boatRegistrationNumber) & berth.getBoat().getOwner().getLogin().compareTo(member.getLogin())) {
+                if (berth.getBoat().getRegNumber().equals(boatRegistrationNumber) & berth.getCurrentUser().getLogin().compareTo(member.getLogin())) {
                     boat = berth.getBoat();
                     return boat;
                 }

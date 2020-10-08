@@ -7,7 +7,6 @@ public  class Boat implements Serializable {
     private static final long serialVersionUID = 1989992313610046251L;
     private double length;
     private final String registrationNumber;
-    private final Member owner;
     private int location;
     private BoatType type;
     private Price price = new Price();
@@ -16,10 +15,9 @@ public  class Boat implements Serializable {
 
 
 
-    public Boat(BoatType boatType, double length, String registrationNumber, Member owner){
+    public Boat(BoatType boatType, double length, String registrationNumber){
         this.length = length;
         this.registrationNumber = registrationNumber;
-        this.owner = owner;
         this.type = boatType;
     }
 
@@ -48,10 +46,6 @@ public  class Boat implements Serializable {
 
     public double getLength() {
         return this.length;
-    }
-
-    public Member getOwner() {
-        return this.owner;
     }
 
     public void setPrice(Price price) {

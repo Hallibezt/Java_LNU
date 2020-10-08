@@ -1,4 +1,4 @@
-package controller.exceptions_errors;
+package model.exceptions_errors;
 
 public class CreditFailureException extends Exception{
     public CreditFailureException(String message) {
