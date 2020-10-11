@@ -1,7 +1,7 @@
 package BlackJack.model;
 
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.LinkedList;
 
@@ -22,7 +22,7 @@ public class Player {
   }
 
   
-  public void addCard(Card c){
+  public void AddCard(Card c){
       m_hand.add(c);
       //Notify view == print hand + pause
   }

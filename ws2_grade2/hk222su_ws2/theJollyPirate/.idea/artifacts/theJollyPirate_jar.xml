@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="theJollyPirate:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/theJollyPirate_jar</output-path>
+    <root id="archive" name="theJollyPirate.jar">
+      <element id="module-output" name="theJollyPirate" />
+    </root>
+  </artifact>
+</component>

@@ -2,31 +2,24 @@ package BlackJack.model;
 
 import BlackJack.model.rules.*;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class Dealer extends Player implements Subject{
 
 
 
-
-  public enum Rule{
-    basic,
-    soft17
-  }
-
   private Deck m_deck;
   private INewGameStrategy m_newGameRule;
   private IHitStrategy m_hitRule;
   private IWinsStrategy m_winRule;
-  private List<Observer> observers = new ArrayList<Observer>();
+  private Observer observer;
 
 
 
   public Dealer(RulesFactory a_rulesFactory) {
-  
     m_newGameRule = a_rulesFactory.GetNewGameRule();
-    m_hitRule = a_rulesFactory.GetHitRule(Rule.soft17);
+    m_hitRule = a_rulesFactory.GetHitRule();
     m_winRule = a_rulesFactory.GetWinsRule();
     
     /*for(Card c : m_deck.GetCards()) {
@@ -48,21 +41,19 @@ public class Dealer extends Player implements Subject{
 
   @Override
   public void NotifyObservers() throws InterruptedException {
-    for (Observer observer : observers) {
       observer.Update();
-    }
   }
 
   @Override
   public void Attach(Observer observer) {
-    this.observers.add(observer);
+    this.observer = observer;
   }
 
 
   public void DealCard(Player a_player, Boolean notHidden) throws InterruptedException {
     Card c = this.m_deck.GetCard();
     c.Show(notHidden);
-    a_player.addCard(c);
+    a_player.AddCard(c);
     NotifyObservers();
   }
 

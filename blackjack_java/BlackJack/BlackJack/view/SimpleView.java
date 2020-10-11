@@ -1,6 +1,6 @@
 package BlackJack.view;
 
-import java.util.concurrent.TimeUnit;
+
 
 public class SimpleView implements IView
 {
@@ -11,8 +11,6 @@ public class SimpleView implements IView
           System.out.println("Hello Black Jack World");
           System.out.println("Type 'p' to Play, 'h' to Hit, 's' to Stand or 'q' to Quit\n");
         }
-
-        public enum Input{Play,Hit, Stand, Quit, wrong}
 
         public Input GetInput()
         {

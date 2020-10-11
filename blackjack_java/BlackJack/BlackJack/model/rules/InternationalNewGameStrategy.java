@@ -3,7 +3,7 @@ package BlackJack.model.rules;
 import BlackJack.model.Deck;
 import BlackJack.model.Dealer;
 import BlackJack.model.Player;
-import BlackJack.model.Card;  
+
 
 class InternationalNewGameStrategy implements INewGameStrategy {
 

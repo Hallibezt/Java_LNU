@@ -1,4 +1,4 @@
-package controller.exceptions_errors;
+package controller.exceptions;
 
 public class WrongFormatException extends Exception{
 

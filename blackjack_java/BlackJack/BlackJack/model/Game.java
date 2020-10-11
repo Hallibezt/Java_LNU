@@ -56,6 +56,5 @@ public class Game {
   }
 
 
-  public Subject getDealer() {return this.m_dealer;
-  }
+  public Subject GetDealer() {return this.m_dealer;  }
 }

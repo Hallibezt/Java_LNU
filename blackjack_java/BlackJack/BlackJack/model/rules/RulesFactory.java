@@ -1,15 +1,10 @@
 package BlackJack.model.rules;
 
-import BlackJack.model.Dealer;
+
 
 public class RulesFactory {
 
-  public IHitStrategy GetHitRule(Dealer.Rule rule) {
-    if(rule == Dealer.Rule.soft17)
-     return new Soft17HitStrategy();
-    else
-      return new BasicHitStrategy();
-  }
+  public IHitStrategy GetHitRule() { return new Soft17HitStrategy();  }
 
   public INewGameStrategy GetNewGameRule() {
     return new AmericanNewGameStrategy();

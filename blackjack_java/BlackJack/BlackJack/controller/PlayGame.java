@@ -1,11 +1,9 @@
 package BlackJack.controller;
-
 import BlackJack.model.Observer;
-import BlackJack.model.Player;
 import BlackJack.model.Subject;
 import BlackJack.view.IView;
 import BlackJack.model.Game;
-import BlackJack.view.SimpleView;
+import BlackJack.view.Input;
 
 import java.util.concurrent.TimeUnit;
 
@@ -16,10 +14,10 @@ public class PlayGame implements Observer {
     public PlayGame(Game game, IView view){
         this.a_view = view;
         this.a_game = game;
-        setObserver(a_game.getDealer());
+        SetObserver(a_game.GetDealer());
     }
 
- private void setObserver(Subject dealer){
+ private void SetObserver(Subject dealer){
      dealer.Attach(this);
  }
 
@@ -33,22 +31,22 @@ public class PlayGame implements Observer {
         a_view.DisplayGameOver(a_game.IsDealerWinner());
     }
 
-    SimpleView.Input input = a_view.GetInput();
+    Input input = a_view.GetInput();
 
-    if (input == SimpleView.Input.Play)
+    if (input == Input.Play)
     {
         a_game.NewGame();
     }
-    else if (input == SimpleView.Input.Hit)
+    else if (input == Input.Hit)
     {
         a_game.Hit();
     }
-    else if (input == SimpleView.Input.Stand)
+    else if (input == Input.Stand)
     {
         a_game.Stand();
     }
 
-    return input != SimpleView.Input.Quit;
+    return input != Input.Quit;
   }
 
 

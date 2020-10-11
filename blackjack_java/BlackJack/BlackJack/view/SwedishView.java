@@ -12,7 +12,7 @@ public class SwedishView implements IView
             System.out.println("Skriv 'p' för att Spela, 'h' för nytt kort, 's' för att stanna 'q' för att avsluta\n");
         }
 
-        public SimpleView.Input GetInput()
+        public Input GetInput()
         {
             try {
                 int c = System.in.read();
@@ -21,19 +21,19 @@ public class SwedishView implements IView
                 }
                 switch (c){
                     case 1 : c = 112;
-                        return SimpleView.Input.Play;
+                        return Input.Play;
                     case 2 : c = 104;
-                        return SimpleView.Input.Hit;
+                        return Input.Hit;
                     case 3 : c = 115;
-                        return SimpleView.Input.Stand;
+                        return Input.Stand;
                     case 4 : c = 113;
-                        return SimpleView.Input.Quit;
-                    default: return SimpleView.Input.wrong;
+                        return Input.Quit;
+                    default: return Input.wrong;
 
                 }
             } catch (java.io.IOException e) {
                 System.out.println("" + e);
-                return SimpleView.Input.wrong;
+                return Input.wrong;
             }
         }
         
