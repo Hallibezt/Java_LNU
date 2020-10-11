@@ -1,7 +1,8 @@
-package model.exceptions_errors;
+package controller.exceptions_errors;
 
 public class WrongFormatException extends Exception{
 
     public WrongFormatException(String message) {
-        super(message);}
+        super(message);
+    }
 }

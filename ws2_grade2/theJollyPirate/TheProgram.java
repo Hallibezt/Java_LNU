@@ -1,6 +1,6 @@
 import model.ExportImport;
 import controller.MainControl;
-import model.exceptions_errors.WrongFormatException;
+import controller.exceptions_errors.WrongFormatException;
 import model.Registry;
 import view.UserInterface;
 

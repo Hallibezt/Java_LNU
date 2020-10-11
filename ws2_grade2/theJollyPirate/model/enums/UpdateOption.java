@@ -1,3 +1,3 @@
 package model.enums;
 
-public enum UpdateOption {firstName, secondName, password, registerBoat, removeBoat, exit}
+public enum UpdateOption {FirstName, SecondName, Password, RegisterBoat, RemoveBoat, Exit,WrongInput}

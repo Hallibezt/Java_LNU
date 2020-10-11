@@ -1,3 +1,5 @@
 package model.enums;
 
-public enum MainOption {createMember, removeMember, editMember, findMember, registerBoat, removeBoat, editBoat, compact, verbose, exit}
+import com.sun.tools.javac.Main;
+
+public enum MainOption {CreateMember, RemoveMember, editMember, FindMember, RegisterBoat, RemoveBoat, EditBoat, Compact, Verbose, Exit, WrongIn}

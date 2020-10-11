@@ -4,15 +4,11 @@ import model.Member;
 import model.Price;
 
 public class MainView extends  ErrorHandling{
-    public void welcome() {
-        System.out.print("Welcome to Jolly Pirate Yacht Club! \n" +
-                "Please choose from list: \n");
-    }
+
+    public void welcome() {System.out.print("Welcome to Jolly Pirate Yacht Club! \n" + "Please choose from list: \n"); }
 
     //Common messages  ##############################
-    public void bar() {
-        System.out.print("\n =============================================================================== \n");
-    }
+    public void bar() { System.out.print("\n =============================================================================== \n"); }
 
     public void closingProgram() {
         System.out.println("Closing program.........");
@@ -22,9 +18,9 @@ public class MainView extends  ErrorHandling{
         System.out.println("Program closed.");
     }
 
-    public void memberRegistered() {
-        System.out.print(" has been registered to database and the username is: ");
-    }
+    public void memberRegistered(String name, String userName) { System.out.println(name + " has been registered to database and the username is: " + userName); }
+
+    public void memberNotFound(){System.out.println("No member found in the registry");}
 
     public void boatRegistered(Boat boat) { System.out.print(" The boat has been registered to the database and the registration number is: " + boat.getRegNumber() + ", and it is located at berth number: " + boat.getLocation() + "."); bar(); }
 
@@ -34,46 +30,16 @@ public class MainView extends  ErrorHandling{
         System.out.println("Please, enter member's firstname: ");
     }
 
-    public void promptSurName() {
-        System.out.println("Please, enter member's surname: ");
-    }
+    public void promptSurName() {   System.out.println("Please, enter member's surname: ");   }
 
-    public void promptSocialNumber() {
-        System.out.println("Please, enter member's social security number (12 digits): ");
-    }
-
-    public void promptPassword() {
-        System.out.println("Please, enter member's chosen password: ");
-    }
-
-    public void findMember() {
-        System.out.println("Please, enter memberID: ");
-    }
+    public void promptSocialNumber() { System.out.println("Please, enter member's social security number (12 digits): ");}
 
     public void confirmRemoveMember(Member member) { System.out.print("Are you sure you want to remove " + member.getFullName() + ", social security number: " + member.getSocialNumber() + "?(yes/no)"); }
 
-    public void memberRemoved() {
-        System.out.println("Member has been removed from the database and associated boats");
-    }
-
-    public void firstNameUpdate() {
-        System.out.println("Please, enter member's new first name: ");
-    }
-
-    public void secondNameUpdate() {
-        System.out.println("Please, enter member's new second name: ");
-    }
-
-    public void passwordUpdate() {
-        System.out.println("Please, enter member's new password: ");
-    }
+    public void memberRemoved() { System.out.println("Member has been removed from the database and associated boats"); }
 
     public void memberUpdated() {
         System.out.println("Member has been updated");
-    }
-
-    public void enterRegNumber() {
-        System.out.print("Please enter the boat's registration number (case sensitive): ");
     }
 
     public void hasRegNumber() {
@@ -82,29 +48,25 @@ public class MainView extends  ErrorHandling{
 
     public void confirmRemoveBoat() {  System.out.println("Are you sure you want to remove this boat from the registry? (yes/no))"); }
 
-    public void exitOption() {
-        System.out.println("You can  enter \"x\" when prompted for input to return to main menu");
-    }
+    public void exitOption() { System.out.println("You can  enter \"x\" when prompted for input to return to main menu"); }
 
     public void likeToUpdate() {
         System.out.println("Would you like to update the member? (yes/no) ");
     }
 
-    public void hasLength() {
+    public void updateLength() {
         System.out.println("Would you like to update the length too? (yes/no) ");
     }
 
-    public void acceptPrice(double price) {
-        System.out.println("The price for this booking is: " + price + " kr and you fee will be updated accordingly.\n " +
-                "Do you accept? (yes/no) "); }
+    public void acceptPrice(double price) {System.out.println("The price for this booking is: " + price + " kr and you fee will be updated accordingly.\n " + "Do you accept? (yes/no) "); }
 
     public void noBoatRegistered() {
-        System.out.println("You did not accept the price and no boat is registered.");
+        System.out.println("No boat was registered.");
     }
 
-    public void boatRemoved() { System.out.println("The boat has been removed"); }
+    public void memberNotOwnBoat() {System.out.println("This member does not own the boat - editing NOT allowed");    }
 
-    public void enterRegNumberRemove() {System.out.print("Please enter the boat's registration number (case sensitive) (or \"x\" to exit): "); }
+    public void boatRemoved() { System.out.println("The boat has been removed"); }
 
     public void needCredentialsWarning() { System.out.println("Attention - You will need the boat's owner credentials to remove or edit it.");}
 
@@ -115,26 +77,20 @@ public class MainView extends  ErrorHandling{
     //
     //Printing information about users and boats
     public void compactList(Member user) {
-        System.out.println(user.getFullName() + ", UserID: " + user.getLogin().getUserID() + ", Number of boats: " + user.returnBoats().length +".");
-
-
+        System.out.println(user.getFullName() + ", UserID: " + user.getCredentials().getUserID() + ", Number of boats: " + user.getMemberBoats().length +".");
     }
 
     public void verboseList(Member user) {
-        Boat[] list = user.returnBoats();
-        System.out.print(user.getFullName() + " UserID: " + user.getLogin().getUserID() + " Social Security Number: " + user.getSocialNumber() + " Number of boats: " + user.returnBoats().length + " Members total fee: " + user.getFee().getTotalFee() + " kr. \n" +
-                "  Boat info: ")  ;
-        if(user.returnBoats().length == 0)
+        Boat[] list = user.getMemberBoats();
+        System.out.print(user.getFullName() + " UserID: " + user.getCredentials().getUserID() + " Social Security Number: " + user.getSocialNumber() + " Number of boats: " + user.getMemberBoats().length + " Members total fee: " + user.getFee().getTotalFee() + " kr. \n" + "  Boat info: ")  ;
+        if(user.getMemberBoats().length == 0)
             noBoatsAreReg();
         for (Boat boat : list) {
             boatInfo(boat);
         }
-
     }
 
-    public void boatInfo(Boat boat){
-        System.out.print("\n   - Boat type: " + boat.getType() + ", Boat length: " + boat.getLength() + ", Boat registration number: " + boat.getRegNumber() + ", Boat located at berth number : " +  boat.getLocation() + ".");
-    }
+    public void boatInfo(Boat boat){ System.out.print("\n   - Boat type: " + boat.getType() + ", Boat length: " + boat.getLength() + ", Boat registration number: " + boat.getRegNumber() + ", Boat located at berth number : " +  boat.getLocation() + "."); }
 
     //Option messages ##########################
 
@@ -143,7 +99,7 @@ public class MainView extends  ErrorHandling{
     //}
 
     public void loginOptions() {
-        System.out.print("1. Create a member \n" +
+        System.out.print("\n1. Create a member \n" +
                 "2. Remove a member \n" +
                 "3. Edit a member \n" +
                 "4. Find one member \n" +
@@ -153,22 +109,23 @@ public class MainView extends  ErrorHandling{
                 "8. View a compact members list \n" +
                 "9. View a verbose members list \n" +
                 "10. Exit program \n");
-
     }
 
     public void updateMember(Member member){
+        bar();
         System.out.println("Member to update: ");
         compactList(member);
-        System.out.print("1. Update member's first name \n" +
+        System.out.print("\n1. Update member's first name \n" +
                         "2. Update member's second name\n" +
                         "3. Change member's password\n" +
                         "4. Register a boat\n" +
                         "5. Remove a boat\n" +
                         "6. Return to main menu\n");
-            }
+    }
 
-    public void listTypes() { System.out.print("What is the type of the boat?\n" +
-            "1. Motorsailor \n" +
+    public void listTypes() {
+        System.out.print("What is the type of the boat?\n" +
+            "\n1. Motorsailor \n" +
             "2. Sailboat \n" +
             "3. Kayak/Canoe\n" +
             "4. Other \n" );
@@ -176,11 +133,12 @@ public class MainView extends  ErrorHandling{
 
     public  void boatOptions(){
         System.out.print("What would you like to update: \n" +
-                "1. Type \n" +
+                "\n1. Type \n" +
                 "2. Length \n" +
                 "3. Back to main menu\n");
-
     }
+
+
 
     //Part of grade 4
     //public void searchMenu() {
@@ -195,6 +153,4 @@ public class MainView extends  ErrorHandling{
     //public void boatTypeCriteria(){System.out.print("Enter boat type: ");}
     //public void noSearchResult() {System.out.println("No search results for this criteria"); }
     //public void loginFailure() { System.out.println("User not found, please try again or use non-logged in options."); }
-
-
 }

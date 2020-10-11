@@ -1,3 +1,3 @@
 package model.enums;
 
-public enum UpdateBoatOption {type, length, exit}
+public enum UpdateBoatOption {Type, Length, Exit, WrongInput}

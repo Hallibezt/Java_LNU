@@ -4,7 +4,7 @@ import model.enums.BoatType;
 import java.io.Serializable;
 
 public  class Boat implements Serializable {
-    private static final long serialVersionUID = 1989992313610046251L;
+    private static final long serialVersionUID = 1989992313610046251L; //For the serializer, if it is not set then i can happen that ID do not match
     private double length;
     private final String registrationNumber;
     private int location;
@@ -52,13 +52,12 @@ public  class Boat implements Serializable {
         this.price = price;
     }
 
-    public Price getPrice(){
+    public Price getPriceObject(){
         return this.price;
     }
 
     public void getMoreUpdateInfo(Boat boat, Boat updatedBoat, double oldLength){
         this.price.setUpdatePrice(updatedBoat, boat.getType(), oldLength);
         this.location = boat.getLocation();
-
     }
 }

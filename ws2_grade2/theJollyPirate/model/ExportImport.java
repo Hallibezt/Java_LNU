@@ -14,27 +14,25 @@ public class ExportImport {
 
     public void exportRegistry(Registry obj){
 		try {
-        FileOutputStream fileOut = new FileOutputStream(getResourceFile());
-        ObjectOutputStream out = new ObjectOutputStream(fileOut);
-        out.writeObject(obj);
-        out.close();
-        fileOut.close();
-            } catch (
-            IOException e) {
-                e.printStackTrace();
-            }
+		    FileOutputStream fileOut = new FileOutputStream(getResourceFile());
+		    ObjectOutputStream out = new ObjectOutputStream(fileOut);
+		    out.writeObject(obj);
+		    out.close();
+		    fileOut.close();
+		}
+		catch (IOException e) {
+		    e.printStackTrace();
+		}
     }
 
     public Registry importRegistry() throws IOException {
         Registry registry = null;
         try {
-
             FileInputStream fileIn = new FileInputStream(getResourceFile());
             ObjectInputStream in = new ObjectInputStream(fileIn);
             registry = (Registry) in.readObject();
             in.close();
             fileIn.close();
-
         }
         catch (FileNotFoundException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -55,14 +53,15 @@ public class ExportImport {
                 //Call from jar
                 Path path = Paths.get(location.toURI()).resolve("../" + "JollyPirateDatabase.txt").normalize();
                 file = path.toFile();
-            } else {
+            }
+            else {
                 //Call from IDE
                 file = new File(Objects.requireNonNull(Registry.class.getClassLoader().getResource("JollyPirateDatabase.txt")).getPath());
             }
-        } catch (URISyntaxException ex) {
+        }
+        catch (URISyntaxException ex) {
             ex.printStackTrace();
         }
         return file;
     }
-
 }

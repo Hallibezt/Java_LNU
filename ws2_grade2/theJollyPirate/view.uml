@@ -8,14 +8,14 @@
     <node x="917.2831764565706" y="935.0">model.Price</node>
     <node x="1486.8813088287854" y="995.5">model.Berth</node>
     <node x="380.6313088287852" y="48.5">controller.EnumValues</node>
-    <node x="1690.5040097899039" y="0.0">model.Login</node>
+    <node x="1690.5040097899039" y="0.0">model.MemberCredential</node>
     <node x="1078.5297979797974" y="622.0">model.Boat</node>
     <node x="758.2831764565706" y="281.5">controller.EnumValues.BoatType</node>
     <node x="856.8629744363682" y="670.0">model.Price.LengthEnum</node>
     <node x="338.4999999999999" y="1370.0">controller.EnumValues.UpdateBoatOptions</node>
     <node x="1655.7316656075827" y="1648.0">model.ExportImport</node>
     <node x="564.8297979797976" y="1636.0">view.UserInterface</node>
-    <node x="1233.8813088287854" y="1055.5">model.exceptions_errors</node>
+    <node x="1233.8813088287854" y="1055.5">controller.exceptions_errors</node>
     <node x="166.4999999999999" y="1334.0">controller.EnumValues.UpdateOptions</node>
     <node x="1127.9816656075827" y="1830.0">controller.MainControl</node>
     <node x="1438.4646421621187" y="0.0">model.Fee</node>
@@ -47,7 +47,7 @@
       <point x="635.2649989409161" y="1266.0" />
       <point x="-50.66666666666663" y="15.0" />
     </edge>
-    <edge source="model.Member" target="model.Login">
+    <edge source="model.Member" target="model.MemberCredential">
       <point x="128.33333333333326" y="-147.5" />
       <point x="1768.4646421621187" y="177.0" />
       <point x="1770.5040097899039" y="177.0" />
@@ -159,7 +159,7 @@
       <point x="280.4999999999999" y="1606.0" />
       <point x="38.0" y="87.0" />
     </edge>
-    <edge source="view.UserInterface" target="model.exceptions_errors">
+    <edge source="view.UserInterface" target="controller.exceptions_errors">
       <point x="68.39999999999998" y="-27.0" />
       <point x="709.2297979797976" y="1616.0" />
       <point x="925.8999999999999" y="1616.0" />
@@ -293,7 +293,7 @@
       <point x="204.4999999999999" y="1790.0" />
       <point x="-38.0" y="87.0" />
     </edge>
-    <edge source="model.Registry" target="model.Login">
+    <edge source="model.Registry" target="model.MemberCredential">
       <point x="110.22222222222217" y="-63.5" />
       <point x="1790.5317875676817" y="1266.0" />
       <point x="1833.6838077697016" y="1266.0" />
@@ -301,7 +301,7 @@
       <point x="1802.5040097899039" y="177.0" />
       <point x="16.0" y="63.5" />
     </edge>
-    <edge source="controller.MainControl" target="model.Login">
+    <edge source="controller.MainControl" target="model.MemberCredential">
       <point x="145.090909090909" y="-63.5" />
       <point x="1425.0725746984917" y="1810.0" />
       <point x="1881.2701977176744" y="1810.0" />
@@ -323,7 +323,7 @@
       <point x="1763.3313088287855" y="552.0" />
       <point x="123.20000000000005" y="147.5" />
     </edge>
-    <edge source="model.Registry" target="model.exceptions_errors">
+    <edge source="model.Registry" target="controller.exceptions_errors">
       <point x="-110.22222222222217" y="-63.5" />
       <point x="1570.0873431232374" y="1256.0" />
       <point x="1436.8813088287854" y="1256.0" />
@@ -335,7 +335,7 @@
       <point x="1557.997975495452" y="572.0" />
       <point x="-82.13333333333344" y="147.5" />
     </edge>
-    <edge source="controller.MainControl" target="model.exceptions_errors">
+    <edge source="controller.MainControl" target="controller.exceptions_errors">
       <point x="6.909090909090992" y="-63.5" />
       <point x="1286.8907565166737" y="1710.0" />
       <point x="1344.3813088287854" y="1710.0" />
